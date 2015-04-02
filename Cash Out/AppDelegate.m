@@ -7,8 +7,11 @@
 //
 
 #import "AppDelegate.h"
+#import "COStartViewController.h"
 
 @interface AppDelegate ()
+
+@property (nonatomic, strong) UINavigationController *startNavigationController;
 
 @end
 
@@ -16,7 +19,23 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
+    self.window.backgroundColor = [UIColor whiteColor];
+
+    COStartViewController *startViewController = [[COStartViewController alloc] initWithNibName:nil bundle:nil];
+    self.startNavigationController = [[UINavigationController alloc] initWithRootViewController:startViewController];
+
+    self.window.rootViewController = self.startNavigationController;
+
+    [self.startNavigationController.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
+    self.startNavigationController.navigationBar.shadowImage = [UIImage new];
+    self.startNavigationController.navigationBar.translucent = YES;
+    self.startNavigationController.view.backgroundColor = [UIColor clearColor];
+    self.startNavigationController.navigationBar.backgroundColor = [UIColor clearColor];
+
+    [self.window makeKeyAndVisible];
+
     return YES;
 }
 

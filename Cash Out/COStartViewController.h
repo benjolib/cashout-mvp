@@ -1,5 +1,5 @@
 //
-//  ViewController.h
+//  COStartViewController.h
 //  Cash Out
 //
 //  Created by Stefan Walkner on 01.04.15.
@@ -8,8 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ViewController : UIViewController
-
+@interface COStartViewController : UIViewController
 
 @end
-
