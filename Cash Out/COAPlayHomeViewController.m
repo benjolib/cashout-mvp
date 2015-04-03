@@ -31,8 +31,6 @@
 
     self.title = [NSLocalizedString(@"Specify Trade", @"") uppercaseString];
 
-    self.view.backgroundColor = [UIColor whiteColor];
-
     self.customConstraints = [[NSMutableArray alloc] init];
 
     self.minusButton = [[UIButton alloc] initWithFrame:CGRectZero];

@@ -5,6 +5,7 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
+#import "COAAbstractViewController.h"
 
-@interface COAChartViewController : UIViewController
+@interface COAChartViewController : COAAbstractViewController
 @end

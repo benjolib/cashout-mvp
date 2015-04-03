@@ -5,7 +5,8 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
+#import "COAAbstractViewController.h"
 
 
-@interface COACurrencyChooserViewController : UIViewController
+@interface COACurrencyChooserViewController : COAAbstractViewController
 @end

@@ -28,8 +28,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    self.view.backgroundColor = [UIColor whiteColor];
-
     _customConstraints = [[NSMutableArray alloc] init];
 
     _firstCurrencyLabel = [[UILabel alloc] initWithFrame:CGRectZero];

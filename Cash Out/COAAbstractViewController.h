@@ -5,7 +5,7 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
-#import "COAAbstractViewController.h"
 
-@interface COATradeModeViewController : COAAbstractViewController
+
+@interface COAAbstractViewController : UIViewController
 @end

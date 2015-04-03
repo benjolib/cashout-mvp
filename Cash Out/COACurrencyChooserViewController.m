@@ -19,16 +19,12 @@ static NSString *CellIdentifier = @"COCurrencyChooserViewControllerCell";
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    self.automaticallyAdjustsScrollViewInsets = NO;
-
     _customConstraints = [[NSMutableArray alloc] init];
 
     self.tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     [self.view addSubview:self.tableView];
-
-    self.view.backgroundColor = [UIColor whiteColor];
 
     [self.view setNeedsUpdateConstraints];
 }

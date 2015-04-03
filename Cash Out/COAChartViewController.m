@@ -30,8 +30,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    self.view.backgroundColor = [UIColor whiteColor];
-
     _customConstraints = [[NSMutableArray alloc] init];
 
     _priceKeyLabel = [[UILabel alloc] initWithFrame:CGRectZero];
