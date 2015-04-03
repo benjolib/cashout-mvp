@@ -35,6 +35,7 @@
 
     self.minusButton = [[UIButton alloc] initWithFrame:CGRectZero];
     self.minusButton.backgroundColor = [UIColor grayColor];
+    [self.minusButton setTitle:@"-" forState:UIControlStateNormal];
     [self.view addSubview:self.minusButton];
 
     self.amountToTradeTextField = [[UITextField alloc] initWithFrame:CGRectZero];
@@ -45,10 +46,12 @@
 
     self.plusButton = [[UIButton alloc] initWithFrame:CGRectZero];
     self.plusButton.backgroundColor = self.minusButton.backgroundColor;
+    [self.plusButton setTitle:@"+" forState:UIControlStateNormal];
     [self.view addSubview:self.plusButton];
 
     self.previousButton = [[UIButton alloc] initWithFrame:CGRectZero];
     self.previousButton.backgroundColor = self.minusButton.backgroundColor;
+    [self.previousButton setTitle:@"<" forState:UIControlStateNormal];
     [self.view addSubview:self.previousButton];
 
     self.currencyButton = [[UIButton alloc] initWithFrame:CGRectZero];
@@ -57,20 +60,24 @@
     [self.view addSubview:self.currencyButton];
 
     self.nextButton = [[UIButton alloc] initWithFrame:CGRectZero];
+    [self.nextButton setTitle:@">" forState:UIControlStateNormal];
     self.nextButton.backgroundColor = self.minusButton.backgroundColor;
     [self.view addSubview:self.nextButton];
 
     self.viewChartButton = [[UIButton alloc] initWithFrame:CGRectZero];
     self.viewChartButton.backgroundColor = self.minusButton.backgroundColor;
+    [self.viewChartButton setTitle:[NSLocalizedString(@"view chart", @"") uppercaseString] forState:UIControlStateNormal];
     [self.viewChartButton addTarget:self action:@selector(gotoChart) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.viewChartButton];
 
     self.riseButton = [[UIButton alloc] initWithFrame:CGRectZero];
     self.riseButton.backgroundColor = self.minusButton.backgroundColor;
+    [self.riseButton setTitle:[NSLocalizedString(@"rise", @"") uppercaseString] forState:UIControlStateNormal];
     [self.view addSubview:self.riseButton];
 
     self.fallButton = [[UIButton alloc] initWithFrame:CGRectZero];
     self.fallButton.backgroundColor = self.minusButton.backgroundColor;
+    [self.fallButton setTitle:[NSLocalizedString(@"fall", @"") uppercaseString] forState:UIControlStateNormal];
     [self.view addSubview:self.fallButton];
 
     self.tradeButton = [[UIButton alloc] initWithFrame:CGRectZero];
