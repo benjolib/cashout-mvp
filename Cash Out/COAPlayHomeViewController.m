@@ -5,6 +5,7 @@
 
 #import "COAPlayHomeViewController.h"
 #import "COACurrencyChooserViewController.h"
+#import "COAChartViewController.h"
 
 @interface COAPlayHomeViewController ()
 
@@ -62,6 +63,7 @@
 
     self.viewChartButton = [[UIButton alloc] initWithFrame:CGRectZero];
     self.viewChartButton.backgroundColor = self.minusButton.backgroundColor;
+    [self.viewChartButton addTarget:self action:@selector(gotoChart) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.viewChartButton];
 
     self.riseButton = [[UIButton alloc] initWithFrame:CGRectZero];
@@ -83,6 +85,11 @@
 - (void)gotoCurrencyChooser {
     COACurrencyChooserViewController *currencyChooserViewController = [[COACurrencyChooserViewController alloc] initWithNibName:nil bundle:nil];
     [self.navigationController pushViewController:currencyChooserViewController animated:YES];
+}
+
+- (void)gotoChart {
+    COAChartViewController *chartViewController = [[COAChartViewController alloc] initWithNibName:nil bundle:nil];
+    [self.navigationController pushViewController:chartViewController animated:YES];
 }
 
 - (void)updateViewConstraints {

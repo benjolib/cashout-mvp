@@ -6,3 +6,14 @@
 "play" = "play";
 "Specify Trade" = "Specify Trade";
 "trade" = "trade";
+"1 day" = "1 day";
+"5 days" = "5 days";
+"3 months" = "3 months";
+"6 months" = "6 months";
+"1 year" = "1 year";
+"2 years" = "2 years";
+"52-weeks range" = "52-weeks range";
+"day range" = "day range";
+"% change" = "% change";
+"change" = "change";
+"price" = "price";
