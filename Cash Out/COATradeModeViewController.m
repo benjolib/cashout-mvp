@@ -4,6 +4,7 @@
 //
 
 #import "COATradeModeViewController.h"
+#import "COACashOutViewController.h"
 
 @interface COATradeModeViewController()
 
@@ -84,10 +85,16 @@
 
     _cashOutButton = [[UIButton alloc] initWithFrame:CGRectZero];
     [self.cashOutButton setTitle:[NSLocalizedString(@"cash out", @"") uppercaseString] forState:UIControlStateNormal];
+    [self.cashOutButton addTarget:self action:@selector(gotoCashOut) forControlEvents:UIControlEventTouchUpInside];
     self.cashOutButton.backgroundColor = [UIColor greenColor];
     [self.view addSubview:self.cashOutButton];
 
     [self.view setNeedsUpdateConstraints];
+}
+
+- (void)gotoCashOut {
+    COACashOutViewController *cashOutViewController = [[COACashOutViewController alloc] initWithNibName:nil bundle:nil];
+    [self.navigationController pushViewController:cashOutViewController animated:YES];
 }
 
 - (void)updateViewConstraints {

@@ -14,6 +14,8 @@
     self.view.backgroundColor = [UIColor whiteColor];
 
     self.automaticallyAdjustsScrollViewInsets = NO;
+
+    self.navigationController.navigationBar.topItem.title = @"";
 }
 
 @end

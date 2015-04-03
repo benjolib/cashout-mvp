@@ -12,6 +12,7 @@
 		CACF60C2ECD73CB8A78B990A /* COAChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CACF63CA4B2B194D883D4A3E /* COAChartViewController.m */; };
 		CACF63BBE916E295B0B8F627 /* COATradeModeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CACF68D6371D9D923A5ABBD5 /* COATradeModeViewController.m */; };
 		CACF64A447AAD166B6F1827A /* COAAbstractViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CACF6E244117F9B382094480 /* COAAbstractViewController.m */; };
+		CACF64C83FCCE4FF6792C327 /* COACashOutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CACF65A32F79E5D9E143A430 /* COACashOutViewController.m */; };
 		CACF6A0A792F82E198B80405 /* COAPlayHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CACF6EFA45E7C3F728DEEEB5 /* COAPlayHomeViewController.m */; };
 		CACF6E5C9DCF74DF40C709D4 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = CACF60C2C5AD8A5CE1565EF5 /* Localizable.strings */; };
 		F89ECF771ACC373B00AEB3D2 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = F89ECF761ACC373B00AEB3D2 /* main.m */; };
@@ -37,7 +38,9 @@
 		C0D1B052A8F6F127D1AF2503 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		CA6AA0D75E0C5372580CC939 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		CACF60C2C5AD8A5CE1565EF5 /* Localizable.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
+		CACF635DCCD2627312E14D26 /* COACashOutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = COACashOutViewController.h; sourceTree = "<group>"; };
 		CACF63CA4B2B194D883D4A3E /* COAChartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = COAChartViewController.m; sourceTree = "<group>"; };
+		CACF65A32F79E5D9E143A430 /* COACashOutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = COACashOutViewController.m; sourceTree = "<group>"; };
 		CACF65F8554ACBBE6A0FADEB /* COAPlayHomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = COAPlayHomeViewController.h; sourceTree = "<group>"; };
 		CACF66EA8DDF9287893DD0DD /* COATradeModeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = COATradeModeViewController.h; sourceTree = "<group>"; };
 		CACF68D6371D9D923A5ABBD5 /* COATradeModeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = COATradeModeViewController.m; sourceTree = "<group>"; };
@@ -129,6 +132,8 @@
 				CACF66EA8DDF9287893DD0DD /* COATradeModeViewController.h */,
 				CACF6E244117F9B382094480 /* COAAbstractViewController.m */,
 				CACF6E7AC80C29671C59B4B3 /* COAAbstractViewController.h */,
+				CACF65A32F79E5D9E143A430 /* COACashOutViewController.m */,
+				CACF635DCCD2627312E14D26 /* COACashOutViewController.h */,
 			);
 			path = "Cash Out";
 			sourceTree = "<group>";
@@ -311,6 +316,7 @@
 				CACF60C2ECD73CB8A78B990A /* COAChartViewController.m in Sources */,
 				CACF63BBE916E295B0B8F627 /* COATradeModeViewController.m in Sources */,
 				CACF64A447AAD166B6F1827A /* COAAbstractViewController.m in Sources */,
+				CACF64C83FCCE4FF6792C327 /* COACashOutViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
