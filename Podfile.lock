@@ -23,13 +23,16 @@ PODS:
   - Realm (0.91.1):
     - Realm/Headers (= 0.91.1)
   - Realm/Headers (0.91.1)
+  - SVProgressHUD (1.1.3)
 
 DEPENDENCIES:
   - AFNetworking (= 2.5.2)
   - Realm (= 0.91.1)
+  - SVProgressHUD (= 1.1.3)
 
 SPEC CHECKSUMS:
   AFNetworking: fefbce9660acb17f48ae0011292d4da0f457bf36
   Realm: b9c1fd9defa26aa7276ce938a8df52ec81f24528
+  SVProgressHUD: 748080e4f36e603f6c02aec292664239df5279c1
 
 COCOAPODS: 0.36.1
