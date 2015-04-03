@@ -6,6 +6,7 @@
 #import "COAPlayHomeViewController.h"
 #import "COACurrencyChooserViewController.h"
 #import "COAChartViewController.h"
+#import "COATradeModeViewController.h"
 
 @interface COAPlayHomeViewController ()
 
@@ -76,6 +77,7 @@
 
     self.tradeButton = [[UIButton alloc] initWithFrame:CGRectZero];
     [self.tradeButton setTitle:[NSLocalizedString(@"trade", @"") uppercaseString] forState:UIControlStateNormal];
+    [self.tradeButton addTarget:self action:@selector(gotoTrade) forControlEvents:UIControlEventTouchUpInside];
     self.tradeButton.backgroundColor = [UIColor grayColor];
     [self.view addSubview:self.tradeButton];
 
@@ -90,6 +92,11 @@
 - (void)gotoChart {
     COAChartViewController *chartViewController = [[COAChartViewController alloc] initWithNibName:nil bundle:nil];
     [self.navigationController pushViewController:chartViewController animated:YES];
+}
+
+- (void)gotoTrade {
+    COATradeModeViewController *tradeModeViewController = [[COATradeModeViewController alloc] initWithNibName:nil bundle:nil];
+    [self.navigationController pushViewController:tradeModeViewController animated:YES];
 }
 
 - (void)updateViewConstraints {
