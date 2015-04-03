@@ -68,7 +68,7 @@ static NSString *CellIdentifier = @"COCurrencyChooserViewControllerCell";
 - (NSArray *)currencies {
     return @[
             @"USDCAD",
-            @"GPBUSD",
+            @"GBPUSD",
             @"GBPJPY",
             @"USDCHF",
             @"NZDUSD",
@@ -84,6 +84,27 @@ static NSString *CellIdentifier = @"COCurrencyChooserViewControllerCell";
             @"SP500",
             @"BITCOINS"
     ];
+}
+
+- (NSDictionary *)currencyDictionary {
+    return @{
+            @"USDCAD":@"https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20csv%20where%20url%3D%22http%3A%2F%2Ffinance.yahoo.com%2Fd%2Fquotes.csv%3Fe%3D.csv%26f%3Dc4l1%26s%3DUSDCAD%3DX%22%3B&format=json&diagnostics=true&callback=",
+            @"GBPUSD":@"https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20csv%20where%20url%3D%22http%3A%2F%2Ffinance.yahoo.com%2Fd%2Fquotes.csv%3Fe%3D.csv%26f%3Dc4l1%26s%3DGBPUSD%3DX%22%3B&format=json&diagnostics=true&callback=",
+            @"GBPJPY":@"https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20csv%20where%20url%3D%22http%3A%2F%2Ffinance.yahoo.com%2Fd%2Fquotes.csv%3Fe%3D.csv%26f%3Dc4l1%26s%3DGBPJPY%3DX%22%3B&format=json&diagnostics=true&callback=",
+            @"USDCHF":@"https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20csv%20where%20url%3D%22http%3A%2F%2Ffinance.yahoo.com%2Fd%2Fquotes.csv%3Fe%3D.csv%26f%3Dc4l1%26s%3DUSDCHF%3DX%22%3B&format=json&diagnostics=true&callback=",
+            @"NZDUSD":@"https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20csv%20where%20url%3D%22http%3A%2F%2Ffinance.yahoo.com%2Fd%2Fquotes.csv%3Fe%3D.csv%26f%3Dc4l1%26s%3DNZDUSD%3DX%22%3B&format=json&diagnostics=true&callback=",
+            @"EURJPY":@"https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20csv%20where%20url%3D%22http%3A%2F%2Ffinance.yahoo.com%2Fd%2Fquotes.csv%3Fe%3D.csv%26f%3Dc4l1%26s%3DEURJPY%3DX%22%3B&format=json&diagnostics=true&callback=",
+            @"EURGBP":@"https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20csv%20where%20url%3D%22http%3A%2F%2Ffinance.yahoo.com%2Fd%2Fquotes.csv%3Fe%3D.csv%26f%3Dc4l1%26s%3DEURGBP%3DX%22%3B&format=json&diagnostics=true&callback=",
+            @"EURUSD":@"https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20csv%20where%20url%3D%22http%3A%2F%2Ffinance.yahoo.com%2Fd%2Fquotes.csv%3Fe%3D.csv%26f%3Dc4l1%26s%3DEURUSD%3DX%22%3B&format=json&diagnostics=true&callback=",
+            @"EURGBP":@"https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20csv%20where%20url%3D%22http%3A%2F%2Ffinance.yahoo.com%2Fd%2Fquotes.csv%3Fe%3D.csv%26f%3Dc4l1%26s%3DEURGBP%3DX%22%3B&format=json&diagnostics=true&callback=",
+            @"DAX":@"",
+            @"GOLD":@"https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20csv%20where%20url%3D%22http%3A%2F%2Ffinance.yahoo.com%2Fd%2Fquotes.csv%3Fe%3D.csv%26f%3Dc4l1%26s%3D274702%3DX%22%3B&format=json&diagnostics=true&callback=",
+            @"DOW":@"",
+            @"CRUDE OIL":@"",
+            @"NASDAQ":@"",
+            @"SP500":@"",
+            @"BITCOINS":@"https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20csv%20where%20url%3D%22http%3A%2F%2Ffinance.yahoo.com%2Fd%2Fquotes.csv%3Fe%3D.csv%26f%3Dc4l1%26s%3DBTCUSD%3DX%22%3B&format=json&diagnostics=true&callback="
+    };
 }
 
 @end
