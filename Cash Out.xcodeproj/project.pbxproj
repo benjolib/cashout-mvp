@@ -10,11 +10,16 @@
 		137349B983E720B459D821B1 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A7DF91478E775854EA7D76D /* libPods.a */; };
 		CACF6071DEDA6278E94367A5 /* COACurrencyChooserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CACF69783994C29E551A3C09 /* COACurrencyChooserViewController.m */; };
 		CACF60C2ECD73CB8A78B990A /* COAChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CACF63CA4B2B194D883D4A3E /* COAChartViewController.m */; };
+		CACF61BA34393B46B98DF4E1 /* COAResultsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = CACF65AB00E00974907EED19 /* COAResultsModel.m */; };
+		CACF621BBE518D66E21E66A0 /* COARowModel.m in Sources */ = {isa = PBXBuildFile; fileRef = CACF66A8991FF3A1BF266A30 /* COARowModel.m */; };
 		CACF63BBE916E295B0B8F627 /* COATradeModeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CACF68D6371D9D923A5ABBD5 /* COATradeModeViewController.m */; };
 		CACF64A447AAD166B6F1827A /* COAAbstractViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CACF6E244117F9B382094480 /* COAAbstractViewController.m */; };
 		CACF64C83FCCE4FF6792C327 /* COACashOutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CACF65A32F79E5D9E143A430 /* COACashOutViewController.m */; };
+		CACF695FEE2840F2E09D2084 /* COASymbolModel.m in Sources */ = {isa = PBXBuildFile; fileRef = CACF6D23020320C0980EE248 /* COASymbolModel.m */; };
 		CACF6A0A792F82E198B80405 /* COAPlayHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CACF6EFA45E7C3F728DEEEB5 /* COAPlayHomeViewController.m */; };
+		CACF6A504713AD0F61763F14 /* COADataFetcher.m in Sources */ = {isa = PBXBuildFile; fileRef = CACF6712D76F4909EA98992A /* COADataFetcher.m */; };
 		CACF6E5C9DCF74DF40C709D4 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = CACF60C2C5AD8A5CE1565EF5 /* Localizable.strings */; };
+		CACF6F82ECDB071FCC20E10F /* COAQueryModel.m in Sources */ = {isa = PBXBuildFile; fileRef = CACF6A068A941532752B2281 /* COAQueryModel.m */; };
 		F89ECF771ACC373B00AEB3D2 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = F89ECF761ACC373B00AEB3D2 /* main.m */; };
 		F89ECF7A1ACC373B00AEB3D2 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = F89ECF791ACC373B00AEB3D2 /* AppDelegate.m */; };
 		F89ECF821ACC373B00AEB3D2 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F89ECF811ACC373B00AEB3D2 /* Images.xcassets */; };
@@ -37,14 +42,24 @@
 		0A7DF91478E775854EA7D76D /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		C0D1B052A8F6F127D1AF2503 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		CA6AA0D75E0C5372580CC939 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		CACF6052665BF84C0C17B334 /* COAResultsModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = COAResultsModel.h; sourceTree = "<group>"; };
 		CACF60C2C5AD8A5CE1565EF5 /* Localizable.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
+		CACF61EB61704A81D0615178 /* COASymbolModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = COASymbolModel.h; sourceTree = "<group>"; };
+		CACF62BAB3464C9D86EABAE5 /* COAQueryModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = COAQueryModel.h; sourceTree = "<group>"; };
 		CACF635DCCD2627312E14D26 /* COACashOutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = COACashOutViewController.h; sourceTree = "<group>"; };
+		CACF63A26F0BBDCEDE535A74 /* COARowModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = COARowModel.h; sourceTree = "<group>"; };
 		CACF63CA4B2B194D883D4A3E /* COAChartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = COAChartViewController.m; sourceTree = "<group>"; };
 		CACF65A32F79E5D9E143A430 /* COACashOutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = COACashOutViewController.m; sourceTree = "<group>"; };
+		CACF65AB00E00974907EED19 /* COAResultsModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = COAResultsModel.m; sourceTree = "<group>"; };
 		CACF65F8554ACBBE6A0FADEB /* COAPlayHomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = COAPlayHomeViewController.h; sourceTree = "<group>"; };
+		CACF66A8991FF3A1BF266A30 /* COARowModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = COARowModel.m; sourceTree = "<group>"; };
 		CACF66EA8DDF9287893DD0DD /* COATradeModeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = COATradeModeViewController.h; sourceTree = "<group>"; };
+		CACF6712D76F4909EA98992A /* COADataFetcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = COADataFetcher.m; sourceTree = "<group>"; };
 		CACF68D6371D9D923A5ABBD5 /* COATradeModeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = COATradeModeViewController.m; sourceTree = "<group>"; };
 		CACF69783994C29E551A3C09 /* COACurrencyChooserViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = COACurrencyChooserViewController.m; sourceTree = "<group>"; };
+		CACF6A068A941532752B2281 /* COAQueryModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = COAQueryModel.m; sourceTree = "<group>"; };
+		CACF6B7E22A716C56B8E98A3 /* COADataFetcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = COADataFetcher.h; sourceTree = "<group>"; };
+		CACF6D23020320C0980EE248 /* COASymbolModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = COASymbolModel.m; sourceTree = "<group>"; };
 		CACF6E244117F9B382094480 /* COAAbstractViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = COAAbstractViewController.m; sourceTree = "<group>"; };
 		CACF6E7AC80C29671C59B4B3 /* COAAbstractViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = COAAbstractViewController.h; sourceTree = "<group>"; };
 		CACF6EFA45E7C3F728DEEEB5 /* COAPlayHomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = COAPlayHomeViewController.m; sourceTree = "<group>"; };
@@ -91,6 +106,31 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		CACF64F61FCA9DECE3F3DD36 /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+				CACF6712D76F4909EA98992A /* COADataFetcher.m */,
+				CACF6B7E22A716C56B8E98A3 /* COADataFetcher.h */,
+				CACF65F3A82FFAC57F5B9E9F /* Model */,
+			);
+			path = Networking;
+			sourceTree = "<group>";
+		};
+		CACF65F3A82FFAC57F5B9E9F /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				CACF6D23020320C0980EE248 /* COASymbolModel.m */,
+				CACF61EB61704A81D0615178 /* COASymbolModel.h */,
+				CACF6A068A941532752B2281 /* COAQueryModel.m */,
+				CACF62BAB3464C9D86EABAE5 /* COAQueryModel.h */,
+				CACF65AB00E00974907EED19 /* COAResultsModel.m */,
+				CACF6052665BF84C0C17B334 /* COAResultsModel.h */,
+				CACF66A8991FF3A1BF266A30 /* COARowModel.m */,
+				CACF63A26F0BBDCEDE535A74 /* COARowModel.h */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		F89ECF681ACC373B00AEB3D2 = {
 			isa = PBXGroup;
 			children = (
@@ -134,6 +174,7 @@
 				CACF6E7AC80C29671C59B4B3 /* COAAbstractViewController.h */,
 				CACF65A32F79E5D9E143A430 /* COACashOutViewController.m */,
 				CACF635DCCD2627312E14D26 /* COACashOutViewController.h */,
+				CACF64F61FCA9DECE3F3DD36 /* Networking */,
 			);
 			path = "Cash Out";
 			sourceTree = "<group>";
@@ -317,6 +358,11 @@
 				CACF63BBE916E295B0B8F627 /* COATradeModeViewController.m in Sources */,
 				CACF64A447AAD166B6F1827A /* COAAbstractViewController.m in Sources */,
 				CACF64C83FCCE4FF6792C327 /* COACashOutViewController.m in Sources */,
+				CACF6A504713AD0F61763F14 /* COADataFetcher.m in Sources */,
+				CACF695FEE2840F2E09D2084 /* COASymbolModel.m in Sources */,
+				CACF6F82ECDB071FCC20E10F /* COAQueryModel.m in Sources */,
+				CACF61BA34393B46B98DF4E1 /* COAResultsModel.m in Sources */,
+				CACF621BBE518D66E21E66A0 /* COARowModel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
