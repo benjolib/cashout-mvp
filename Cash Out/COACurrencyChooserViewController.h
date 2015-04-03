@@ -7,5 +7,5 @@
 #import <UIKit/UIKit.h>
 
 
-@interface COCurrencyChooserViewController : UIViewController
+@interface COACurrencyChooserViewController : UIViewController
 @end

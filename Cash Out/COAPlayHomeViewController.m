@@ -3,10 +3,10 @@
 // Copyright (c) 2015 Cashout App GbR. All rights reserved.
 //
 
-#import "COPlayHomeViewController.h"
-#import "COCurrencyChooserViewController.h"
+#import "COAPlayHomeViewController.h"
+#import "COACurrencyChooserViewController.h"
 
-@interface COPlayHomeViewController()
+@interface COAPlayHomeViewController ()
 
 @property (nonatomic, strong) UIButton *minusButton;
 @property (nonatomic, strong) UITextField *amountToTradeTextField;
@@ -22,7 +22,7 @@
 
 @end
 
-@implementation COPlayHomeViewController
+@implementation COAPlayHomeViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -81,7 +81,7 @@
 }
 
 - (void)gotoCurrencyChooser {
-    COCurrencyChooserViewController *currencyChooserViewController = [[COCurrencyChooserViewController alloc] initWithNibName:nil bundle:nil];
+    COACurrencyChooserViewController *currencyChooserViewController = [[COACurrencyChooserViewController alloc] initWithNibName:nil bundle:nil];
     [self.navigationController pushViewController:currencyChooserViewController animated:YES];
 }
 

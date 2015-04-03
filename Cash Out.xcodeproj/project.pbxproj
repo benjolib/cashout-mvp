@@ -8,8 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		137349B983E720B459D821B1 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A7DF91478E775854EA7D76D /* libPods.a */; };
-		CACF6071DEDA6278E94367A5 /* COCurrencyChooserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CACF69783994C29E551A3C09 /* COCurrencyChooserViewController.m */; };
-		CACF6A0A792F82E198B80405 /* COPlayHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CACF6EFA45E7C3F728DEEEB5 /* COPlayHomeViewController.m */; };
+		CACF6071DEDA6278E94367A5 /* COACurrencyChooserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CACF69783994C29E551A3C09 /* COACurrencyChooserViewController.m */; };
+		CACF6A0A792F82E198B80405 /* COAPlayHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CACF6EFA45E7C3F728DEEEB5 /* COAPlayHomeViewController.m */; };
 		CACF6E5C9DCF74DF40C709D4 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = CACF60C2C5AD8A5CE1565EF5 /* Localizable.strings */; };
 		F89ECF771ACC373B00AEB3D2 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = F89ECF761ACC373B00AEB3D2 /* main.m */; };
 		F89ECF7A1ACC373B00AEB3D2 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = F89ECF791ACC373B00AEB3D2 /* AppDelegate.m */; };
@@ -34,10 +34,10 @@
 		C0D1B052A8F6F127D1AF2503 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		CA6AA0D75E0C5372580CC939 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		CACF60C2C5AD8A5CE1565EF5 /* Localizable.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
-		CACF65F8554ACBBE6A0FADEB /* COPlayHomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = COPlayHomeViewController.h; sourceTree = "<group>"; };
-		CACF69783994C29E551A3C09 /* COCurrencyChooserViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = COCurrencyChooserViewController.m; sourceTree = "<group>"; };
-		CACF6EFA45E7C3F728DEEEB5 /* COPlayHomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = COPlayHomeViewController.m; sourceTree = "<group>"; };
-		CACF6F63A62653405D58A5B4 /* COCurrencyChooserViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = COCurrencyChooserViewController.h; sourceTree = "<group>"; };
+		CACF65F8554ACBBE6A0FADEB /* COAPlayHomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = COAPlayHomeViewController.h; sourceTree = "<group>"; };
+		CACF69783994C29E551A3C09 /* COACurrencyChooserViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = COACurrencyChooserViewController.m; sourceTree = "<group>"; };
+		CACF6EFA45E7C3F728DEEEB5 /* COAPlayHomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = COAPlayHomeViewController.m; sourceTree = "<group>"; };
+		CACF6F63A62653405D58A5B4 /* COACurrencyChooserViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = COACurrencyChooserViewController.h; sourceTree = "<group>"; };
 		F89ECF711ACC373B00AEB3D2 /* Cash Out.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Cash Out.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F89ECF751ACC373B00AEB3D2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F89ECF761ACC373B00AEB3D2 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -110,10 +110,10 @@
 				F89ECF9A1ACC3F5E00AEB3D2 /* COStartViewController.h */,
 				F89ECF9B1ACC3F5E00AEB3D2 /* COStartViewController.m */,
 				CACF60C2C5AD8A5CE1565EF5 /* Localizable.strings */,
-				CACF6EFA45E7C3F728DEEEB5 /* COPlayHomeViewController.m */,
-				CACF65F8554ACBBE6A0FADEB /* COPlayHomeViewController.h */,
-				CACF69783994C29E551A3C09 /* COCurrencyChooserViewController.m */,
-				CACF6F63A62653405D58A5B4 /* COCurrencyChooserViewController.h */,
+				CACF6EFA45E7C3F728DEEEB5 /* COAPlayHomeViewController.m */,
+				CACF65F8554ACBBE6A0FADEB /* COAPlayHomeViewController.h */,
+				CACF69783994C29E551A3C09 /* COACurrencyChooserViewController.m */,
+				CACF6F63A62653405D58A5B4 /* COACurrencyChooserViewController.h */,
 			);
 			path = "Cash Out";
 			sourceTree = "<group>";
@@ -291,8 +291,8 @@
 				F89ECF9C1ACC3F5E00AEB3D2 /* COStartViewController.m in Sources */,
 				F89ECF7A1ACC373B00AEB3D2 /* AppDelegate.m in Sources */,
 				F89ECF771ACC373B00AEB3D2 /* main.m in Sources */,
-				CACF6A0A792F82E198B80405 /* COPlayHomeViewController.m in Sources */,
-				CACF6071DEDA6278E94367A5 /* COCurrencyChooserViewController.m in Sources */,
+				CACF6A0A792F82E198B80405 /* COAPlayHomeViewController.m in Sources */,
+				CACF6071DEDA6278E94367A5 /* COACurrencyChooserViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -3,9 +3,9 @@
 // Copyright (c) 2015 Cashout App GbR. All rights reserved.
 //
 
-#import "COCurrencyChooserViewController.h"
+#import "COACurrencyChooserViewController.h"
 
-@interface COCurrencyChooserViewController() <UITableViewDataSource, UITableViewDelegate>
+@interface COACurrencyChooserViewController () <UITableViewDataSource, UITableViewDelegate>
 
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) NSMutableArray *customConstraints;
@@ -14,7 +14,7 @@
 
 static NSString *CellIdentifier = @"COCurrencyChooserViewControllerCell";
 
-@implementation COCurrencyChooserViewController
+@implementation COACurrencyChooserViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];

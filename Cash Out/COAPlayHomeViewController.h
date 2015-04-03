@@ -6,5 +6,5 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
-@interface COPlayHomeViewController : UIViewController
+@interface COAPlayHomeViewController : UIViewController
 @end

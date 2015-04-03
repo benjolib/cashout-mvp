@@ -7,7 +7,7 @@
 //
 
 #import "COStartViewController.h"
-#import "COPlayHomeViewController.h"
+#import "COAPlayHomeViewController.h"
 
 @interface COStartViewController ()
 
@@ -53,7 +53,7 @@
 }
 
 - (void)play {
-    COPlayHomeViewController *playHomeViewController = [[COPlayHomeViewController alloc] initWithNibName:nil bundle:nil];
+    COAPlayHomeViewController *playHomeViewController = [[COAPlayHomeViewController alloc] initWithNibName:nil bundle:nil];
     [self.navigationController pushViewController:playHomeViewController animated:YES];
 }
 
