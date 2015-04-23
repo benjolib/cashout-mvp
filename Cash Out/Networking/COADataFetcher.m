@@ -73,7 +73,7 @@
 
 - (void)initialImport {
     if ([COASymbolValue allObjects].count > 100) {
-        return;
+        // return;
     }
     // fetch data
     AFHTTPRequestOperationManager *operationManager = [[AFHTTPRequestOperationManager alloc] init];

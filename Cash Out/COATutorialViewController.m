@@ -6,12 +6,16 @@
 #import "COATutorialViewController.h"
 #import "COAPlayHomeViewController.h"
 #import "COADataHelper.h"
+#import "COAConstants.h"
 
 @interface COATutorialViewController()
 
 @property (nonatomic, strong) UIView *upperGrayView;
 @property (nonatomic, strong) UIView *lowerGrayView;
+@property (nonatomic, strong) UILabel *introductionLabel;
+@property (nonatomic, strong) UIImageView *arrowImageView;
 @property (nonatomic, strong) NSMutableArray *customConstraints;
+@property (nonatomic, strong) NSLayoutConstraint *topConstraint;
 @property (nonatomic, assign) COAPlayHomeViewController *playHomeViewController;
 @property (nonatomic) NSInteger pageIndex;
 
@@ -43,6 +47,16 @@
     self.lowerGrayView.alpha = self.upperGrayView.alpha;
     [self.view addSubview:self.lowerGrayView];
 
+    _introductionLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+    self.introductionLabel.textColor = [UIColor whiteColor];
+    self.introductionLabel.textAlignment = NSTextAlignmentCenter;
+    self.introductionLabel.font = [COAConstants pageHeadlineTutorialBtnText];
+    self.introductionLabel.numberOfLines = 0;
+    [self.view addSubview:self.introductionLabel];
+
+    _arrowImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"arrow-down"]];
+    [self.view addSubview:self.arrowImageView];
+
     [self.view setNeedsUpdateConstraints];
 }
 
@@ -51,6 +65,8 @@
 
     NSDictionary *views = @{
             @"upperGrayView" : self.upperGrayView,
+            @"introductionLabel" : self.introductionLabel,
+            @"arrowImageView" : self.arrowImageView,
             @"lowerGrayView" : self.lowerGrayView
     };
 
@@ -69,10 +85,47 @@
     CGFloat upperHeight = [self upperHeight];
     CGFloat lowerHeight = height - [self lowerHeight];
 
+    switch (self.pageIndex) {
+        case 0: {
+            self.introductionLabel.text = NSLocalizedString(@"choose the amount of money you want to invest", @"").uppercaseString;
+            self.arrowImageView.image = [UIImage imageNamed:@"arrow-up"];
+            self.topConstraint = [NSLayoutConstraint constraintWithItem:self.introductionLabel attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.lowerGrayView attribute:NSLayoutAttributeTop multiplier:1 constant:50];
+            [self.customConstraints addObject:[NSLayoutConstraint constraintWithItem:self.arrowImageView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.introductionLabel attribute:NSLayoutAttributeTop multiplier:1 constant:-10]];
+            break;
+        }
+        case 1: {
+            self.arrowImageView.image = [UIImage imageNamed:@"arrow-up"];
+            self.introductionLabel.text = NSLocalizedString(@"take the right currency pair", @"").uppercaseString;
+            self.topConstraint = [NSLayoutConstraint constraintWithItem:self.introductionLabel attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.lowerGrayView attribute:NSLayoutAttributeTop multiplier:1 constant:50];
+            [self.customConstraints addObject:[NSLayoutConstraint constraintWithItem:self.arrowImageView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.introductionLabel attribute:NSLayoutAttributeTop multiplier:1 constant:-10]];
+            break;
+        }
+        case 2: {
+            self.arrowImageView.image = [UIImage imageNamed:@"arrow-down"];
+            self.introductionLabel.text = NSLocalizedString(@"tap on your estimated exchange rate", @"").uppercaseString;
+            self.topConstraint = [NSLayoutConstraint constraintWithItem:self.introductionLabel attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.upperGrayView attribute:NSLayoutAttributeBottom multiplier:1 constant:-50];
+            [self.customConstraints addObject:[NSLayoutConstraint constraintWithItem:self.arrowImageView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.introductionLabel attribute:NSLayoutAttributeBottom multiplier:1 constant:10]];
+            break;
+        }
+        case 3: {
+            self.arrowImageView.image = [UIImage imageNamed:@"arrow-down"];
+            self.introductionLabel.text = NSLocalizedString(@"start your real time currency...", @"").uppercaseString;
+            self.topConstraint = [NSLayoutConstraint constraintWithItem:self.introductionLabel attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.upperGrayView attribute:NSLayoutAttributeBottom multiplier:1 constant:-50];
+            [self.customConstraints addObject:[NSLayoutConstraint constraintWithItem:self.arrowImageView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.introductionLabel attribute:NSLayoutAttributeBottom multiplier:1 constant:10]];
+            break;
+        }
+        default: {
+
+        }
+    }
+
     [self.customConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[upperGrayView]|" options:NSLayoutFormatDirectionLeadingToTrailing metrics:nil views:views]];
+    [self.customConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-50-[introductionLabel]-50-|" options:NSLayoutFormatDirectionLeadingToTrailing metrics:nil views:views]];
+    [self.customConstraints addObject:[NSLayoutConstraint constraintWithItem:self.arrowImageView attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeCenterX multiplier:1 constant:0]];
     [self.customConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[lowerGrayView]|" options:NSLayoutFormatDirectionLeadingToTrailing metrics:nil views:views]];
     [self.customConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[upperGrayView(upperHeight)]" options:NSLayoutFormatDirectionLeadingToTrailing metrics:@{@"upperHeight":@(upperHeight), @"lowerHeight":@(lowerHeight)} views:views]];
     [self.customConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[lowerGrayView(lowerHeight)]|" options:NSLayoutFormatDirectionLeadingToTrailing metrics:@{@"upperHeight":@(upperHeight), @"lowerHeight":@(lowerHeight)} views:views]];
+    [self.customConstraints addObject:self.topConstraint];
 
     [self.view addConstraints:self.customConstraints];
 }

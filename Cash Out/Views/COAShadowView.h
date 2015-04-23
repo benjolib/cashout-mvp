@@ -1,10 +1,14 @@
 //
-// Created by Stefan Walkner on 13.04.15.
-// Copyright (c) 2015 Cashout App GbR. All rights reserved.
+//  COAShadowView.h
+//  Cash Out
+//
+//  Created by Stefan Walkner on 23.04.15.
+//  Copyright (c) 2015 Cashout App GbR. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
+#import "SAMGradientView.h"
 
-@interface COAShadowView : UIView
+@interface COAShadowView : SAMGradientView
+
 @end

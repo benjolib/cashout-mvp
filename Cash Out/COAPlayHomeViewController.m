@@ -17,13 +17,14 @@
 #import "COADataHelper.h"
 #import "COATutorialViewController.h"
 #import "AppDelegate.h"
+#import "COAShadowView.h"
 
 #define kCellWidth 180
 
 @interface COAPlayHomeViewController () <UIScrollViewDelegate>
 
 @property (nonatomic, strong) COAButtonTitleImage *minusButton;
-@property (nonatomic, strong) UITextField *amountToTradeTextField;
+@property (nonatomic, strong) UILabel *amountToTradeTextField;
 @property (nonatomic, strong) COAButtonTitleImage *plusButton;
 @property (nonatomic, strong) UIScrollView *currencyScrollView;
 @property (nonatomic, strong) UIButton *viewChartButton;
@@ -31,8 +32,8 @@
 @property (nonatomic, strong) COAButton *fallButton;
 @property (nonatomic, strong) UIButton *tradeButton;
 @property (nonatomic, strong) NSMutableArray *customConstraints;
-@property (nonatomic, strong) SAMGradientView *leftShadowView;
-@property (nonatomic, strong) SAMGradientView *rightShadowView;
+@property (nonatomic, strong) COAShadowView *leftShadowView;
+@property (nonatomic, strong) COAShadowView *rightShadowView;
 @property (nonatomic, strong) NSMutableArray *currencyButtons;
 @property (nonatomic, strong) NSMutableArray *customScrollViewConstraints;
 @property (nonatomic, strong) UIView *grayLineBelowScrollView;
@@ -51,7 +52,7 @@
     self.title = [NSLocalizedString(@"Specify Trade", @"") uppercaseString];
     self.view.backgroundColor = [COAConstants darkBlueColor];
 
-    self.moneyToBet = 10000;
+    self.moneyToBet = MIN(10000, [COADataHelper instance].money);
 
     _customConstraints = [[NSMutableArray alloc] init];
     _currencyButtons = [[NSMutableArray alloc] init];
@@ -62,8 +63,7 @@
     [self.minusButton addTarget:self action:@selector(changeMoneyToBet:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.minusButton];
 
-    self.amountToTradeTextField = [[UITextField alloc] initWithFrame:CGRectZero];
-    self.amountToTradeTextField.keyboardType = UIKeyboardTypeDecimalPad;
+    self.amountToTradeTextField = [[UILabel alloc] initWithFrame:CGRectZero];
     self.amountToTradeTextField.backgroundColor = [COAConstants darkBlueColor];
     self.amountToTradeTextField.textColor = [UIColor whiteColor];
     self.amountToTradeTextField.text = [COAFormatting currencyStringFromValue:self.moneyToBet];
@@ -101,13 +101,13 @@
     [self.view addSubview:self.viewChartButton];
 
     UIColor *shadowColor = [UIColor colorWithRed:100/255.f green:100/255.f blue:100/255.f alpha:0.3];
-    _leftShadowView = [[SAMGradientView alloc] initWithFrame:CGRectZero];
+    _leftShadowView = [[COAShadowView alloc] initWithFrame:CGRectZero];
     [self.leftShadowView setGradientColors:@[shadowColor, [UIColor clearColor]]];
     self.leftShadowView.backgroundColor = [UIColor clearColor];
     [self.leftShadowView setGradientDirection:SAMGradientViewDirectionHorizontal];
     [self.view addSubview:self.leftShadowView];
 
-    _rightShadowView = [[SAMGradientView alloc] initWithFrame:CGRectZero];
+    _rightShadowView = [[COAShadowView alloc] initWithFrame:CGRectZero];
     [self.rightShadowView setGradientColors:@[[UIColor clearColor], shadowColor]];
     self.rightShadowView.backgroundColor = [UIColor clearColor];
     [self.rightShadowView setGradientDirection:SAMGradientViewDirectionHorizontal];
@@ -262,14 +262,14 @@
     [self.customConstraints removeAllObjects];
     [self.customScrollViewConstraints removeAllObjects];
 
-    [self.customConstraints addObject:[NSLayoutConstraint constraintWithItem:self.amountToTradeTextField attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.topLayoutGuide attribute:NSLayoutAttributeBottom multiplier:1 constant:20]];
+    [self.customConstraints addObject:[NSLayoutConstraint constraintWithItem:self.amountToTradeTextField attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.topLayoutGuide attribute:NSLayoutAttributeBottom multiplier:1 constant:0]];
     [self.customConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[minusButton(height)]" options:NSLayoutFormatDirectionLeadingToTrailing metrics:@{@"height":@(BUTTON_HEIGHT)} views:views]];
     [self.customConstraints addObject:[NSLayoutConstraint constraintWithItem:self.amountToTradeTextField attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self.minusButton attribute:NSLayoutAttributeCenterY multiplier:1 constant:0]];
     [self.customConstraints addObject:[NSLayoutConstraint constraintWithItem:self.amountToTradeTextField attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:self.minusButton attribute:NSLayoutAttributeHeight multiplier:1 constant:0]];
     [self.customConstraints addObject:[NSLayoutConstraint constraintWithItem:self.plusButton attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self.minusButton attribute:NSLayoutAttributeCenterY multiplier:1 constant:0]];
     [self.customConstraints addObject:[NSLayoutConstraint constraintWithItem:self.plusButton attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:self.minusButton attribute:NSLayoutAttributeHeight multiplier:1 constant:0]];
     [self.customConstraints addObject:[NSLayoutConstraint constraintWithItem:self.amountToTradeTextField attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeCenterX multiplier:1 constant:0]];
-    [self.customConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[minusButton]-0-[amountToTradeTextField(200)]-0-[plusButton]-0-|" options:NSLayoutFormatDirectionLeadingToTrailing metrics:nil views:views]];
+    [self.customConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[minusButton]-0-[amountToTradeTextField(140)]-0-[plusButton]-0-|" options:NSLayoutFormatDirectionLeadingToTrailing metrics:nil views:views]];
     [self.customConstraints addObject:[NSLayoutConstraint constraintWithItem:self.plusButton attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:self.minusButton attribute:NSLayoutAttributeWidth multiplier:1 constant:0]];
 
     [self.customConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[leftShadowView(25)]" options:NSLayoutFormatDirectionLeadingToTrailing metrics:nil views:views]];
@@ -298,8 +298,8 @@
     [self.customConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(-1)-[riseButton]" options:NSLayoutFormatDirectionLeadingToTrailing metrics:nil views:views]];
     [self.customConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[fallButton]-(-1)-|" options:NSLayoutFormatDirectionLeadingToTrailing metrics:nil views:views]];
     [self.customConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[riseButton]-(-1)-[fallButton]" options:NSLayoutFormatDirectionLeadingToTrailing metrics:nil views:views]];
-    [self.customConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[riseButton(120)]-(>=40)-[tradeButton(height)]" options:NSLayoutFormatDirectionLeadingToTrailing metrics:@{@"height":@(BUTTON_HEIGHT)} views:views]];
-    [self.customConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[viewChartButton]-20-[riseButton(120)]" options:NSLayoutFormatDirectionLeadingToTrailing metrics:@{@"height":@(BUTTON_HEIGHT)} views:views]];
+    [self.customConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[riseButton(100)]-(>=0)-[tradeButton(height)]" options:NSLayoutFormatDirectionLeadingToTrailing metrics:@{@"height":@(BUTTON_HEIGHT)} views:views]];
+    [self.customConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[viewChartButton]-20-[riseButton]" options:NSLayoutFormatDirectionLeadingToTrailing metrics:@{@"height":@(BUTTON_HEIGHT)} views:views]];
     [self.customConstraints addObject:[NSLayoutConstraint constraintWithItem:self.fallButton attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self.riseButton attribute:NSLayoutAttributeCenterY multiplier:1 constant:0]];
     [self.customConstraints addObject:[NSLayoutConstraint constraintWithItem:self.fallButton attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:self.riseButton attribute:NSLayoutAttributeHeight multiplier:1 constant:0]];
 

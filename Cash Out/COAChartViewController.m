@@ -71,7 +71,7 @@
     self.priceValueLabel.text = [NSString stringWithFormat:@"%f", [COASymbolValue latestValueForSymbol:self.currencySymbol]];
     self.priceValueLabel.textAlignment = NSTextAlignmentRight;
     self.priceValueLabel.textColor = [UIColor whiteColor];
-    self.priceValueLabel.font = [UIFont boldSystemFontOfSize:17];
+    self.priceValueLabel.font = [UIFont boldSystemFontOfSize:15];
     [self.view addSubview:self.priceValueLabel];
 
     _changeKeyLabel = [[UILabel alloc] initWithFrame:CGRectZero];
@@ -83,7 +83,7 @@
     self.changeValueLabel.text = @"0.0004";
     self.changeValueLabel.textAlignment = NSTextAlignmentRight;
     self.changeValueLabel.textColor = [COAConstants greenColor];
-    self.changeValueLabel.font = [UIFont boldSystemFontOfSize:17];
+    self.changeValueLabel.font = self.priceValueLabel.font;
     [self.view addSubview:self.changeValueLabel];
 
     _percentKeyChangeLabel = [[UILabel alloc] initWithFrame:CGRectZero];
@@ -94,7 +94,7 @@
     _percentValueChangeLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     self.percentValueChangeLabel.textAlignment = NSTextAlignmentRight;
     self.percentValueChangeLabel.textColor = [COAConstants fleshColor];
-    self.percentValueChangeLabel.font = [UIFont boldSystemFontOfSize:17];
+    self.percentValueChangeLabel.font = self.priceValueLabel.font;
     [self.view addSubview:self.percentValueChangeLabel];
 
     _dayRangeKeyLabel = [[UILabel alloc] initWithFrame:CGRectZero];
@@ -105,7 +105,7 @@
     _dayRangeValueLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     self.dayRangeValueLabel.textAlignment = NSTextAlignmentRight;
     self.dayRangeValueLabel.textColor = [UIColor whiteColor];
-    self.dayRangeValueLabel.font = [UIFont boldSystemFontOfSize:17];
+    self.dayRangeValueLabel.font = self.priceValueLabel.font;
     [self.view addSubview:self.dayRangeValueLabel];
 
     _weeksRangeKeyLabel = [[UILabel alloc] initWithFrame:CGRectZero];
@@ -116,7 +116,8 @@
     _weeksRangeValueLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     self.weeksRangeValueLabel.textAlignment = NSTextAlignmentRight;
     self.weeksRangeValueLabel.textColor = [UIColor whiteColor];
-    self.weeksRangeValueLabel.font = [UIFont boldSystemFontOfSize:17];
+    self.weeksRangeValueLabel.font = self.priceValueLabel.font;
+    self.weeksRangeValueLabel.adjustsFontSizeToFitWidth = YES;
     [self.view addSubview:self.weeksRangeValueLabel];
 
     _day1Button = [[UIButton alloc] initWithFrame:CGRectZero];
@@ -342,7 +343,7 @@
 
     [self.customConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-10-[chartView]-10-|" options:NSLayoutFormatDirectionLeadingToTrailing metrics:nil views:[self allViews]]];
 
-    NSUInteger labelRowHeight = 50;
+    NSUInteger labelRowHeight = 40;
     [self.customConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[priceKeyLabel(labelRowHeight)]-5-[separator1View(1)]-5-[changeKeyLabel(labelRowHeight)]-5-[separator2View(1)]-5-[percentKeyChangeLabel(labelRowHeight)]-5-[separator3View(1)]-5-[dayRangeKeyLabel(labelRowHeight)]-5-[separator4View(1)]-5-[weeksRangeKeyLabel(labelRowHeight)]-5-[buttonTopLineView(1)]-0-[day1Button(40)]-0-[buttonBottomLineView(1)]-10-[chartView]-10-|" options:NSLayoutFormatDirectionLeadingToTrailing metrics:@{@"labelRowHeight":@(labelRowHeight)} views:[self allViews]]];
     [self.customConstraints addObject:[NSLayoutConstraint constraintWithItem:self.priceKeyLabel attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.topLayoutGuide attribute:NSLayoutAttributeBottom multiplier:1 constant:10]];
 

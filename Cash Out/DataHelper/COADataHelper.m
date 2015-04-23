@@ -36,6 +36,7 @@
 }
 
 - (BOOL)tutorialSeen {
+    return NO; // TODO swalkner
     return [[NSUserDefaults standardUserDefaults] boolForKey:TUTORIAL_SEEN];
 }
 

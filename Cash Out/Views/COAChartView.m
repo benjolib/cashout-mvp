@@ -82,7 +82,7 @@
         self.xAxisLabel5.textColor = self.label1.textColor;
         self.xAxisLabel6.textColor = self.label1.textColor;
 
-        self.label1.font = [UIFont systemFontOfSize:10];
+        self.label1.font = [UIFont systemFontOfSize:9];
         self.label2.font = self.label1.font;
         self.label3.font = self.label1.font;
         self.label4.font = self.label1.font;

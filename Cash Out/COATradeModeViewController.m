@@ -62,7 +62,7 @@
     NSInteger minutes = self.seconds / 60;
     NSInteger seconds = self.seconds % 60;
 
-    NSString *text = [NSString stringWithFormat:@"%02d:%02d\n(%@)", minutes, seconds, NSLocalizedString(@"time left", @"").uppercaseString];
+    NSString *text = [NSString stringWithFormat:@"%02ld:%02ld\n(%@)", (long)minutes, (long)seconds, NSLocalizedString(@"time left", @"").uppercaseString];
     self.timeLeftValueLabel.textAlignment = NSTextAlignmentCenter;
     self.timeLeftValueLabel.attributedText = [text coa_firstLineAttributes:@{
             NSFontAttributeName:[UIFont boldSystemFontOfSize:firstLineFontSize],
@@ -270,7 +270,7 @@
     [self.customConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[cashOutButton(buttonHeight)]" options:NSLayoutFormatDirectionLeadingToTrailing metrics:@{@"buttonHeight":@(BUTTON_HEIGHT)} views:views]];
     [self.customConstraints addObject:[NSLayoutConstraint constraintWithItem:self.cashOutButton attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeBottom multiplier:1 constant:0]];
 
-    [self.customConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[firstCurrencyLabel(150)]-0-[priceValueLabel(145)]-0-[timeLeftValueLabel]-[cashOutButton]" options:NSLayoutFormatDirectionLeadingToTrailing metrics:nil views:views]];
+    [self.customConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[firstCurrencyLabel(135)]-0-[priceValueLabel(130)]-0-[timeLeftValueLabel]-[cashOutButton]" options:NSLayoutFormatDirectionLeadingToTrailing metrics:nil views:views]];
     [self.customConstraints addObject:[NSLayoutConstraint constraintWithItem:self.firstCurrencyLabel attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.topLayoutGuide attribute:NSLayoutAttributeBottom multiplier:1 constant:0]];
 
     if (self.congratsView.superview) {
