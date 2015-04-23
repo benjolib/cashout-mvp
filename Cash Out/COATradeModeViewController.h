@@ -8,4 +8,7 @@
 #import "COAAbstractViewController.h"
 
 @interface COATradeModeViewController : COAAbstractViewController
+
+- (instancetype)initWithCurrencySymbol:(NSString *)currencySymbol moneySet:(double)moneySet betOnRise:(BOOL)rise;
+
 @end

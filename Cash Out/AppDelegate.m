@@ -6,8 +6,11 @@
 //  Copyright (c) 2015 Cashout App GbR. All rights reserved.
 //
 
+#import <UIImage+ImageWithColor/UIImage+ImageWithColor.h>
 #import "AppDelegate.h"
 #import "COStartViewController.h"
+#import "COAConstants.h"
+#import "COADataFetcher.h"
 
 @interface AppDelegate ()
 
@@ -28,15 +31,28 @@
 
     self.window.rootViewController = self.startNavigationController;
 
-    [self.startNavigationController.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
+    [self.startNavigationController.navigationBar setBackgroundImage:[UIImage imageWithColor:[UIColor whiteColor]] forBarMetrics:UIBarMetricsDefault];
     self.startNavigationController.navigationBar.shadowImage = [UIImage new];
-    self.startNavigationController.navigationBar.translucent = YES;
+    self.startNavigationController.navigationBar.translucent = NO;
     self.startNavigationController.view.backgroundColor = [UIColor clearColor];
     self.startNavigationController.navigationBar.backgroundColor = [UIColor clearColor];
+
+    [[UINavigationBar appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName:[COAConstants darkBlueColor]}];
+
+    [self initializeUserDefaults];
+
+    [[COADataFetcher instance] initialImport];
 
     [self.window makeKeyAndVisible];
 
     return YES;
+}
+
+- (void)initializeUserDefaults {
+    [[NSUserDefaults standardUserDefaults] registerDefaults:@{
+            MONEY_USER_SETTING : @(100000),
+    }];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {

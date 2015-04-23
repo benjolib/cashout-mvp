@@ -8,18 +8,28 @@
 
 /* Begin PBXBuildFile section */
 		137349B983E720B459D821B1 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A7DF91478E775854EA7D76D /* libPods.a */; };
-		CACF6071DEDA6278E94367A5 /* COACurrencyChooserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CACF69783994C29E551A3C09 /* COACurrencyChooserViewController.m */; };
 		CACF60C2ECD73CB8A78B990A /* COAChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CACF63CA4B2B194D883D4A3E /* COAChartViewController.m */; };
-		CACF61BA34393B46B98DF4E1 /* COAResultsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = CACF65AB00E00974907EED19 /* COAResultsModel.m */; };
-		CACF621BBE518D66E21E66A0 /* COARowModel.m in Sources */ = {isa = PBXBuildFile; fileRef = CACF66A8991FF3A1BF266A30 /* COARowModel.m */; };
+		CACF60EF3A3589C1BA69B983 /* COATutorialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CACF6DC5B100973E8EFAD6D4 /* COATutorialViewController.m */; };
+		CACF619E862F4CCE37265293 /* COACurrencies.m in Sources */ = {isa = PBXBuildFile; fileRef = CACF67271E3730E3A24DA661 /* COACurrencies.m */; };
 		CACF63BBE916E295B0B8F627 /* COATradeModeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CACF68D6371D9D923A5ABBD5 /* COATradeModeViewController.m */; };
+		CACF643DF7F94E812BEA5B6A /* NSString+COAAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = CACF6E9AD5B3472599E9F14B /* NSString+COAAdditions.m */; };
 		CACF64A447AAD166B6F1827A /* COAAbstractViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CACF6E244117F9B382094480 /* COAAbstractViewController.m */; };
-		CACF64C83FCCE4FF6792C327 /* COACashOutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CACF65A32F79E5D9E143A430 /* COACashOutViewController.m */; };
-		CACF695FEE2840F2E09D2084 /* COASymbolModel.m in Sources */ = {isa = PBXBuildFile; fileRef = CACF6D23020320C0980EE248 /* COASymbolModel.m */; };
+		CACF64AB183E31DA3B2734B2 /* COASymbolValueModel.m in Sources */ = {isa = PBXBuildFile; fileRef = CACF6FCF00AB50AB146F3B8D /* COASymbolValueModel.m */; };
+		CACF658B4B3C796CE5FFBB49 /* COACurrencyButton.m in Sources */ = {isa = PBXBuildFile; fileRef = CACF64D6197CB0F17EF2A241 /* COACurrencyButton.m */; };
+		CACF65E8710C0159EF9EF709 /* COACongratsView.m in Sources */ = {isa = PBXBuildFile; fileRef = CACF6A05B4982A124B73CFCD /* COACongratsView.m */; };
+		CACF672838AE6CF01ECDAC4F /* COAButton.m in Sources */ = {isa = PBXBuildFile; fileRef = CACF62AC061716969F89397E /* COAButton.m */; };
+		CACF684B2F3931410A7E740D /* COASymbolValue.m in Sources */ = {isa = PBXBuildFile; fileRef = CACF6455D405F093843B9D9B /* COASymbolValue.m */; };
+		CACF69FC189476E246EFA50A /* COAChartView.m in Sources */ = {isa = PBXBuildFile; fileRef = CACF69C33488E6D13E66C393 /* COAChartView.m */; };
+		CACF6A012040755D916BDA0E /* COATriangleView.m in Sources */ = {isa = PBXBuildFile; fileRef = CACF6D4D9AB622BA65239A67 /* COATriangleView.m */; };
 		CACF6A0A792F82E198B80405 /* COAPlayHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CACF6EFA45E7C3F728DEEEB5 /* COAPlayHomeViewController.m */; };
 		CACF6A504713AD0F61763F14 /* COADataFetcher.m in Sources */ = {isa = PBXBuildFile; fileRef = CACF6712D76F4909EA98992A /* COADataFetcher.m */; };
+		CACF6B568E31528757A7C516 /* COAShadowView.m in Sources */ = {isa = PBXBuildFile; fileRef = CACF6ECEB71164CE30262518 /* COAShadowView.m */; };
+		CACF6C42BC22A74DD60BE874 /* COASignUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CACF6138CB859E625201EB3C /* COASignUpViewController.m */; };
+		CACF6D2C90DED4381293A0C5 /* COAFormatting.m in Sources */ = {isa = PBXBuildFile; fileRef = CACF666931A336EBED6585DA /* COAFormatting.m */; };
+		CACF6DDAC7078CC5B66FE881 /* COAButtonTitleImage.m in Sources */ = {isa = PBXBuildFile; fileRef = CACF629A96E38C11E1C87A82 /* COAButtonTitleImage.m */; };
 		CACF6E5C9DCF74DF40C709D4 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = CACF60C2C5AD8A5CE1565EF5 /* Localizable.strings */; };
-		CACF6F82ECDB071FCC20E10F /* COAQueryModel.m in Sources */ = {isa = PBXBuildFile; fileRef = CACF6A068A941532752B2281 /* COAQueryModel.m */; };
+		CACF6EB48E630E28C24AFB02 /* COADataHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = CACF607C16EF51DDD51E8381 /* COADataHelper.m */; };
+		F880203D1ADB935D00F25031 /* COAConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = F880203C1ADB935D00F25031 /* COAConstants.m */; };
 		F89ECF771ACC373B00AEB3D2 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = F89ECF761ACC373B00AEB3D2 /* main.m */; };
 		F89ECF7A1ACC373B00AEB3D2 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = F89ECF791ACC373B00AEB3D2 /* AppDelegate.m */; };
 		F89ECF821ACC373B00AEB3D2 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F89ECF811ACC373B00AEB3D2 /* Images.xcassets */; };
@@ -42,29 +52,49 @@
 		0A7DF91478E775854EA7D76D /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		C0D1B052A8F6F127D1AF2503 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		CA6AA0D75E0C5372580CC939 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
-		CACF6052665BF84C0C17B334 /* COAResultsModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = COAResultsModel.h; sourceTree = "<group>"; };
+		CACF607C16EF51DDD51E8381 /* COADataHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = COADataHelper.m; sourceTree = "<group>"; };
 		CACF60C2C5AD8A5CE1565EF5 /* Localizable.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
-		CACF61EB61704A81D0615178 /* COASymbolModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = COASymbolModel.h; sourceTree = "<group>"; };
-		CACF62BAB3464C9D86EABAE5 /* COAQueryModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = COAQueryModel.h; sourceTree = "<group>"; };
-		CACF635DCCD2627312E14D26 /* COACashOutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = COACashOutViewController.h; sourceTree = "<group>"; };
-		CACF63A26F0BBDCEDE535A74 /* COARowModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = COARowModel.h; sourceTree = "<group>"; };
+		CACF6138CB859E625201EB3C /* COASignUpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = COASignUpViewController.m; sourceTree = "<group>"; };
+		CACF6140A0BE71B7BCB9E69B /* COAButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = COAButton.h; sourceTree = "<group>"; };
+		CACF623E0A981863E8B56D0B /* COASignUpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = COASignUpViewController.h; sourceTree = "<group>"; };
+		CACF629A96E38C11E1C87A82 /* COAButtonTitleImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = COAButtonTitleImage.m; sourceTree = "<group>"; };
+		CACF62AC061716969F89397E /* COAButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = COAButton.m; sourceTree = "<group>"; };
+		CACF62C3904713B87BC7C651 /* COACongratsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = COACongratsView.h; sourceTree = "<group>"; };
 		CACF63CA4B2B194D883D4A3E /* COAChartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = COAChartViewController.m; sourceTree = "<group>"; };
-		CACF65A32F79E5D9E143A430 /* COACashOutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = COACashOutViewController.m; sourceTree = "<group>"; };
-		CACF65AB00E00974907EED19 /* COAResultsModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = COAResultsModel.m; sourceTree = "<group>"; };
+		CACF6455D405F093843B9D9B /* COASymbolValue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = COASymbolValue.m; sourceTree = "<group>"; };
+		CACF64D6197CB0F17EF2A241 /* COACurrencyButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = COACurrencyButton.m; sourceTree = "<group>"; };
+		CACF65DC56BD1A2B2561645B /* COASymbolValue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = COASymbolValue.h; sourceTree = "<group>"; };
 		CACF65F8554ACBBE6A0FADEB /* COAPlayHomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = COAPlayHomeViewController.h; sourceTree = "<group>"; };
-		CACF66A8991FF3A1BF266A30 /* COARowModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = COARowModel.m; sourceTree = "<group>"; };
+		CACF666931A336EBED6585DA /* COAFormatting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = COAFormatting.m; sourceTree = "<group>"; };
 		CACF66EA8DDF9287893DD0DD /* COATradeModeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = COATradeModeViewController.h; sourceTree = "<group>"; };
 		CACF6712D76F4909EA98992A /* COADataFetcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = COADataFetcher.m; sourceTree = "<group>"; };
+		CACF67271E3730E3A24DA661 /* COACurrencies.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = COACurrencies.m; sourceTree = "<group>"; };
+		CACF68B6EE3AAD3EFCB0E46C /* COAFormatting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = COAFormatting.h; sourceTree = "<group>"; };
 		CACF68D6371D9D923A5ABBD5 /* COATradeModeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = COATradeModeViewController.m; sourceTree = "<group>"; };
-		CACF69783994C29E551A3C09 /* COACurrencyChooserViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = COACurrencyChooserViewController.m; sourceTree = "<group>"; };
-		CACF6A068A941532752B2281 /* COAQueryModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = COAQueryModel.m; sourceTree = "<group>"; };
+		CACF697BECEB92B8F9D734CF /* COATutorialViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = COATutorialViewController.h; sourceTree = "<group>"; };
+		CACF697C6151E8538738F04A /* NSString+COAAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+COAAdditions.h"; sourceTree = "<group>"; };
+		CACF69800A2E51FD738A88D5 /* COAChartView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = COAChartView.h; sourceTree = "<group>"; };
+		CACF69C33488E6D13E66C393 /* COAChartView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = COAChartView.m; sourceTree = "<group>"; };
+		CACF6A05079D753845555BCC /* COAButtonTitleImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = COAButtonTitleImage.h; sourceTree = "<group>"; };
+		CACF6A05B4982A124B73CFCD /* COACongratsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = COACongratsView.m; sourceTree = "<group>"; };
 		CACF6B7E22A716C56B8E98A3 /* COADataFetcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = COADataFetcher.h; sourceTree = "<group>"; };
-		CACF6D23020320C0980EE248 /* COASymbolModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = COASymbolModel.m; sourceTree = "<group>"; };
+		CACF6C13276C9F986BDE202E /* COACurrencyButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = COACurrencyButton.h; sourceTree = "<group>"; };
+		CACF6CC1A916CECDD9C55117 /* COATriangleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = COATriangleView.h; sourceTree = "<group>"; };
+		CACF6D4D9AB622BA65239A67 /* COATriangleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = COATriangleView.m; sourceTree = "<group>"; };
+		CACF6D80DEFA72B9946B30B5 /* COASymbolValueModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = COASymbolValueModel.h; sourceTree = "<group>"; };
+		CACF6DB02D9EDE9024005F05 /* COAShadowView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = COAShadowView.h; sourceTree = "<group>"; };
+		CACF6DC5B100973E8EFAD6D4 /* COATutorialViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = COATutorialViewController.m; sourceTree = "<group>"; };
+		CACF6DDCB12D390E66D7E669 /* COACurrencies.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = COACurrencies.h; sourceTree = "<group>"; };
 		CACF6E244117F9B382094480 /* COAAbstractViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = COAAbstractViewController.m; sourceTree = "<group>"; };
+		CACF6E4C88256606BF3CE5CD /* COADataHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = COADataHelper.h; sourceTree = "<group>"; };
 		CACF6E7AC80C29671C59B4B3 /* COAAbstractViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = COAAbstractViewController.h; sourceTree = "<group>"; };
+		CACF6E9AD5B3472599E9F14B /* NSString+COAAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+COAAdditions.m"; sourceTree = "<group>"; };
+		CACF6ECEB71164CE30262518 /* COAShadowView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = COAShadowView.m; sourceTree = "<group>"; };
 		CACF6EFA45E7C3F728DEEEB5 /* COAPlayHomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = COAPlayHomeViewController.m; sourceTree = "<group>"; };
 		CACF6EFFCF32DD4D1DE5F065 /* COAChartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = COAChartViewController.h; sourceTree = "<group>"; };
-		CACF6F63A62653405D58A5B4 /* COACurrencyChooserViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = COACurrencyChooserViewController.h; sourceTree = "<group>"; };
+		CACF6FCF00AB50AB146F3B8D /* COASymbolValueModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = COASymbolValueModel.m; sourceTree = "<group>"; };
+		F880203B1ADB935D00F25031 /* COAConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = COAConstants.h; sourceTree = "<group>"; };
+		F880203C1ADB935D00F25031 /* COAConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = COAConstants.m; sourceTree = "<group>"; };
 		F89ECF711ACC373B00AEB3D2 /* Cash Out.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Cash Out.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F89ECF751ACC373B00AEB3D2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F89ECF761ACC373B00AEB3D2 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -119,16 +149,55 @@
 		CACF65F3A82FFAC57F5B9E9F /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				CACF6D23020320C0980EE248 /* COASymbolModel.m */,
-				CACF61EB61704A81D0615178 /* COASymbolModel.h */,
-				CACF6A068A941532752B2281 /* COAQueryModel.m */,
-				CACF62BAB3464C9D86EABAE5 /* COAQueryModel.h */,
-				CACF65AB00E00974907EED19 /* COAResultsModel.m */,
-				CACF6052665BF84C0C17B334 /* COAResultsModel.h */,
-				CACF66A8991FF3A1BF266A30 /* COARowModel.m */,
-				CACF63A26F0BBDCEDE535A74 /* COARowModel.h */,
+				CACF6FCF00AB50AB146F3B8D /* COASymbolValueModel.m */,
+				CACF6D80DEFA72B9946B30B5 /* COASymbolValueModel.h */,
+				CACF6455D405F093843B9D9B /* COASymbolValue.m */,
+				CACF65DC56BD1A2B2561645B /* COASymbolValue.h */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		CACF6BEFC0A95B3D5BA00951 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				CACF6D4D9AB622BA65239A67 /* COATriangleView.m */,
+				CACF6CC1A916CECDD9C55117 /* COATriangleView.h */,
+				CACF62AC061716969F89397E /* COAButton.m */,
+				CACF6140A0BE71B7BCB9E69B /* COAButton.h */,
+				CACF629A96E38C11E1C87A82 /* COAButtonTitleImage.m */,
+				CACF6A05079D753845555BCC /* COAButtonTitleImage.h */,
+				CACF6ECEB71164CE30262518 /* COAShadowView.m */,
+				CACF6DB02D9EDE9024005F05 /* COAShadowView.h */,
+				CACF64D6197CB0F17EF2A241 /* COACurrencyButton.m */,
+				CACF6C13276C9F986BDE202E /* COACurrencyButton.h */,
+				CACF69C33488E6D13E66C393 /* COAChartView.m */,
+				CACF69800A2E51FD738A88D5 /* COAChartView.h */,
+				CACF6A05B4982A124B73CFCD /* COACongratsView.m */,
+				CACF62C3904713B87BC7C651 /* COACongratsView.h */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		CACF6D0FD52C8627E25D960C /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+				CACF6E9AD5B3472599E9F14B /* NSString+COAAdditions.m */,
+				CACF697C6151E8538738F04A /* NSString+COAAdditions.h */,
+			);
+			path = Categories;
+			sourceTree = "<group>";
+		};
+		CACF6E2585D48B8C384CF74D /* DataHelper */ = {
+			isa = PBXGroup;
+			children = (
+				CACF607C16EF51DDD51E8381 /* COADataHelper.m */,
+				CACF6E4C88256606BF3CE5CD /* COADataHelper.h */,
+				CACF666931A336EBED6585DA /* COAFormatting.m */,
+				CACF68B6EE3AAD3EFCB0E46C /* COAFormatting.h */,
+				CACF67271E3730E3A24DA661 /* COACurrencies.m */,
+				CACF6DDCB12D390E66D7E669 /* COACurrencies.h */,
+			);
+			path = DataHelper;
 			sourceTree = "<group>";
 		};
 		F89ECF681ACC373B00AEB3D2 = {
@@ -164,17 +233,22 @@
 				CACF60C2C5AD8A5CE1565EF5 /* Localizable.strings */,
 				CACF6EFA45E7C3F728DEEEB5 /* COAPlayHomeViewController.m */,
 				CACF65F8554ACBBE6A0FADEB /* COAPlayHomeViewController.h */,
-				CACF69783994C29E551A3C09 /* COACurrencyChooserViewController.m */,
-				CACF6F63A62653405D58A5B4 /* COACurrencyChooserViewController.h */,
 				CACF63CA4B2B194D883D4A3E /* COAChartViewController.m */,
 				CACF6EFFCF32DD4D1DE5F065 /* COAChartViewController.h */,
 				CACF68D6371D9D923A5ABBD5 /* COATradeModeViewController.m */,
 				CACF66EA8DDF9287893DD0DD /* COATradeModeViewController.h */,
 				CACF6E244117F9B382094480 /* COAAbstractViewController.m */,
 				CACF6E7AC80C29671C59B4B3 /* COAAbstractViewController.h */,
-				CACF65A32F79E5D9E143A430 /* COACashOutViewController.m */,
-				CACF635DCCD2627312E14D26 /* COACashOutViewController.h */,
 				CACF64F61FCA9DECE3F3DD36 /* Networking */,
+				F880203B1ADB935D00F25031 /* COAConstants.h */,
+				F880203C1ADB935D00F25031 /* COAConstants.m */,
+				CACF6BEFC0A95B3D5BA00951 /* Views */,
+				CACF6D0FD52C8627E25D960C /* Categories */,
+				CACF6E2585D48B8C384CF74D /* DataHelper */,
+				CACF6138CB859E625201EB3C /* COASignUpViewController.m */,
+				CACF623E0A981863E8B56D0B /* COASignUpViewController.h */,
+				CACF6DC5B100973E8EFAD6D4 /* COATutorialViewController.m */,
+				CACF697BECEB92B8F9D734CF /* COATutorialViewController.h */,
 			);
 			path = "Cash Out";
 			sourceTree = "<group>";
@@ -353,16 +427,26 @@
 				F89ECF7A1ACC373B00AEB3D2 /* AppDelegate.m in Sources */,
 				F89ECF771ACC373B00AEB3D2 /* main.m in Sources */,
 				CACF6A0A792F82E198B80405 /* COAPlayHomeViewController.m in Sources */,
-				CACF6071DEDA6278E94367A5 /* COACurrencyChooserViewController.m in Sources */,
 				CACF60C2ECD73CB8A78B990A /* COAChartViewController.m in Sources */,
 				CACF63BBE916E295B0B8F627 /* COATradeModeViewController.m in Sources */,
 				CACF64A447AAD166B6F1827A /* COAAbstractViewController.m in Sources */,
-				CACF64C83FCCE4FF6792C327 /* COACashOutViewController.m in Sources */,
+				F880203D1ADB935D00F25031 /* COAConstants.m in Sources */,
 				CACF6A504713AD0F61763F14 /* COADataFetcher.m in Sources */,
-				CACF695FEE2840F2E09D2084 /* COASymbolModel.m in Sources */,
-				CACF6F82ECDB071FCC20E10F /* COAQueryModel.m in Sources */,
-				CACF61BA34393B46B98DF4E1 /* COAResultsModel.m in Sources */,
-				CACF621BBE518D66E21E66A0 /* COARowModel.m in Sources */,
+				CACF64AB183E31DA3B2734B2 /* COASymbolValueModel.m in Sources */,
+				CACF6A012040755D916BDA0E /* COATriangleView.m in Sources */,
+				CACF672838AE6CF01ECDAC4F /* COAButton.m in Sources */,
+				CACF6DDAC7078CC5B66FE881 /* COAButtonTitleImage.m in Sources */,
+				CACF6B568E31528757A7C516 /* COAShadowView.m in Sources */,
+				CACF658B4B3C796CE5FFBB49 /* COACurrencyButton.m in Sources */,
+				CACF69FC189476E246EFA50A /* COAChartView.m in Sources */,
+				CACF643DF7F94E812BEA5B6A /* NSString+COAAdditions.m in Sources */,
+				CACF65E8710C0159EF9EF709 /* COACongratsView.m in Sources */,
+				CACF6EB48E630E28C24AFB02 /* COADataHelper.m in Sources */,
+				CACF6D2C90DED4381293A0C5 /* COAFormatting.m in Sources */,
+				CACF619E862F4CCE37265293 /* COACurrencies.m in Sources */,
+				CACF684B2F3931410A7E740D /* COASymbolValue.m in Sources */,
+				CACF6C42BC22A74DD60BE874 /* COASignUpViewController.m in Sources */,
+				CACF60EF3A3589C1BA69B983 /* COATutorialViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -482,6 +566,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = "\"${PROJECT_DIR}/Pods\"/**";
 			};
 			name = Debug;
 		};
@@ -495,6 +580,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = "\"${PROJECT_DIR}/Pods\"/**";
 			};
 			name = Release;
 		};

@@ -7,9 +7,11 @@
 
 
 @interface COADataFetcher : NSObject
+
 + (COADataFetcher *)instance;
 
+- (void)fetchDataForSymbol:(NSString *)symbol completionBlock:(void (^)(NSString *value))completionBlock;
 
-- (void)fetchDataForSymbol:(NSString *)symbol;
+- (void)initialImport;
 
 @end

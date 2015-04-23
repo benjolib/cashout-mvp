@@ -8,4 +8,19 @@
 #import "COAAbstractViewController.h"
 
 @interface COAPlayHomeViewController : COAAbstractViewController
+
+- (CGFloat)lowerNavigationBar;
+
+- (CGFloat)upperScrollView;
+
+- (CGFloat)lowerScrollView;
+
+- (CGFloat)upperRiseButton;
+
+- (CGFloat)lowerRiseButton;
+
+- (CGFloat)upperPlayButton;
+
+- (CGFloat)lowerPlayButton;
+
 @end

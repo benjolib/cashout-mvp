@@ -8,4 +8,7 @@
 #import "COAAbstractViewController.h"
 
 @interface COAChartViewController : COAAbstractViewController
+
+- (instancetype)initWithCurrencySymbol:(NSString *)currencySymbol;
+
 @end
