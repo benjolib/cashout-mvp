@@ -86,7 +86,6 @@
         dateFormatter.dateFormat = @"%y-%M-%d";
 
         NSNumberFormatter *f = [[NSNumberFormatter alloc] init];
-        f.numberStyle = NSNumberFormatterDecimalStyle;
         f.decimalSeparator = @".";
 
         RLMRealm *defaultRealm = [RLMRealm defaultRealm];
@@ -98,7 +97,7 @@
                 continue;
             }
             NSArray *components = [line componentsSeparatedByString:@","];
-
+            
             // 2013-01-01,1.3219,86.7,0.9156,1.623,0.9934,0.8121,114.47,1.2078,1.0403,140.76,94.7,1.4852,0.8278
 
             if (components.count != 14) {
