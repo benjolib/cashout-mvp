@@ -39,7 +39,7 @@
 
     _upperGrayView = [[UIView alloc] initWithFrame:CGRectZero];
     self.upperGrayView.backgroundColor =[UIColor darkGrayColor];
-    self.upperGrayView.alpha = 0.85f;
+    self.upperGrayView.alpha = 0.9f;
     [self.view addSubview:self.upperGrayView];
 
     _lowerGrayView = [[UIView alloc] initWithFrame:CGRectZero];
