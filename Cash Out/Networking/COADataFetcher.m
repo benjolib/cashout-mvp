@@ -60,9 +60,6 @@
                             [[NSNotificationCenter defaultCenter] postNotificationName:symbol object:nil userInfo:nil];
                         });
                     });
-
-
-                    // completionBlock(col1);
                 }
             }
         }
@@ -72,25 +69,29 @@
 }
 
 - (void)initialImport {
-    if ([COASymbolValue allObjects].count > 100) {
-        // return;
-    }
     // fetch data
     AFHTTPRequestOperationManager *operationManager = [[AFHTTPRequestOperationManager alloc] init];
     AFHTTPResponseSerializer *serializer = [[AFHTTPResponseSerializer alloc] init];
     operationManager.responseSerializer = serializer;
-    [operationManager GET:@"http://www.global-view.com/forex-trading-tools/forex-history/exchange_csv_report.html?CLOSE_1=ON&CLOSE_2=ON&CLOSE_3=ON&CLOSE_4=ON&CLOSE_5=ON&CLOSE_6=ON&CLOSE_7=ON&CLOSE_8=ON&CLOSE_9=ON&CLOSE_10=ON&CLOSE_11=ON&CLOSE_12=ON&CLOSE_13=ON&start_date=4/14/2010&stop_date=4/21/2015&Submit=Get%20Daily%20Stats" parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+
+    NSDateFormatter *dateFormatterDownload = [[NSDateFormatter alloc] init];
+    dateFormatterDownload.dateFormat = @"M/d/y";
+    NSString *toDateString = [dateFormatterDownload stringFromDate:[NSDate date]];
+    NSLog(@"%@", toDateString);
+
+    NSString *downloadString = [NSString stringWithFormat:@"http://www.global-view.com/forex-trading-tools/forex-history/exchange_csv_report.html?CLOSE_1=ON&CLOSE_2=ON&CLOSE_3=ON&CLOSE_4=ON&CLOSE_5=ON&CLOSE_6=ON&CLOSE_7=ON&CLOSE_8=ON&CLOSE_9=ON&CLOSE_10=ON&CLOSE_11=ON&CLOSE_12=ON&CLOSE_13=ON&start_date=4/14/2015&stop_date=%@&Submit=Get%%20Daily%%20Stats", toDateString];
+    NSLog(@"%@", downloadString);
+    [operationManager GET:downloadString parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSArray *lines = [[operation responseString] componentsSeparatedByString:@"\r\n"];
 
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-        dateFormatter.dateFormat = @"%y-%M-%d";
+        dateFormatter.dateFormat = @"y-M-d";
 
         NSNumberFormatter *f = [[NSNumberFormatter alloc] init];
         f.decimalSeparator = @".";
 
         RLMRealm *defaultRealm = [RLMRealm defaultRealm];
         [defaultRealm beginWriteTransaction];
-        [defaultRealm deleteObjects:[COASymbolValue allObjects]];
 
         for (NSString *line in lines) {
             if ([line rangeOfString:@"201"].location != 0) {
@@ -105,6 +106,8 @@
             }
 
             NSDate *date = [[dateFormatter dateFromString:components[0]] mt_startOfCurrentDay];
+
+            [defaultRealm deleteObjects:[COASymbolValue objectsInRealm:defaultRealm withPredicate:[NSPredicate predicateWithFormat:@"timestamp = %@", date]]];
 
             for (int i = 1; i < 14; i++) {
                 COASymbolValue *symbolValue = [[COASymbolValue alloc] init];

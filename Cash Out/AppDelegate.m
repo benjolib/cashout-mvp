@@ -40,12 +40,28 @@
     [[UINavigationBar appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName:[COAConstants darkBlueColor]}];
 
     [self initializeUserDefaults];
+    
+    [self copyRealmIfNecessary];
 
     [[COADataFetcher instance] initialImport];
 
     [self.window makeKeyAndVisible];
 
     return YES;
+}
+
+- (void)copyRealmIfNecessary {
+    NSString *realmPath = [[AppDelegate applicationDocumentsDirectory] stringByAppendingPathComponent:@"default.realm"];
+    if (![[NSFileManager defaultManager] fileExistsAtPath:realmPath]) {
+        NSString *realmBundlePath = [[NSBundle mainBundle] pathForResource:@"default" ofType:@"realm"];
+        [[NSFileManager defaultManager] copyItemAtPath:realmBundlePath toPath:realmPath error:nil];
+    }
+}
+
++ (NSString *) applicationDocumentsDirectory {
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *basePath = ([paths count] > 0) ? paths[0] : nil;
+    return basePath;
 }
 
 - (void)initializeUserDefaults {

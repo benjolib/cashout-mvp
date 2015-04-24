@@ -36,6 +36,7 @@
 		F89ECF851ACC373B00AEB3D2 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = F89ECF831ACC373B00AEB3D2 /* LaunchScreen.xib */; };
 		F89ECF911ACC373B00AEB3D2 /* Cash_OutTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F89ECF901ACC373B00AEB3D2 /* Cash_OutTests.m */; };
 		F89ECF9C1ACC3F5E00AEB3D2 /* COStartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F89ECF9B1ACC3F5E00AEB3D2 /* COStartViewController.m */; };
+		F8A6A4C31AEA12F0005A7517 /* default.realm in Resources */ = {isa = PBXBuildFile; fileRef = F8A6A4C21AEA120A005A7517 /* default.realm */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -107,6 +108,7 @@
 		F89ECF901ACC373B00AEB3D2 /* Cash_OutTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Cash_OutTests.m; sourceTree = "<group>"; };
 		F89ECF9A1ACC3F5E00AEB3D2 /* COStartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = COStartViewController.h; sourceTree = "<group>"; };
 		F89ECF9B1ACC3F5E00AEB3D2 /* COStartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = COStartViewController.m; sourceTree = "<group>"; };
+		F8A6A4C21AEA120A005A7517 /* default.realm */ = {isa = PBXFileReference; lastKnownFileType = file; path = default.realm; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -256,6 +258,7 @@
 		F89ECF741ACC373B00AEB3D2 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				F8A6A4C21AEA120A005A7517 /* default.realm */,
 				F89ECF751ACC373B00AEB3D2 /* Info.plist */,
 				F89ECF761ACC373B00AEB3D2 /* main.m */,
 			);
@@ -371,6 +374,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F89ECF851ACC373B00AEB3D2 /* LaunchScreen.xib in Resources */,
+				F8A6A4C31AEA12F0005A7517 /* default.realm in Resources */,
 				F89ECF821ACC373B00AEB3D2 /* Images.xcassets in Resources */,
 				CACF6E5C9DCF74DF40C709D4 /* Localizable.strings in Resources */,
 			);
