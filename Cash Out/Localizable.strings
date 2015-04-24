@@ -11,7 +11,6 @@
 "3 months" = "3 months";
 "6 months" = "6 months";
 "1 year" = "1 year";
-"2 years" = "2 years";
 "52-weeks range" = "52-weeks range";
 "day range" = "day range";
 "% change" = "% change";
@@ -48,3 +47,4 @@
 "tap on your estimated exchange rate" = "tap on your estimated exchange rate";
 "take the right currency pair" = "take the right currency pair";
 "choose the amount of money you want to invest" = "choose the amount of money you want to invest";
+"30 minutes" = "30 min.";

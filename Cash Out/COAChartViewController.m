@@ -30,7 +30,7 @@
 @property (nonatomic, strong) UIButton *month3Button;
 @property (nonatomic, strong) UIButton *month6Button;
 @property (nonatomic, strong) UIButton *year1Button;
-@property (nonatomic, strong) UIButton *year2Button;
+@property (nonatomic, strong) UIButton *minutes30Button;
 @property (nonatomic, strong) COAChartView *chartView;
 @property (nonatomic, strong) UIView *buttonTopLineView;
 @property (nonatomic, strong) UIView *buttonBottomLineView;
@@ -120,6 +120,11 @@
     self.weeksRangeValueLabel.adjustsFontSizeToFitWidth = YES;
     [self.view addSubview:self.weeksRangeValueLabel];
 
+    _minutes30Button = [[UIButton alloc] initWithFrame:CGRectZero];
+    [self.minutes30Button setTitle:[NSLocalizedString(@"30 minutes", @"") lowercaseString] forState:UIControlStateNormal];
+    [self configureFilterButton:self.minutes30Button];
+    [self.view addSubview:self.minutes30Button];
+
     _day1Button = [[UIButton alloc] initWithFrame:CGRectZero];
     [self.day1Button setTitle:[NSLocalizedString(@"1 day", @"") lowercaseString] forState:UIControlStateNormal];
     [self configureFilterButton:self.day1Button];
@@ -145,11 +150,6 @@
     [self.year1Button setTitle:[NSLocalizedString(@"1 year", @"") lowercaseString] forState:UIControlStateNormal];
     [self configureFilterButton:self.year1Button];
     [self.view addSubview:self.year1Button];
-
-    _year2Button = [[UIButton alloc] initWithFrame:CGRectZero];
-    [self.year2Button setTitle:[NSLocalizedString(@"2 years", @"") lowercaseString] forState:UIControlStateNormal];
-    [self configureFilterButton:self.year2Button];
-    [self.view addSubview:self.year2Button];
 
     _chartView = [[COAChartView alloc] initWithFrame:CGRectZero];
     [self.view addSubview:self.chartView];
@@ -209,16 +209,18 @@
 }
 
 - (void)filterButtonPressed:(UIButton *)button {
+    self.minutes30Button.selected = NO;
     self.day1Button.selected = NO;
     self.day5Button.selected = NO;
     self.month3Button.selected = NO;
     self.month6Button.selected = NO;
     self.year1Button.selected = NO;
-    self.year2Button.selected = NO;
 
     button.selected = YES;
 
-    if ([button isEqual:self.day1Button]) {
+    if ([button isEqual:self.minutes30Button]) {
+        self.fromDate = [[NSDate date] mt_dateMinutesBefore:30];
+    } else if ([button isEqual:self.day1Button]) {
         self.fromDate = [[NSDate date] mt_dateDaysBefore:1];
     } else if ([button isEqual:self.day5Button]) {
         self.fromDate = [[NSDate date] mt_dateDaysBefore:5];
@@ -228,8 +230,6 @@
         self.fromDate = [[NSDate date] mt_dateMonthsBefore:6];
     } else if ([button isEqual:self.year1Button]) {
         self.fromDate = [[NSDate date] mt_dateYearsBefore:1];
-    } else if ([button isEqual:self.year2Button]) {
-        self.fromDate = [[NSDate date] mt_dateYearsBefore:2];
     }
 
     NSArray *values = [self valuesFromDate:self.fromDate toDate:[NSDate date]];
@@ -301,7 +301,7 @@
             @"month3Button":self.month3Button,
             @"month6Button":self.month6Button,
             @"year1Button":self.year1Button,
-            @"year2Button":self.year2Button,
+            @"minutes30Button":self.minutes30Button,
             @"buttonTopLineView":self.buttonTopLineView,
             @"buttonBottomLineView":self.buttonBottomLineView,
             @"separator1View":self.separator1View,
@@ -347,22 +347,22 @@
     [self.customConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[priceKeyLabel(labelRowHeight)]-5-[separator1View(1)]-5-[changeKeyLabel(labelRowHeight)]-5-[separator2View(1)]-5-[percentKeyChangeLabel(labelRowHeight)]-5-[separator3View(1)]-5-[dayRangeKeyLabel(labelRowHeight)]-5-[separator4View(1)]-5-[weeksRangeKeyLabel(labelRowHeight)]-5-[buttonTopLineView(1)]-0-[day1Button(40)]-0-[buttonBottomLineView(1)]-10-[chartView]-10-|" options:NSLayoutFormatDirectionLeadingToTrailing metrics:@{@"labelRowHeight":@(labelRowHeight)} views:[self allViews]]];
     [self.customConstraints addObject:[NSLayoutConstraint constraintWithItem:self.priceKeyLabel attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.topLayoutGuide attribute:NSLayoutAttributeBottom multiplier:1 constant:10]];
 
-    [self.customConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[day1Button][day5Button][month3Button][month6Button][year1Button][year2Button]|" options:NSLayoutFormatDirectionLeadingToTrailing metrics:nil views:[self allViews]]];
+    [self.customConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[minutes30Button][day1Button][day5Button][month3Button][month6Button][year1Button]|" options:NSLayoutFormatDirectionLeadingToTrailing metrics:nil views:[self allViews]]];
     [self.customConstraints addObject:[NSLayoutConstraint constraintWithItem:self.day5Button attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:self.day1Button attribute:NSLayoutAttributeWidth multiplier:1 constant:0]];
     [self.customConstraints addObject:[NSLayoutConstraint constraintWithItem:self.month3Button attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:self.day1Button attribute:NSLayoutAttributeWidth multiplier:1 constant:0]];
     [self.customConstraints addObject:[NSLayoutConstraint constraintWithItem:self.month6Button attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:self.day1Button attribute:NSLayoutAttributeWidth multiplier:1 constant:0]];
     [self.customConstraints addObject:[NSLayoutConstraint constraintWithItem:self.year1Button attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:self.day1Button attribute:NSLayoutAttributeWidth multiplier:1 constant:0]];
-    [self.customConstraints addObject:[NSLayoutConstraint constraintWithItem:self.year2Button attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:self.day1Button attribute:NSLayoutAttributeWidth multiplier:1 constant:0]];
+    [self.customConstraints addObject:[NSLayoutConstraint constraintWithItem:self.minutes30Button attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:self.day1Button attribute:NSLayoutAttributeWidth multiplier:1 constant:0]];
     [self.customConstraints addObject:[NSLayoutConstraint constraintWithItem:self.day5Button attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:self.day1Button attribute:NSLayoutAttributeHeight multiplier:1 constant:0]];
     [self.customConstraints addObject:[NSLayoutConstraint constraintWithItem:self.month3Button attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:self.day1Button attribute:NSLayoutAttributeHeight multiplier:1 constant:0]];
     [self.customConstraints addObject:[NSLayoutConstraint constraintWithItem:self.month6Button attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:self.day1Button attribute:NSLayoutAttributeHeight multiplier:1 constant:0]];
     [self.customConstraints addObject:[NSLayoutConstraint constraintWithItem:self.year1Button attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:self.day1Button attribute:NSLayoutAttributeHeight multiplier:1 constant:0]];
-    [self.customConstraints addObject:[NSLayoutConstraint constraintWithItem:self.year2Button attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:self.day1Button attribute:NSLayoutAttributeHeight multiplier:1 constant:0]];
+    [self.customConstraints addObject:[NSLayoutConstraint constraintWithItem:self.minutes30Button attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:self.day1Button attribute:NSLayoutAttributeHeight multiplier:1 constant:0]];
     [self.customConstraints addObject:[NSLayoutConstraint constraintWithItem:self.day5Button attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self.day1Button attribute:NSLayoutAttributeCenterY multiplier:1 constant:0]];
     [self.customConstraints addObject:[NSLayoutConstraint constraintWithItem:self.month3Button attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self.day1Button attribute:NSLayoutAttributeCenterY multiplier:1 constant:0]];
     [self.customConstraints addObject:[NSLayoutConstraint constraintWithItem:self.month6Button attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self.day1Button attribute:NSLayoutAttributeCenterY multiplier:1 constant:0]];
     [self.customConstraints addObject:[NSLayoutConstraint constraintWithItem:self.year1Button attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self.day1Button attribute:NSLayoutAttributeCenterY multiplier:1 constant:0]];
-    [self.customConstraints addObject:[NSLayoutConstraint constraintWithItem:self.year2Button attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self.day1Button attribute:NSLayoutAttributeCenterY multiplier:1 constant:0]];
+    [self.customConstraints addObject:[NSLayoutConstraint constraintWithItem:self.minutes30Button attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self.day1Button attribute:NSLayoutAttributeCenterY multiplier:1 constant:0]];
 
     [self.customConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[separator2View]|" options:NSLayoutFormatDirectionLeadingToTrailing metrics:nil views:[self allViews]]];
     [self.customConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[separator1View]|" options:NSLayoutFormatDirectionLeadingToTrailing metrics:nil views:[self allViews]]];
