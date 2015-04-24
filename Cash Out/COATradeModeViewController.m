@@ -32,6 +32,7 @@
 @property (nonatomic, strong) NSString *currencySymbol;
 @property (nonatomic, strong) NSMutableParagraphStyle *style;
 @property (nonatomic, strong) NSTimer *timer;
+@property (nonatomic, strong) UIView *separatorView;
 @property (nonatomic) double initialValue;
 @property (nonatomic) double winLoss;
 @property (nonatomic) NSInteger seconds;
@@ -179,6 +180,10 @@
     self.cashOutButton.backgroundColor = [COAConstants greenColor];
     [self.view addSubview:self.cashOutButton];
 
+    _separatorView = [[UIView alloc] initWithFrame:CGRectZero];
+    self.separatorView.backgroundColor = [UIColor whiteColor];
+    [self.view addSubview:self.separatorView];
+
     [self.view setNeedsUpdateConstraints];
 }
 
@@ -188,12 +193,12 @@
 }
 
 - (void)setWinLossValueLabelText:(NSNumber *)number {
-    NSString *winLoss = number.doubleValue > 0 ? NSLocalizedString(@"win", @"") : NSLocalizedString(@"loss", @"");
+    NSString *winLoss = number.doubleValue >= 0 ? NSLocalizedString(@"win", @"") : NSLocalizedString(@"loss", @"");
     NSString *winLossText = [NSString stringWithFormat:@"%@\n(%@ %@)", [COAFormatting currencyStringFromValue:number.doubleValue], winLoss, NSLocalizedString(@"live", @"")];
     self.winLossValueLabel.textAlignment = NSTextAlignmentCenter;
     self.winLossValueLabel.attributedText = [winLossText.uppercaseString coa_firstLineAttributes:@{
             NSFontAttributeName:[UIFont boldSystemFontOfSize:firstLineFontSize],
-            NSForegroundColorAttributeName:[UIColor whiteColor],
+            NSForegroundColorAttributeName:self.winLoss >= 0 ? [COAConstants greenColor] : [COAConstants fleshColor],
             NSParagraphStyleAttributeName:self.style
     } secondLineAttributes:@{
             NSFontAttributeName:[UIFont systemFontOfSize:secondLineFontSize],
@@ -244,6 +249,7 @@
             @"priceValueLabel":self.priceValueLabel,
             @"winLossValueLabel":self.winLossValueLabel,
             @"timeLeftValueLabel":self.timeLeftValueLabel,
+            @"separatorView":self.separatorView,
             @"cashOutButton":self.cashOutButton
     }];
 
@@ -255,7 +261,7 @@
 
     [self.customConstraints removeAllObjects];
 
-    [self.customConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[firstCurrencyLabel][secondCurrencyLabel]|" options:NSLayoutFormatDirectionLeadingToTrailing metrics:nil views:views]];
+    [self.customConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[firstCurrencyLabel]-[secondCurrencyLabel]|" options:NSLayoutFormatDirectionLeadingToTrailing metrics:nil views:views]];
     [self.customConstraints addObject:[NSLayoutConstraint constraintWithItem:self.secondCurrencyLabel attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:self.firstCurrencyLabel attribute:NSLayoutAttributeWidth multiplier:1 constant:0]];
     [self.customConstraints addObject:[NSLayoutConstraint constraintWithItem:self.secondCurrencyLabel attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self.firstCurrencyLabel attribute:NSLayoutAttributeCenterY multiplier:1 constant:0]];
 
@@ -264,10 +270,15 @@
     [self.customConstraints addObject:[NSLayoutConstraint constraintWithItem:self.winLossValueLabel attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:self.priceValueLabel attribute:NSLayoutAttributeHeight multiplier:1 constant:0]];
     [self.customConstraints addObject:[NSLayoutConstraint constraintWithItem:self.winLossValueLabel attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self.priceValueLabel attribute:NSLayoutAttributeCenterY multiplier:1 constant:0]];
 
+    [self.customConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[separatorView(40)]" options:NSLayoutFormatDirectionLeadingToTrailing metrics:nil views:views]];
+    [self.customConstraints addObject:[NSLayoutConstraint constraintWithItem:self.separatorView attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self.firstCurrencyLabel attribute:NSLayoutAttributeCenterY multiplier:1 constant:-10]];
+    [self.customConstraints addObject:[NSLayoutConstraint constraintWithItem:self.separatorView attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeCenterX multiplier:1 constant:0]];
+
     [self.customConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[timeLeftValueLabel]-0-|" options:NSLayoutFormatDirectionLeadingToTrailing metrics:nil views:views]];
 
     [self.customConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[cashOutButton]|" options:NSLayoutFormatDirectionLeadingToTrailing metrics:nil views:views]];
     [self.customConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[cashOutButton(buttonHeight)]" options:NSLayoutFormatDirectionLeadingToTrailing metrics:@{@"buttonHeight":@(BUTTON_HEIGHT)} views:views]];
+    [self.customConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[separatorView(1)]" options:NSLayoutFormatDirectionLeadingToTrailing metrics:@{@"buttonHeight":@(BUTTON_HEIGHT)} views:views]];
     [self.customConstraints addObject:[NSLayoutConstraint constraintWithItem:self.cashOutButton attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeBottom multiplier:1 constant:0]];
 
     [self.customConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[firstCurrencyLabel(135)]-0-[priceValueLabel(130)]-0-[timeLeftValueLabel]-[cashOutButton]" options:NSLayoutFormatDirectionLeadingToTrailing metrics:nil views:views]];

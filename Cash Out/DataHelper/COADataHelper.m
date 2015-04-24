@@ -27,7 +27,7 @@
 }
 
 - (double)money {
-    return [[NSUserDefaults standardUserDefaults] doubleForKey:MONEY_USER_SETTING];
+    return 0; // [[NSUserDefaults standardUserDefaults] doubleForKey:MONEY_USER_SETTING];
 }
 
 - (void)setTutorialSeen {

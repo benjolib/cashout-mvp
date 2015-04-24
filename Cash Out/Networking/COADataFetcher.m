@@ -77,10 +77,8 @@
     NSDateFormatter *dateFormatterDownload = [[NSDateFormatter alloc] init];
     dateFormatterDownload.dateFormat = @"M/d/y";
     NSString *toDateString = [dateFormatterDownload stringFromDate:[NSDate date]];
-    NSLog(@"%@", toDateString);
 
     NSString *downloadString = [NSString stringWithFormat:@"http://www.global-view.com/forex-trading-tools/forex-history/exchange_csv_report.html?CLOSE_1=ON&CLOSE_2=ON&CLOSE_3=ON&CLOSE_4=ON&CLOSE_5=ON&CLOSE_6=ON&CLOSE_7=ON&CLOSE_8=ON&CLOSE_9=ON&CLOSE_10=ON&CLOSE_11=ON&CLOSE_12=ON&CLOSE_13=ON&start_date=4/14/2015&stop_date=%@&Submit=Get%%20Daily%%20Stats", toDateString];
-    NSLog(@"%@", downloadString);
     [operationManager GET:downloadString parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSArray *lines = [[operation responseString] componentsSeparatedByString:@"\r\n"];
 

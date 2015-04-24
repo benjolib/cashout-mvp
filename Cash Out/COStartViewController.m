@@ -53,6 +53,8 @@
     self.ranOutOfMoneyButton.backgroundColor = [COAConstants greenColor];
     [self.ranOutOfMoneyButton setTitle:NSLocalizedString(@"you ran out of money", @"").uppercaseString forState:UIControlStateNormal];
     self.ranOutOfMoneyButton.hidden = [COADataHelper instance].money > 0;
+    self.ranOutOfMoneyButton.titleLabel.adjustsFontSizeToFitWidth = YES;
+    self.ranOutOfMoneyButton.titleLabel.textAlignment = NSTextAlignmentCenter;
     [self.ranOutOfMoneyButton addTarget:self action:@selector(ranOutOfMoneyButtonPressed) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.ranOutOfMoneyButton];
 
