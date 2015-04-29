@@ -48,6 +48,18 @@
     return self;
 }
 
+-(void)setEnabled:(BOOL)enabled {
+    [super setEnabled:enabled];
+    
+    if (self.outterTriangleColor) {
+        if (enabled) {
+            [self.outterTriangleView setTriangleColor:[COAConstants greenColor]];
+        } else {
+            [self.outterTriangleView setTriangleColor:self.outterTriangleColor];
+        }
+    }
+}
+
 - (void)updateConstraints {
     [super updateConstraints];
 

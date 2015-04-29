@@ -7,7 +7,11 @@
 #import <UIKit/UIKit.h>
 #import "COAAbstractViewController.h"
 
+@class COAButton;
+
 @interface COAPlayHomeViewController : COAAbstractViewController
+
+@property (nonatomic, strong, readonly) COAButton *tradeButton;
 
 - (CGFloat)lowerNavigationBar;
 

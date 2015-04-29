@@ -7,6 +7,8 @@
 #import "COAPlayHomeViewController.h"
 #import "COADataHelper.h"
 #import "COAConstants.h"
+#import "COAButton.h"
+#import "UIImage+ImageWithColor.h"
 
 @interface COATutorialViewController()
 
@@ -17,6 +19,9 @@
 @property (nonatomic, strong) NSMutableArray *customConstraints;
 @property (nonatomic, strong) NSLayoutConstraint *topConstraint;
 @property (nonatomic, assign) COAPlayHomeViewController *playHomeViewController;
+@property (nonatomic, strong) UIButton *backButton;
+@property (nonatomic, strong) UIButton *nextButton;
+@property (nonatomic, strong) COAButton *playButton;
 @property (nonatomic) NSInteger pageIndex;
 
 @end
@@ -53,9 +58,30 @@
     self.introductionLabel.font = [COAConstants pageHeadlineTutorialBtnText];
     self.introductionLabel.numberOfLines = 0;
     [self.view addSubview:self.introductionLabel];
+    
+    _backButton = [[UIButton alloc] initWithFrame:CGRectZero];
+    [self.backButton setTitle:NSLocalizedString(@"back", @"").uppercaseString forState:UIControlStateNormal];
+    self.backButton.titleLabel.font = [COAConstants pageHeadlineTutorialBtnText];
+    [self.backButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [self.backButton addTarget:self action:@selector(backNextButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:self.backButton];
+
+    _nextButton = [[UIButton alloc] initWithFrame:CGRectZero];
+    [self.nextButton setTitle:NSLocalizedString(@"next", @"").uppercaseString forState:UIControlStateNormal];
+    self.nextButton.titleLabel.font = self.backButton.titleLabel.font;
+    [self.nextButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [self.nextButton addTarget:self action:@selector(backNextButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:self.nextButton];
 
     _arrowImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"arrow-down"]];
     [self.view addSubview:self.arrowImageView];
+
+    self.playButton = [[COAButton alloc] initWithBorderColor:nil triangleColor:nil outterTriangleColor:[COAConstants greenColor]];
+    [self.playButton setTitle:[NSLocalizedString(@"play", @"") uppercaseString] forState:UIControlStateNormal];
+    [self.playButton addTarget:self action:@selector(backNextButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+    [self.playButton setBackgroundImage:[UIImage imageWithColor:[COAConstants greenColor]] forState:UIControlStateNormal];
+    self.playButton.hidden = YES;
+    [self.view addSubview:self.playButton];
 
     [self.view setNeedsUpdateConstraints];
 }
@@ -64,8 +90,11 @@
     [super updateViewConstraints];
 
     NSDictionary *views = @{
+            @"backButton" : self.backButton,
+            @"nextButton" : self.nextButton,
             @"upperGrayView" : self.upperGrayView,
             @"introductionLabel" : self.introductionLabel,
+            @"playButton" : self.playButton,
             @"arrowImageView" : self.arrowImageView,
             @"lowerGrayView" : self.lowerGrayView
     };
@@ -95,7 +124,7 @@
         }
         case 1: {
             self.arrowImageView.image = [UIImage imageNamed:@"arrow-up"];
-            self.introductionLabel.text = NSLocalizedString(@"take the right currency pair", @"").uppercaseString;
+            self.introductionLabel.text = NSLocalizedString(@"select the right currency pair", @"").uppercaseString;
             self.topConstraint = [NSLayoutConstraint constraintWithItem:self.introductionLabel attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.lowerGrayView attribute:NSLayoutAttributeTop multiplier:1 constant:50];
             [self.customConstraints addObject:[NSLayoutConstraint constraintWithItem:self.arrowImageView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.introductionLabel attribute:NSLayoutAttributeTop multiplier:1 constant:-10]];
             break;
@@ -119,23 +148,41 @@
         }
     }
 
+    self.nextButton.hidden = self.pageIndex > 2;
+    self.backButton.hidden = self.pageIndex == 0;
+    self.playButton.hidden = self.pageIndex < 3;
+
+    [self.customConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-10-[backButton]" options:NSLayoutFormatDirectionLeadingToTrailing metrics:nil views:views]];
+    [self.customConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[nextButton]-10-|" options:NSLayoutFormatDirectionLeadingToTrailing metrics:nil views:views]];
+    [self.customConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-10-[backButton]" options:NSLayoutFormatDirectionLeadingToTrailing metrics:nil views:views]];
+    [self.customConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-10-[nextButton]" options:NSLayoutFormatDirectionLeadingToTrailing metrics:nil views:views]];
     [self.customConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[upperGrayView]|" options:NSLayoutFormatDirectionLeadingToTrailing metrics:nil views:views]];
+    [self.customConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[playButton]|" options:NSLayoutFormatDirectionLeadingToTrailing metrics:nil views:views]];
     [self.customConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-50-[introductionLabel]-50-|" options:NSLayoutFormatDirectionLeadingToTrailing metrics:nil views:views]];
     [self.customConstraints addObject:[NSLayoutConstraint constraintWithItem:self.arrowImageView attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeCenterX multiplier:1 constant:0]];
     [self.customConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[lowerGrayView]|" options:NSLayoutFormatDirectionLeadingToTrailing metrics:nil views:views]];
     [self.customConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[upperGrayView(upperHeight)]" options:NSLayoutFormatDirectionLeadingToTrailing metrics:@{@"upperHeight":@(upperHeight), @"lowerHeight":@(lowerHeight)} views:views]];
     [self.customConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[lowerGrayView(lowerHeight)]|" options:NSLayoutFormatDirectionLeadingToTrailing metrics:@{@"upperHeight":@(upperHeight), @"lowerHeight":@(lowerHeight)} views:views]];
+
+    [self.customConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[playButton(height)]" options:NSLayoutFormatDirectionLeadingToTrailing metrics:@{@"height":@(BUTTON_HEIGHT)} views:views]];
+    [self.customConstraints addObject:[NSLayoutConstraint constraintWithItem:self.playButton attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.bottomLayoutGuide attribute:NSLayoutAttributeTop multiplier:1 constant:0]];
     [self.customConstraints addObject:self.topConstraint];
 
     [self.view addConstraints:self.customConstraints];
 }
 
-- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
-    [super touchesEnded:touches withEvent:event];
+- (void)backNextButtonPressed:(UIButton *)sender {
+    if ([sender isEqual:self.backButton]) {
+        self.pageIndex -= 1;
+    } else {
+        self.pageIndex += 1;
+    }
 
-    self.pageIndex++;
+    [self updateViewForPageIndex:self.pageIndex];
+}
 
-    if (self.pageIndex > 3) {
+- (void)updateViewForPageIndex:(NSInteger)pageIndex {
+    if (pageIndex > 3) {
         [self.view removeFromSuperview];
         [[COADataHelper instance] setTutorialSeen];
     }

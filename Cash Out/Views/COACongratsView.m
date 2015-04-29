@@ -40,12 +40,12 @@
 
         _topLabel = [[UILabel alloc] initWithFrame:CGRectZero];
         self.topLabel.textAlignment = NSTextAlignmentCenter;
-        self.topLabel.numberOfLines = 2;
+        self.topLabel.numberOfLines = 3;
         self.topLabel.backgroundColor = self.winLoss >= 0 ? [COAConstants darkBlueColor] : [COAConstants fleshColor];
         self.topLabel.textColor = [UIColor whiteColor];
         NSString *titleString = self.winLoss >= 0 ? NSLocalizedString(@"congrats", @"") : NSLocalizedString(@"bad trade", @"");
         NSString *youWonLostString = self.winLoss >= 0 ? NSLocalizedString(@"you won", @"") : NSLocalizedString(@"you lost", @"");
-        NSString *topText = [NSString stringWithFormat:@"%@\n%@ %@", titleString, youWonLostString, [COAFormatting currencyStringFromValue:self.winLoss]].uppercaseString;
+        NSString *topText = [NSString stringWithFormat:@"%@\n\n%@ %@", titleString, youWonLostString, [COAFormatting currencyStringFromValue:self.winLoss]].uppercaseString;
         self.topLabel.attributedText = [topText coa_firstLineAttributes:@{
                 NSFontAttributeName:[UIFont boldSystemFontOfSize:30]
         } secondLineAttributes:@{

@@ -11,6 +11,8 @@
 #import "NSDate+MTDates.h"
 #import "RLMRealm.h"
 #import "RLMResults.h"
+#import "COACurrencies.h"
+#import "COAFormatting.h"
 
 @interface COAChartViewController()
 
@@ -40,6 +42,7 @@
 @property (nonatomic, strong) UIView *separator4View;
 @property (nonatomic, strong) NSString *currencySymbol;
 @property (nonatomic, strong) NSDate *fromDate;
+@property (nonatomic) double yesterdayValue;
 
 @end
 
@@ -49,7 +52,51 @@
     self = [super init];
     if (self) {
         self.currencySymbol = currencySymbol;
-        self.title = currencySymbol;
+
+        NSInteger index = [[COACurrencies currencies] indexOfObject:self.currencySymbol];
+        NSString *text = [COACurrencies currencyDisplayStrings][index];
+        UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 300, 44)];
+        titleLabel.textAlignment = NSTextAlignmentCenter;
+        NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:text];
+        [attributedString addAttributes:@{
+                NSFontAttributeName:[UIFont boldSystemFontOfSize:14],
+                NSForegroundColorAttributeName:[COAConstants lightBlueColor]
+        } range:NSMakeRange(0, text.length)];
+
+        NSDate *startYesterday = [[[NSDate date] mt_dateDaysBefore:1] mt_startOfCurrentDay];
+        NSDate *endYesterday = [[[NSDate date] mt_dateDaysBefore:1] mt_endOfCurrentDay];
+        RLMResults *yesterdayValues = [[COASymbolValue objectsWithPredicate:[NSPredicate predicateWithFormat:@"symbol = %@ AND timestamp >= %@ AND timestamp <= %@", currencySymbol, startYesterday, endYesterday]] sortedResultsUsingProperty:@"timestamp" ascending:NO];
+        COASymbolValue *yesterdayCloseValue = yesterdayValues.firstObject;
+        self.yesterdayValue = yesterdayCloseValue.value;
+
+        if ([text rangeOfString:@"/"].location != NSNotFound) {
+            NSString *firstCurrencyString = [text substringToIndex:[text rangeOfString:@"/"].location - 1];
+            NSString *secondCurrencyString = [text substringFromIndex:[text rangeOfString:@"/"].location + 2];
+            NSArray *firstWords = [firstCurrencyString componentsSeparatedByString:@" "];
+            NSArray *secondWords = [secondCurrencyString componentsSeparatedByString:@" "];
+
+            if (firstWords.count == 2) {
+                [attributedString addAttributes:@{
+                        NSFontAttributeName:[UIFont boldSystemFontOfSize:25],
+                        NSForegroundColorAttributeName:[COAConstants darkBlueColor]
+                } range:NSMakeRange(0, [firstCurrencyString rangeOfString:@" "].location)];
+            }
+            [attributedString addAttributes:@{
+                    NSFontAttributeName:[UIFont boldSystemFontOfSize:25],
+                    NSForegroundColorAttributeName:[COAConstants darkBlueColor]
+            } range:[text rangeOfString:@" / "]];
+            if (secondWords.count == 2) {
+                NSUInteger startSecondCurrency = [text rangeOfString:secondCurrencyString].location;
+
+                [attributedString addAttributes:@{
+                        NSFontAttributeName:[UIFont boldSystemFontOfSize:25],
+                        NSForegroundColorAttributeName:[COAConstants darkBlueColor]
+                } range:NSMakeRange(startSecondCurrency, [secondCurrencyString rangeOfString:@" "].location)];
+            }
+        }
+
+        titleLabel.attributedText = attributedString;
+        self.navigationItem.titleView = titleLabel;
     }
 
     return self;
@@ -79,10 +126,14 @@
     self.changeKeyLabel.textColor = [UIColor whiteColor];
     [self.view addSubview:self.changeKeyLabel];
 
+    double previousValue = self.yesterdayValue;
+    double nowValue = [COASymbolValue latestValueForSymbol:self.currencySymbol];
+    BOOL rised = previousValue < nowValue;
+    
     _changeValueLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-    self.changeValueLabel.text = @"0.0004";
+    self.changeValueLabel.text = [NSString stringWithFormat:@"%.4f", nowValue - self.yesterdayValue];
     self.changeValueLabel.textAlignment = NSTextAlignmentRight;
-    self.changeValueLabel.textColor = [COAConstants greenColor];
+    self.changeValueLabel.textColor = rised ? [COAConstants greenColor] : [COAConstants fleshColor];
     self.changeValueLabel.font = self.priceValueLabel.font;
     [self.view addSubview:self.changeValueLabel];
 
@@ -92,8 +143,9 @@
     [self.view addSubview:self.percentKeyChangeLabel];
 
     _percentValueChangeLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+    self.percentValueChangeLabel.text = [NSString stringWithFormat:@"%.4f %%", nowValue * 100 / previousValue - 100];
     self.percentValueChangeLabel.textAlignment = NSTextAlignmentRight;
-    self.percentValueChangeLabel.textColor = [COAConstants fleshColor];
+    self.percentValueChangeLabel.textColor = self.changeValueLabel.textColor;
     self.percentValueChangeLabel.font = self.priceValueLabel.font;
     [self.view addSubview:self.percentValueChangeLabel];
 
@@ -184,7 +236,7 @@
 }
 
 - (void)setMinMaxLabel {
-    NSDate *fromDate = [[[NSDate date] mt_dateYearsBefore:1] mt_startOfCurrentDay];
+    NSDate *fromDate = [[[NSDate date] mt_dateYearsBefore:1] mt_startOfCurrentMinute];
     CGFloat min = MAXFLOAT;
     CGFloat max = -MAXFLOAT;
 
@@ -198,10 +250,24 @@
     }
 
     self.weeksRangeValueLabel.text = [NSString stringWithFormat:@"%f - %f", min, max];
+
+    // today range
+    fromDate = [[NSDate date] mt_startOfCurrentDay];
+    RLMResults *todayValues = [[COASymbolValue objectsWithPredicate:[NSPredicate predicateWithFormat:@"symbol = %@ AND timestamp >= %@ AND timestamp <= %@", self.currencySymbol, fromDate, [NSDate date]]] sortedResultsUsingProperty:@"timestamp" ascending:YES];
+    
+    min = MAXFLOAT;
+    max = -MAXFLOAT;
+    
+    for (COASymbolValue *symbolValue in todayValues) {
+        min = MIN(min, symbolValue.value);
+        max = MAX(max, symbolValue.value);
+    }
+    
+    self.dayRangeValueLabel.text = [NSString stringWithFormat:@"%f - %f", min, max];
 }
 
 - (void)configureFilterButton:(UIButton *)buttonToConfigure {
-    [buttonToConfigure.titleLabel setFont:[UIFont systemFontOfSize:10]];
+    [buttonToConfigure.titleLabel setFont:[UIFont fontWithName:@"Avenir-Heavy" size:9]];
     buttonToConfigure.backgroundColor = [COAConstants darkBlueColor];
     [buttonToConfigure setTitleColor:[COAConstants darkBlueColor] forState:UIControlStateSelected];
     [buttonToConfigure setBackgroundImage:[UIImage imageWithColor:[UIColor whiteColor]] forState:UIControlStateSelected];
@@ -217,26 +283,43 @@
     self.year1Button.selected = NO;
 
     button.selected = YES;
+    BOOL minuteScale;
+    BOOL hourScale;
+    BOOL dayScale;
 
     if ([button isEqual:self.minutes30Button]) {
         self.fromDate = [[NSDate date] mt_dateMinutesBefore:30];
+        minuteScale = YES;
+        hourScale = NO;
+        dayScale = NO;
     } else if ([button isEqual:self.day1Button]) {
         self.fromDate = [[NSDate date] mt_dateDaysBefore:1];
+        minuteScale = YES;
+        hourScale = NO;
+        dayScale = NO;
     } else if ([button isEqual:self.day5Button]) {
         self.fromDate = [[NSDate date] mt_dateDaysBefore:5];
+        minuteScale = YES;
+        hourScale = NO;
+        dayScale = NO;
     } else if ([button isEqual:self.month3Button]) {
-        self.fromDate = [[NSDate date] mt_dateMonthsBefore:3];
+        self.fromDate = [[[NSDate date] mt_startOfCurrentDay] mt_dateMonthsBefore:3];
+        minuteScale = NO;
+        hourScale = NO;
+        dayScale = YES;
     } else if ([button isEqual:self.month6Button]) {
-        self.fromDate = [[NSDate date] mt_dateMonthsBefore:6];
+        self.fromDate = [[[NSDate date] mt_startOfCurrentDay] mt_dateMonthsBefore:6];
+        minuteScale = NO;
     } else if ([button isEqual:self.year1Button]) {
-        self.fromDate = [[NSDate date] mt_dateYearsBefore:1];
+        self.fromDate = [[[NSDate date] mt_startOfCurrentDay] mt_dateYearsBefore:1];
+        minuteScale = NO;
     }
 
-    NSArray *values = [self valuesFromDate:self.fromDate toDate:[NSDate date]];
+    NSArray *values = [self valuesFromDate:self.fromDate toDate:[NSDate date] minuteScale:minuteScale];
     [self updateChartWithValues:values];
 }
 
-- (NSArray *)valuesFromDate:(NSDate *)fromDate toDate:(NSDate *)toDate {
+- (NSArray *)valuesFromDate:(NSDate *)fromDate toDate:(NSDate *)toDate minuteScale:(BOOL)minuteScale {
     NSUInteger numberOfValues = 15;
     NSInteger numberOfSecondsBetweenDates = [toDate mt_secondsSinceDate:fromDate];
     NSInteger secondsBetweenValues = numberOfSecondsBetweenDates / numberOfValues;
@@ -245,13 +328,13 @@
 
     NSMutableArray *values = [[NSMutableArray alloc] initWithCapacity:numberOfValues];
 
-    NSDate *valueDate = [[fromDate mt_startOfCurrentDay] mt_startOfCurrentDay];
+    NSDate *valueDate = minuteScale ? [fromDate mt_startOfCurrentMinute] : [fromDate mt_startOfCurrentDay];
 
     for (int i = 0; i < numberOfValues; i++) {
-        valueDate = [[valueDate mt_dateSecondsAfter:secondsBetweenValues] mt_startOfCurrentDay];
+        valueDate = minuteScale ? [[valueDate mt_dateSecondsAfter:secondsBetweenValues] mt_startOfCurrentMinute] : [[valueDate mt_dateSecondsAfter:secondsBetweenValues] mt_startOfCurrentDay];
 
         if ([valueDate mt_isAfter:[NSDate date]]) {
-            valueDate = [[NSDate date] mt_startOfCurrentDay];
+            valueDate = minuteScale ? [[NSDate date] mt_startOfCurrentMinute] : [[NSDate date] mt_startOfCurrentDay];
         }
 
         NSPredicate *predicate = [NSPredicate predicateWithFormat:@"symbol = %@ and timestamp = %@", self.currencySymbol, valueDate];
@@ -260,11 +343,11 @@
         int tries = 0;
         NSDate *innerValueDate = valueDate;
         while (symbolValue == nil) {
-            innerValueDate = [[innerValueDate mt_dateSecondsAfter:tries * 60 * 60 * 24] mt_startOfCurrentDay];
+            innerValueDate = minuteScale ? [[innerValueDate mt_dateSecondsAfter:tries * 60] mt_startOfCurrentMinute] : [[innerValueDate mt_dateSecondsAfter:tries * 60] mt_startOfCurrentDay];
             predicate = [NSPredicate predicateWithFormat:@"symbol = %@ and timestamp = %@", self.currencySymbol, innerValueDate];
             symbolValue = [[COASymbolValue objectsInRealm:realm withPredicate:predicate] firstObject];
             if (symbolValue == nil) {
-                innerValueDate = [[innerValueDate mt_dateSecondsBefore:tries * 2 * 60 * 60 * 24] mt_startOfCurrentDay];
+                innerValueDate = minuteScale ? [[innerValueDate mt_dateSecondsBefore:tries * 2 * 60] mt_startOfCurrentMinute] : [[innerValueDate mt_dateSecondsBefore:tries * 2 * 60] mt_startOfCurrentDay];
                 predicate = [NSPredicate predicateWithFormat:@"symbol = %@ and timestamp = %@", self.currencySymbol, innerValueDate];
                 symbolValue = [[COASymbolValue objectsInRealm:realm withPredicate:predicate] firstObject];
             }

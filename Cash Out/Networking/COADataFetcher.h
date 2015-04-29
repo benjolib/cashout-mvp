@@ -12,6 +12,8 @@
 
 - (void)fetchDataForSymbol:(NSString *)symbol completionBlock:(void (^)(NSString *value))completionBlock;
 
+- (void)fetchLiveDataForSymbol:(NSString *)symbol fromDate:(NSDate *)fromDate toDate:(NSDate *)toDate completionBlock:(void (^)(NSString *value))completionBlock;
+
 - (void)initialImport;
 
 @end

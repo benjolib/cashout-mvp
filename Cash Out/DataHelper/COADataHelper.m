@@ -27,7 +27,7 @@
 }
 
 - (double)money {
-    return 0; // [[NSUserDefaults standardUserDefaults] doubleForKey:MONEY_USER_SETTING];
+    return [[NSUserDefaults standardUserDefaults] doubleForKey:MONEY_USER_SETTING];
 }
 
 - (void)setTutorialSeen {
@@ -36,7 +36,7 @@
 }
 
 - (BOOL)tutorialSeen {
-    return NO; // TODO swalkner
+//    return NO; // TODO swalkner
     return [[NSUserDefaults standardUserDefaults] boolForKey:TUTORIAL_SEEN];
 }
 

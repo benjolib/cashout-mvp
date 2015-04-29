@@ -12,7 +12,7 @@
 "6 months" = "6 months";
 "1 year" = "1 year";
 "52-weeks range" = "52-weeks range";
-"day range" = "day range";
+"day range" = "day's range";
 "% change" = "% change";
 "change" = "change";
 "price" = "price";
@@ -27,7 +27,7 @@
 "view chart" = "view chart";
 "fall" = "fall";
 "choose" = "choose";
-"choose fall or rise" = "choose fall or rise";
+"choose fall or rise" = "choose rise or fall";
 "price live" = "price live";
 "trade mode" = "trade mode";
 "loss live" = "loss live";
@@ -37,7 +37,7 @@
 "bad trade" = "bad trade";
 "you won" = "you won";
 "you lost" = "you lost";
-"refill your balance" = "refill your balance";
+"refill your balance" = "increase your balance";
 "you ran out of money" = "you ran out of money";
 "sign up" = "sign up";
 "get new cash" = "get new cash";
@@ -48,3 +48,5 @@
 "take the right currency pair" = "take the right currency pair";
 "choose the amount of money you want to invest" = "choose the amount of money you want to invest";
 "30 minutes" = "30 min.";
+"back" = "back";
+"next" = "next";

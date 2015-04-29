@@ -48,8 +48,9 @@
 
     [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[label]|" options:NSLayoutFormatDirectionLeadingToTrailing metrics:nil views:views]];
     [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[imageView]|" options:NSLayoutFormatDirectionLeadingToTrailing metrics:nil views:views]];
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.coaImageView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeCenterY multiplier:1 constant:0]];
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.coaTitleLabel attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeCenterY multiplier:1 constant:5]];
+    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[imageView(34)]" options:NSLayoutFormatDirectionLeadingToTrailing metrics:nil views:views]];
+    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.coaImageView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeCenterY multiplier:1 constant:10]];
+    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.coaTitleLabel attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeCenterY multiplier:1 constant:10]];
 }
 
 @end

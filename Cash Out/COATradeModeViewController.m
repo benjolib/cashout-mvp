@@ -83,18 +83,16 @@
 }
 
 - (void)currencyValueUpdated {
-    RLMRealm *defaultRealm = [RLMRealm defaultRealm];
-    RLMResults *results = [[COASymbolValue objectsInRealm:defaultRealm withPredicate:[NSPredicate predicateWithFormat:@"symbol = %@", self.currencySymbol]] sortedResultsUsingProperty:@"timestamp" ascending:NO];
-    COASymbolValue *latestSymbolValue = results.firstObject;
-
-    self.winLoss = (latestSymbolValue.value - self.initialValue) * _moneySet;
+    double latestSymbolValue = [COASymbolValue latestValueForSymbol:self.currencySymbol];
+    
+    self.winLoss = (latestSymbolValue - self.initialValue) * _moneySet;
 
     if (!self.betOnRise) {
         self.winLoss *= -1;
     }
 
     [self setWinLossValueLabelText:@(self.winLoss)];
-    [self setPriceValueLabelText:[NSString stringWithFormat:@"%f", latestSymbolValue.value]];
+    [self setPriceValueLabelText:[NSString stringWithFormat:@"%f", latestSymbolValue]];
 }
 
 - (void)viewDidLoad {

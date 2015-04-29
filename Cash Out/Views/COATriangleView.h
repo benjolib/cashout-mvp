@@ -10,4 +10,6 @@
 
 - (instancetype)initWithFillColor:(UIColor *)fillColor pointToTop:(BOOL)top;
 
+- (void)setTriangleColor:(UIColor *)triangleColor;
+
 @end

@@ -7,6 +7,7 @@
 //
 
 #import <UIImage+ImageWithColor/UIImage+ImageWithColor.h>
+#import <MTDates/NSDate+MTDates.h>
 #import "AppDelegate.h"
 #import "COStartViewController.h"
 #import "COAConstants.h"
@@ -25,6 +26,8 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
     self.window.backgroundColor = [UIColor whiteColor];
+
+    [NSDate mt_setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:60 * 60]];
 
     COStartViewController *startViewController = [[COStartViewController alloc] initWithNibName:nil bundle:nil];
     self.startNavigationController = [[UINavigationController alloc] initWithRootViewController:startViewController];

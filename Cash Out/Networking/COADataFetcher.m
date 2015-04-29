@@ -26,46 +26,108 @@
 }
 
 - (void)fetchDataForSymbol:(NSString *)symbol completionBlock:(void (^)(NSString *value))completionBlock {
-    NSString *urlString = self.currencyDictionary[symbol];
+    NSString *urlString = [NSString stringWithFormat:@"http://api-cashout.makers.do/rates?symbol=%@", symbol];
 
     if (urlString.length == 0) {
         return;
     }
 
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    dateFormatter.dateFormat = @"yyyy-MM-dd'T'HH:mm:ssZ";
+    dateFormatter.dateFormat = @"yyyy-MM-dd HH:mm:ss";
 
     AFHTTPRequestOperationManager *operationManager = [[AFHTTPRequestOperationManager alloc] init];
     [operationManager GET:urlString parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        id query = responseObject[@"query"];
-        if ([query isKindOfClass:[NSDictionary class]]) {
-            id results = query[@"results"];
-            
-            if ([results isKindOfClass:[NSDictionary class]]) {
-                id row = results[@"row"];
-                
+        id query = responseObject[@"data"];
+        if ([query isKindOfClass:[NSArray class]]) {
+            RLMRealm *defaultRealm = [RLMRealm defaultRealm];
+            [defaultRealm beginWriteTransaction];
+            for (id row in query) {
                 if ([row isKindOfClass:[NSDictionary class]]) {
-                    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                        id col1 = row[@"col1"];
-                        RLMRealm *defaultRealm = [RLMRealm defaultRealm];
-                        [defaultRealm beginWriteTransaction];
-                        COASymbolValue *symbolValue = [[COASymbolValue alloc] init];
-                        symbolValue.timestamp = [NSDate date];
-                        symbolValue.symbol = symbol;
-                        symbolValue.value = [col1 doubleValue];
-                        [defaultRealm addObject:symbolValue];
-                        [defaultRealm commitWriteTransaction];
-
-                        dispatch_async(dispatch_get_main_queue(), ^{
-                            [[NSNotificationCenter defaultCenter] postNotificationName:symbol object:nil userInfo:nil];
-                        });
-                    });
+                    id ask = row[@"ask"];
+                    id bid = row[@"bid"];
+                    id time = row[@"time"];
+                    COASymbolValue *symbolValue = [[COASymbolValue alloc] init];
+                    symbolValue.timestamp = [dateFormatter dateFromString:time];
+                    symbolValue.symbol = symbol;
+                    symbolValue.value = ([ask doubleValue] + [bid doubleValue]) / 2;
+                    [defaultRealm addObject:symbolValue];
                 }
             }
+            [defaultRealm commitWriteTransaction];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [[NSNotificationCenter defaultCenter] postNotificationName:symbol object:nil userInfo:nil];
+            });
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
 
     }];
+}
+
+- (void)fetchLiveDataForSymbol:(NSString *)symbol fromDate:(NSDate *)fromDate toDate:(NSDate *)toDate completionBlock:(void (^)(NSString *value))completionBlock {
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    dateFormatter.dateFormat = @"yyyy-MM-dd HH:mm:ss";
+    dateFormatter.timeZone = [NSTimeZone timeZoneForSecondsFromGMT:3600];
+
+    NSString *fromDateString = [dateFormatter stringFromDate:fromDate];
+    NSString *toDateString = [dateFormatter stringFromDate:toDate];
+    NSString *scaleString;
+
+    if ([toDate mt_daysSinceDate:fromDate] > 100) {
+        scaleString = @"1d";
+    } else if ([toDate mt_hoursSinceDate:fromDate] > 10) {
+        scaleString = @"1h";
+    } else {
+        scaleString = @"1m";
+    }
+
+    NSString *urlString = [NSString stringWithFormat:@"http://api-cashout.makers.do/rates?symbol=%@&fromDate=%@&toDate=%@&scale=%@", symbol, encodeToPercentEscapeString(fromDateString), encodeToPercentEscapeString(toDateString), scaleString];
+
+    AFHTTPRequestOperationManager *operationManager = [[AFHTTPRequestOperationManager alloc] init];
+    [operationManager GET:urlString parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        id query = responseObject[@"data"];
+        if ([query isKindOfClass:[NSArray class]]) {
+            RLMRealm *defaultRealm = [RLMRealm defaultRealm];
+            [defaultRealm beginWriteTransaction];
+            for (id row in query) {
+                if ([row isKindOfClass:[NSDictionary class]]) {
+                    id ask = row[@"ask"];
+                    id bid = row[@"bid"];
+                    id time = row[@"time"];
+                    COASymbolValue *symbolValue = [[COASymbolValue alloc] init];
+                    NSDate *date = [dateFormatter dateFromString:time];
+
+                    if ([scaleString isEqualToString:@"1d"]) {
+                        date = [date mt_startOfCurrentDay];
+                    } else if ([scaleString isEqualToString:@"1h"]) {
+                        date = [date mt_startOfCurrentHour];
+                    } else {
+                        date = [date mt_startOfCurrentMinute];
+                    }
+
+                    symbolValue.timestamp = date;
+                    symbolValue.symbol = symbol;
+                    symbolValue.value = ([ask doubleValue] + [bid doubleValue]) / 2;
+                    [defaultRealm addObject:symbolValue];
+                }
+            }
+            [defaultRealm commitWriteTransaction];
+        }
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [[NSNotificationCenter defaultCenter] postNotificationName:symbol object:nil userInfo:nil];
+        });
+        completionBlock(@"");
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        completionBlock(error.localizedDescription);
+    }];
+}
+
+NSString *encodeToPercentEscapeString(NSString *string) {
+    return (__bridge NSString *)
+    CFURLCreateStringByAddingPercentEscapes(NULL,
+                                            (CFStringRef) string,
+                                            NULL,
+                                            (CFStringRef) @"!*'();:@&=+$,/?%#[]",
+                                            kCFStringEncodingUTF8);
 }
 
 - (void)initialImport {
@@ -103,7 +165,7 @@
                 continue;
             }
 
-            NSDate *date = [[dateFormatter dateFromString:components[0]] mt_startOfCurrentDay];
+            NSDate *date = [[dateFormatter dateFromString:components[0]] mt_startOfCurrentMinute];
 
             [defaultRealm deleteObjects:[COASymbolValue objectsInRealm:defaultRealm withPredicate:[NSPredicate predicateWithFormat:@"timestamp = %@", date]]];
 
@@ -163,38 +225,6 @@
         [defaultRealm commitWriteTransaction];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
     }];
-}
-
-- (NSDictionary *)currencyDictionary {
-    return @{
-            @"USDCAD":@"https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20csv%20where%20url%3D%22http%3A%2F%2Ffinance.yahoo.com%2Fd%2Fquotes.csv%3Fe%3D.csv%26f%3Dc4l1%26s%3DUSDCAD%3DX%22%3B&format=json&diagnostics=true&callback=",
-            @"GBPUSD":@"https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20csv%20where%20url%3D%22http%3A%2F%2Ffinance.yahoo.com%2Fd%2Fquotes.csv%3Fe%3D.csv%26f%3Dc4l1%26s%3DGBPUSD%3DX%22%3B&format=json&diagnostics=true&callback=",
-            @"GBPJPY":@"https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20csv%20where%20url%3D%22http%3A%2F%2Ffinance.yahoo.com%2Fd%2Fquotes.csv%3Fe%3D.csv%26f%3Dc4l1%26s%3DGBPJPY%3DX%22%3B&format=json&diagnostics=true&callback=",
-            @"USDCHF":@"https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20csv%20where%20url%3D%22http%3A%2F%2Ffinance.yahoo.com%2Fd%2Fquotes.csv%3Fe%3D.csv%26f%3Dc4l1%26s%3DUSDCHF%3DX%22%3B&format=json&diagnostics=true&callback=",
-            @"NZDUSD":@"https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20csv%20where%20url%3D%22http%3A%2F%2Ffinance.yahoo.com%2Fd%2Fquotes.csv%3Fe%3D.csv%26f%3Dc4l1%26s%3DNZDUSD%3DX%22%3B&format=json&diagnostics=true&callback=",
-            @"EURJPY":@"https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20csv%20where%20url%3D%22http%3A%2F%2Ffinance.yahoo.com%2Fd%2Fquotes.csv%3Fe%3D.csv%26f%3Dc4l1%26s%3DEURJPY%3DX%22%3B&format=json&diagnostics=true&callback=",
-            @"EURGBP":@"https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20csv%20where%20url%3D%22http%3A%2F%2Ffinance.yahoo.com%2Fd%2Fquotes.csv%3Fe%3D.csv%26f%3Dc4l1%26s%3DEURGBP%3DX%22%3B&format=json&diagnostics=true&callback=",
-            @"EURUSD":@"https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20csv%20where%20url%3D%22http%3A%2F%2Ffinance.yahoo.com%2Fd%2Fquotes.csv%3Fe%3D.csv%26f%3Dc4l1%26s%3DEURUSD%3DX%22%3B&format=json&diagnostics=true&callback=",
-            @"EURGBP":@"https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20csv%20where%20url%3D%22http%3A%2F%2Ffinance.yahoo.com%2Fd%2Fquotes.csv%3Fe%3D.csv%26f%3Dc4l1%26s%3DEURGBP%3DX%22%3B&format=json&diagnostics=true&callback=",
-            @"GOLD":@"https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20csv%20where%20url%3D%22http%3A%2F%2Ffinance.yahoo.com%2Fd%2Fquotes.csv%3Fe%3D.csv%26f%3Dc4l1%26s%3D274702%3DX%22%3B&format=json&diagnostics=true&callback=",
-            @"BITCOINS":@"https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20csv%20where%20url%3D%22http%3A%2F%2Ffinance.yahoo.com%2Fd%2Fquotes.csv%3Fe%3D.csv%26f%3Dc4l1%26s%3DBTCUSD%3DX%22%3B&format=json&diagnostics=true&callback="
-    };
-}
-
-- (NSDictionary *)currencyHistoryDictionary {
-    return @{
-            @"USDCAD":@"http://www.global-view.com/forex-trading-tools/forex-history/exchange_csv_report.html?CLOSE_1=ON&CLOSE_2=ON&CLOSE_3=ON&CLOSE_4=ON&CLOSE_5=ON&CLOSE_6=ON&CLOSE_7=ON&CLOSE_8=ON&CLOSE_9=ON&CLOSE_10=ON&CLOSE_11=ON&CLOSE_12=ON&CLOSE_13=ON&start_date=4/14/2010&stop_date=4/14/2015&Submit=Get%20Daily%20Stats",
-            @"GBPUSD":@"http://www.global-view.com/forex-trading-tools/forex-history/exchange_csv_report.html?CLOSE_1=ON&CLOSE_2=ON&CLOSE_3=ON&CLOSE_4=ON&CLOSE_5=ON&CLOSE_6=ON&CLOSE_7=ON&CLOSE_8=ON&CLOSE_9=ON&CLOSE_10=ON&CLOSE_11=ON&CLOSE_12=ON&CLOSE_13=ON&start_date=4/14/2010&stop_date=4/14/2015&Submit=Get%20Daily%20Stats",
-            @"GBPJPY":@"http://www.global-view.com/forex-trading-tools/forex-history/exchange_csv_report.html?CLOSE_1=ON&CLOSE_2=ON&CLOSE_3=ON&CLOSE_4=ON&CLOSE_5=ON&CLOSE_6=ON&CLOSE_7=ON&CLOSE_8=ON&CLOSE_9=ON&CLOSE_10=ON&CLOSE_11=ON&CLOSE_12=ON&CLOSE_13=ON&start_date=4/14/2010&stop_date=4/14/2015&Submit=Get%20Daily%20Stats",
-            @"USDCHF":@"http://www.global-view.com/forex-trading-tools/forex-history/exchange_csv_report.html?CLOSE_1=ON&CLOSE_2=ON&CLOSE_3=ON&CLOSE_4=ON&CLOSE_5=ON&CLOSE_6=ON&CLOSE_7=ON&CLOSE_8=ON&CLOSE_9=ON&CLOSE_10=ON&CLOSE_11=ON&CLOSE_12=ON&CLOSE_13=ON&start_date=4/14/2010&stop_date=4/14/2015&Submit=Get%20Daily%20Stats",
-            @"NZDUSD":@"http://www.global-view.com/forex-trading-tools/forex-history/exchange_csv_report.html?CLOSE_1=ON&CLOSE_2=ON&CLOSE_3=ON&CLOSE_4=ON&CLOSE_5=ON&CLOSE_6=ON&CLOSE_7=ON&CLOSE_8=ON&CLOSE_9=ON&CLOSE_10=ON&CLOSE_11=ON&CLOSE_12=ON&CLOSE_13=ON&start_date=4/14/2010&stop_date=4/14/2015&Submit=Get%20Daily%20Stats",
-            @"EURJPY":@"http://www.global-view.com/forex-trading-tools/forex-history/exchange_csv_report.html?CLOSE_1=ON&CLOSE_2=ON&CLOSE_3=ON&CLOSE_4=ON&CLOSE_5=ON&CLOSE_6=ON&CLOSE_7=ON&CLOSE_8=ON&CLOSE_9=ON&CLOSE_10=ON&CLOSE_11=ON&CLOSE_12=ON&CLOSE_13=ON&start_date=4/14/2010&stop_date=4/14/2015&Submit=Get%20Daily%20Stats",
-            @"EURGBP":@"http://www.global-view.com/forex-trading-tools/forex-history/exchange_csv_report.html?CLOSE_1=ON&CLOSE_2=ON&CLOSE_3=ON&CLOSE_4=ON&CLOSE_5=ON&CLOSE_6=ON&CLOSE_7=ON&CLOSE_8=ON&CLOSE_9=ON&CLOSE_10=ON&CLOSE_11=ON&CLOSE_12=ON&CLOSE_13=ON&start_date=4/14/2010&stop_date=4/14/2015&Submit=Get%20Daily%20Stats",
-            @"EURUSD":@"http://www.global-view.com/forex-trading-tools/forex-history/exchange_csv_report.html?CLOSE_1=ON&CLOSE_2=ON&CLOSE_3=ON&CLOSE_4=ON&CLOSE_5=ON&CLOSE_6=ON&CLOSE_7=ON&CLOSE_8=ON&CLOSE_9=ON&CLOSE_10=ON&CLOSE_11=ON&CLOSE_12=ON&CLOSE_13=ON&start_date=4/14/2010&stop_date=4/14/2015&Submit=Get%20Daily%20Stats",
-            @"EURGBP":@"http://www.global-view.com/forex-trading-tools/forex-history/exchange_csv_report.html?CLOSE_1=ON&CLOSE_2=ON&CLOSE_3=ON&CLOSE_4=ON&CLOSE_5=ON&CLOSE_6=ON&CLOSE_7=ON&CLOSE_8=ON&CLOSE_9=ON&CLOSE_10=ON&CLOSE_11=ON&CLOSE_12=ON&CLOSE_13=ON&start_date=4/14/2010&stop_date=4/14/2015&Submit=Get%20Daily%20Stats",
-            @"GOLD":@"http://ichart.finance.yahoo.com/table.csv?s=GOLD&a=0&b=1&c=2000&d=3&e=19&f=2015&g=d&ignore=.csv",
-            @"BITCOINS":@"http://ichart.finance.yahoo.com/table.csv?s=BITCOINS&a=0&b=1&c=2000&d=3&e=19&f=2015&g=d&ignore=.csv"
-    };
 }
 
 @end

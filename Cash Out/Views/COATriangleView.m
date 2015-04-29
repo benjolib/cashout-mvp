@@ -44,4 +44,10 @@
     [polygonPath fill];
 }
 
+- (void)setTriangleColor:(UIColor *)triangleColor {
+    _fillColor = triangleColor;
+
+    [self setNeedsDisplayInRect:self.frame];
+}
+
 @end

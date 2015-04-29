@@ -252,7 +252,7 @@
     CGFloat diff = maxValue - minValue;
     CGFloat diffBetweenValues = diff / 5;
 
-    self.label1.text = [NSString stringWithFormat:@"%.2f", maxValue + diffBetweenValues * 5];
+    self.label1.text = [NSString stringWithFormat:@"%.2f", minValue + diffBetweenValues * 5];
     self.label2.text = [NSString stringWithFormat:@"%.2f", minValue + diffBetweenValues * 4];
     self.label3.text = [NSString stringWithFormat:@"%.2f", minValue + diffBetweenValues * 3];
     self.label4.text = [NSString stringWithFormat:@"%.2f", minValue + diffBetweenValues * 2];
@@ -327,7 +327,7 @@
         currentMaxValue = MAX(currentMaxValue, value.floatValue);
     }
 
-    return currentMaxValue * 1.05f;
+    return currentMaxValue * 1.005f;
 }
 
 - (CGFloat)minValue {
@@ -337,7 +337,7 @@
         currentMinValue = MIN(currentMinValue, value.floatValue);
     }
 
-    return currentMinValue * 0.95f;
+    return currentMinValue * 0.995f;
 }
 
 @end

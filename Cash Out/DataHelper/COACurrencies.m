@@ -10,33 +10,27 @@
 
 + (NSArray *)currencyDisplayStrings {
     return @[
-            @"$ USD / $ CAD",
-            @"£ GBP / $ USD",
-            @"£ GBP / ¥ JPY",
-            @"$ USD / FR CHF",
-            @"$ NZD / $ USD",
+            @"$ AUD / $ USD",
+            @"FR CHF / ¥ JPY",
             @"€ EUR / ¥ JPY",
-            @"€ EUR / £ GBP",
             @"€ EUR / $ USD",
-            @"€ EUR / £ GBP",
-            @"GOLD",
-            @"BITCOINS"
+            @"$ NZD / $ USD",
+            @"$ USD / $ CAD",
+            @"$ USD / FR CHF",
+            @"Gold"
     ];
 }
 
 + (NSArray *)currencies {
     return @[
-            @"USDCAD",
-            @"GBPUSD",
-            @"GBPJPY",
-            @"USDCHF",
-            @"NZDUSD",
+            @"AUDUSD",
+            @"CHFJPY",
             @"EURJPY",
-            @"EURGBP",
             @"EURUSD",
-            @"EURGBP",
-            @"GOLD",
-            @"BITCOINS"
+            @"NZDUSD",
+            @"USDCAD",
+            @"USDCHF",
+            @"Gold"
     ];
 }
 
