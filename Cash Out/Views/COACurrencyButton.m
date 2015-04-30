@@ -110,7 +110,7 @@
 }
 
 - (void)updateText:(id)sender {
-    self.bottomLabel.text = [NSString stringWithFormat:@"%.5f", [COASymbolValue latestValueForSymbol:self.currencySymbol]];
+    self.bottomLabel.text = [NSString stringWithFormat:@"%.4f", [COASymbolValue latestValueForSymbol:self.currencySymbol]];
 }
 
 - (void)updateCurrency:(id)sender {

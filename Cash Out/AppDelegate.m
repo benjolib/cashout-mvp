@@ -44,21 +44,11 @@
 
     [self initializeUserDefaults];
     
-    [self copyRealmIfNecessary];
-
     [[COADataFetcher instance] initialImport];
 
     [self.window makeKeyAndVisible];
 
     return YES;
-}
-
-- (void)copyRealmIfNecessary {
-    NSString *realmPath = [[AppDelegate applicationDocumentsDirectory] stringByAppendingPathComponent:@"default.realm"];
-    if (![[NSFileManager defaultManager] fileExistsAtPath:realmPath]) {
-        NSString *realmBundlePath = [[NSBundle mainBundle] pathForResource:@"default" ofType:@"realm"];
-        [[NSFileManager defaultManager] copyItemAtPath:realmBundlePath toPath:realmPath error:nil];
-    }
 }
 
 + (NSString *) applicationDocumentsDirectory {

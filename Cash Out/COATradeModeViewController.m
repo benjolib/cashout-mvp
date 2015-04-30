@@ -85,15 +85,14 @@
 - (void)currencyValueUpdated {
     double latestSymbolValue = [COASymbolValue latestValueForSymbol:self.currencySymbol];
     
-    self.winLoss = (NSInteger) ((latestSymbolValue - self.initialValue) * _moneySet);
+    self.winLoss = (NSInteger) ((latestSymbolValue - self.initialValue) * 1000000);
 
     if (!self.betOnRise) {
         self.winLoss *= -1;
     }
 
     [self setWinLossValueLabelText:@(self.winLoss)];
-    [self setPriceValueLabelText:[NSString stringWithFormat:@"%f", latestSymbolValue]];
-    self.priceValueLabel.textColor = self.initialValue > latestSymbolValue ? [COAConstants fleshColor] : [COAConstants greenColor];
+    [self setPriceValueLabelText:[NSString stringWithFormat:@"%.4f", latestSymbolValue]];
 }
 
 - (void)viewDidLoad {
@@ -154,7 +153,7 @@
     [self.view addSubview:self.secondCurrencyLabel];
 
     _priceValueLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-    NSString *priceText = [NSString stringWithFormat:@"%f\n(%@)", self.initialValue, NSLocalizedString(@"price live", @"").uppercaseString];
+    NSString *priceText = [NSString stringWithFormat:@"%.4f\n(%@)", self.initialValue, NSLocalizedString(@"price live", @"").uppercaseString];
     [self setPriceValueLabelText:priceText];
     self.priceValueLabel.backgroundColor = [COAConstants darkBlueColor];
     self.priceValueLabel.numberOfLines = 2;
@@ -208,6 +207,9 @@
 - (void)setPriceValueLabelText:(NSString *)text {
     NSString *priceText = [NSString stringWithFormat:@"%@\n(%@)", text, NSLocalizedString(@"price live", @"").uppercaseString];
     self.priceValueLabel.textAlignment = NSTextAlignmentCenter;
+
+    UIColor *amountColor = [COASymbolValue latestValueForSymbol:self.currencySymbol] > 0 ? [COAConstants fleshColor] : [COAConstants greenColor];
+
     self.priceValueLabel.attributedText = [priceText coa_firstLineAttributes:@{
             NSFontAttributeName:[UIFont boldSystemFontOfSize:firstLineFontSize],
             NSForegroundColorAttributeName:[UIColor whiteColor],

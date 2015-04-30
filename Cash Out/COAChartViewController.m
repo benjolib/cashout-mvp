@@ -110,7 +110,7 @@
     self.changeValueLabel.textColor = rised ? [COAConstants greenColor] : [COAConstants fleshColor];
     self.percentValueChangeLabel.textColor = self.changeValueLabel.textColor;
 
-    self.priceValueLabel.text = [NSString stringWithFormat:@"%.5f", [COASymbolValue latestValueForSymbol:self.currencySymbol]];
+    self.priceValueLabel.text = [NSString stringWithFormat:@"%.4f", [COASymbolValue latestValueForSymbol:self.currencySymbol]];
     self.percentValueChangeLabel.text = [NSString stringWithFormat:@"%.4f %%", nowValue * 100 / previousValue - 100];
     self.changeValueLabel.text = [NSString stringWithFormat:@"%.4f", nowValue - self.yesterdayValue];
     [self setMinMaxLabel];
@@ -272,7 +272,7 @@
         max = MAX(value.value, max);
     }
 
-    self.weeksRangeValueLabel.text = [NSString stringWithFormat:@"%.5f - %.5f", min, max];
+    self.weeksRangeValueLabel.text = [NSString stringWithFormat:@"%.4f - %.4f", min, max];
 
     // today range
     fromDate = [[NSDate date] mt_startOfCurrentDay];
@@ -286,7 +286,7 @@
         max = MAX(max, symbolValue.value);
     }
     
-    self.dayRangeValueLabel.text = [NSString stringWithFormat:@"%.5f - %.5f", min, max];
+    self.dayRangeValueLabel.text = [NSString stringWithFormat:@"%.4f - %.4f", min, max];
 }
 
 - (void)configureFilterButton:(UIButton *)buttonToConfigure {
