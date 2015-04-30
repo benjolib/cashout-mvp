@@ -80,6 +80,7 @@
     [self.playButton setTitle:[NSLocalizedString(@"play", @"") uppercaseString] forState:UIControlStateNormal];
     [self.playButton addTarget:self action:@selector(backNextButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
     [self.playButton setBackgroundImage:[UIImage imageWithColor:[COAConstants greenColor]] forState:UIControlStateNormal];
+    [self.playButton setBackgroundImage:[UIImage imageWithColor:[COAConstants greenColor]] forState:UIControlStateHighlighted];
     self.playButton.hidden = YES;
     [self.view addSubview:self.playButton];
 

@@ -14,6 +14,7 @@ const NSInteger BUTTON_HEIGHT = 80;
 
 NSString *MONEY_USER_SETTING = @"MONEY_USER_SETTING";
 NSString *TUTORIAL_SEEN = @"TUTORIAL_SEEN";
+NSString *HISTORY_DATA_LOADED = @"HISTORY_DATA_LOADED";
 
 + (UIColor *)darkBlueColor {
     return [UIColor colorWithRed:0.278 green:0.596 blue:0.808 alpha:1]; /*#4798ce*/

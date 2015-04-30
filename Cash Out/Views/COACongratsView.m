@@ -16,7 +16,6 @@
 @property (nonatomic, strong) UILabel *topLabel;
 @property (nonatomic, strong) UILabel *centerLabel;
 @property (nonatomic, strong) COAButton *button;
-@property (nonatomic, strong) UIButton *closeButton;
 @property (nonatomic, strong) NSMutableArray *customConstraints;
 @property (nonatomic) double winLoss;
 
@@ -73,11 +72,6 @@
         [self.button addTarget:self action:@selector(removeSelf:) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:self.button];
 
-        _closeButton = [[UIButton alloc] init];
-        [self.closeButton setImage:[UIImage imageNamed:@"close"] forState:UIControlStateNormal];
-        [self.closeButton addTarget:self action:@selector(removeSelf:) forControlEvents:UIControlEventTouchUpInside];
-        [self addSubview:self.closeButton];
-
         [self setNeedsUpdateConstraints];
     }
 
@@ -91,8 +85,7 @@
             @"backgroundView" : self.backgroundView,
             @"topLabel" : self.topLabel,
             @"centerLabel" : self.centerLabel,
-            @"button" : self.button,
-            @"closeButton" : self.closeButton
+            @"button" : self.button
     };
 
     for (UIView *view in views.allValues) {
@@ -108,11 +101,6 @@
     [self.customConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-30-[topLabel(200)][centerLabel][button(buttonHeight)]-30-|" options:NSLayoutFormatDirectionLeadingToTrailing metrics:@{@"buttonHeight":@(BUTTON_HEIGHT)} views:views]];
     [self.customConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[backgroundView]-0-|" options:NSLayoutFormatDirectionLeadingToTrailing metrics:nil views:views]];
     [self.customConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-0-[backgroundView]-0-|" options:NSLayoutFormatDirectionLeadingToTrailing metrics:nil views:views]];
-    [self.customConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[closeButton(23)]" options:NSLayoutFormatDirectionLeadingToTrailing metrics:nil views:views]];
-    [self.customConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[closeButton(23)]" options:NSLayoutFormatDirectionLeadingToTrailing metrics:nil views:views]];
-
-    [self.customConstraints addObject:[NSLayoutConstraint constraintWithItem:self.closeButton attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.topLabel attribute:NSLayoutAttributeTop multiplier:1 constant:10]];
-    [self.customConstraints addObject:[NSLayoutConstraint constraintWithItem:self.closeButton attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.topLabel attribute:NSLayoutAttributeLeft multiplier:1 constant:10]];
 
     [self addConstraints:self.customConstraints];
 }
@@ -120,7 +108,7 @@
 - (void)removeSelf:(id)sender {
     [self removeFromSuperview];
 
-    self.completionBlock([sender isEqual:self.closeButton]);
+    self.completionBlock(NO);
 }
 
 @end

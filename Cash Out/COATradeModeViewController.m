@@ -34,7 +34,7 @@
 @property (nonatomic, strong) NSTimer *timer;
 @property (nonatomic, strong) UIView *separatorView;
 @property (nonatomic) double initialValue;
-@property (nonatomic) double winLoss;
+@property (nonatomic) NSInteger winLoss;
 @property (nonatomic) NSInteger seconds;
 @property (nonatomic) double moneySet;
 @property (nonatomic) BOOL betOnRise;
@@ -85,7 +85,7 @@
 - (void)currencyValueUpdated {
     double latestSymbolValue = [COASymbolValue latestValueForSymbol:self.currencySymbol];
     
-    self.winLoss = (latestSymbolValue - self.initialValue) * _moneySet;
+    self.winLoss = (NSInteger) ((latestSymbolValue - self.initialValue) * _moneySet);
 
     if (!self.betOnRise) {
         self.winLoss *= -1;
@@ -93,6 +93,7 @@
 
     [self setWinLossValueLabelText:@(self.winLoss)];
     [self setPriceValueLabelText:[NSString stringWithFormat:@"%f", latestSymbolValue]];
+    self.priceValueLabel.textColor = self.initialValue > latestSymbolValue ? [COAConstants fleshColor] : [COAConstants greenColor];
 }
 
 - (void)viewDidLoad {
@@ -161,7 +162,7 @@
     [self.view addSubview:self.priceValueLabel];
 
     _winLossValueLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-    [self setWinLossValueLabelText:0];
+    [self setWinLossValueLabelText:@(0)];
     self.winLossValueLabel.backgroundColor = [COAConstants darkBlueColor];
     self.winLossValueLabel.numberOfLines = 2;
     [self addBorderToView:self.winLossValueLabel];
@@ -187,7 +188,7 @@
 
 - (NSString *)longCurrencyString {
     NSInteger index = [[COACurrencies currencies] indexOfObject:self.currencySymbol];
-    return [COACurrencies currencyDisplayStrings][index];
+    return [COACurrencies currencyDisplayStrings][(NSUInteger) index];
 }
 
 - (void)setWinLossValueLabelText:(NSNumber *)number {

@@ -15,6 +15,8 @@ extern const NSInteger BUTTON_HEIGHT;
 
 extern NSString *MONEY_USER_SETTING;
 extern NSString *TUTORIAL_SEEN;
+extern NSString *HISTORY_DATA_LOADED;
+
 
 + (UIColor *)darkBlueColor;
 

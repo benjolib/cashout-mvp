@@ -12,7 +12,6 @@
 #import "RLMRealm.h"
 #import "RLMResults.h"
 #import "COACurrencies.h"
-#import "COAFormatting.h"
 
 @interface COAChartViewController()
 
@@ -63,12 +62,6 @@
                 NSForegroundColorAttributeName:[COAConstants lightBlueColor]
         } range:NSMakeRange(0, text.length)];
 
-        NSDate *startYesterday = [[[NSDate date] mt_dateDaysBefore:1] mt_startOfCurrentDay];
-        NSDate *endYesterday = [[[NSDate date] mt_dateDaysBefore:1] mt_endOfCurrentDay];
-        RLMResults *yesterdayValues = [[COASymbolValue objectsWithPredicate:[NSPredicate predicateWithFormat:@"symbol = %@ AND timestamp >= %@ AND timestamp <= %@", currencySymbol, startYesterday, endYesterday]] sortedResultsUsingProperty:@"timestamp" ascending:NO];
-        COASymbolValue *yesterdayCloseValue = yesterdayValues.firstObject;
-        self.yesterdayValue = yesterdayCloseValue.value;
-
         if ([text rangeOfString:@"/"].location != NSNotFound) {
             NSString *firstCurrencyString = [text substringToIndex:[text rangeOfString:@"/"].location - 1];
             NSString *secondCurrencyString = [text substringFromIndex:[text rangeOfString:@"/"].location + 2];
@@ -93,6 +86,8 @@
                         NSForegroundColorAttributeName:[COAConstants darkBlueColor]
                 } range:NSMakeRange(startSecondCurrency, [secondCurrencyString rangeOfString:@" "].location)];
             }
+
+            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateData) name:HISTORY_DATA_LOADED object:nil];
         }
 
         titleLabel.attributedText = attributedString;
@@ -100,6 +95,43 @@
     }
 
     return self;
+}
+
+- (void)updateData {
+    NSDate *startYesterday = [[[NSDate date] mt_dateDaysBefore:1] mt_startOfCurrentDay];
+    NSDate *endYesterday = [[[NSDate date] mt_dateDaysBefore:1] mt_endOfCurrentDay];
+    RLMResults *yesterdayValues = [[COASymbolValue objectsWithPredicate:[NSPredicate predicateWithFormat:@"symbol = %@ AND timestamp >= %@ AND timestamp <= %@", self.currencySymbol, startYesterday, endYesterday]] sortedResultsUsingProperty:@"timestamp" ascending:NO];
+    COASymbolValue *yesterdayCloseValue = yesterdayValues.firstObject;
+    self.yesterdayValue = yesterdayCloseValue.value;
+
+    double previousValue = self.yesterdayValue;
+    double nowValue = [COASymbolValue latestValueForSymbol:self.currencySymbol];
+    BOOL rised = previousValue < nowValue;
+    self.changeValueLabel.textColor = rised ? [COAConstants greenColor] : [COAConstants fleshColor];
+    self.percentValueChangeLabel.textColor = self.changeValueLabel.textColor;
+
+    self.priceValueLabel.text = [NSString stringWithFormat:@"%.5f", [COASymbolValue latestValueForSymbol:self.currencySymbol]];
+    self.percentValueChangeLabel.text = [NSString stringWithFormat:@"%.4f %%", nowValue * 100 / previousValue - 100];
+    self.changeValueLabel.text = [NSString stringWithFormat:@"%.4f", nowValue - self.yesterdayValue];
+    [self setMinMaxLabel];
+
+    UIButton *currentlySelectedButton;
+
+    if (self.minutes30Button.selected) {
+        currentlySelectedButton = self.minutes30Button;
+    } else if (self.day1Button.selected) {
+        currentlySelectedButton = self.day1Button;
+    } else if (self.day5Button.selected) {
+        currentlySelectedButton = self.day5Button;
+    } else if (self.month3Button.selected) {
+        currentlySelectedButton = self.month3Button;
+    } else if (self.month6Button.selected) {
+        currentlySelectedButton = self.month6Button;
+    } else if (self.year1Button.selected) {
+        currentlySelectedButton = self.year1Button;
+    }
+
+    [self filterButtonPressed:currentlySelectedButton];
 }
 
 - (void)viewDidLoad {
@@ -115,7 +147,6 @@
     [self.view addSubview:self.priceKeyLabel];
 
     _priceValueLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-    self.priceValueLabel.text = [NSString stringWithFormat:@"%f", [COASymbolValue latestValueForSymbol:self.currencySymbol]];
     self.priceValueLabel.textAlignment = NSTextAlignmentRight;
     self.priceValueLabel.textColor = [UIColor whiteColor];
     self.priceValueLabel.font = [UIFont boldSystemFontOfSize:15];
@@ -126,14 +157,8 @@
     self.changeKeyLabel.textColor = [UIColor whiteColor];
     [self.view addSubview:self.changeKeyLabel];
 
-    double previousValue = self.yesterdayValue;
-    double nowValue = [COASymbolValue latestValueForSymbol:self.currencySymbol];
-    BOOL rised = previousValue < nowValue;
-    
     _changeValueLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-    self.changeValueLabel.text = [NSString stringWithFormat:@"%.4f", nowValue - self.yesterdayValue];
     self.changeValueLabel.textAlignment = NSTextAlignmentRight;
-    self.changeValueLabel.textColor = rised ? [COAConstants greenColor] : [COAConstants fleshColor];
     self.changeValueLabel.font = self.priceValueLabel.font;
     [self.view addSubview:self.changeValueLabel];
 
@@ -143,9 +168,7 @@
     [self.view addSubview:self.percentKeyChangeLabel];
 
     _percentValueChangeLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-    self.percentValueChangeLabel.text = [NSString stringWithFormat:@"%.4f %%", nowValue * 100 / previousValue - 100];
     self.percentValueChangeLabel.textAlignment = NSTextAlignmentRight;
-    self.percentValueChangeLabel.textColor = self.changeValueLabel.textColor;
     self.percentValueChangeLabel.font = self.priceValueLabel.font;
     [self.view addSubview:self.percentValueChangeLabel];
 
@@ -228,7 +251,7 @@
     [self.view addSubview:self.separator3View];
     [self.view addSubview:self.separator4View];
 
-    [self setMinMaxLabel];
+    [self updateData];
 
     [self filterButtonPressed:self.month6Button];
 
@@ -249,7 +272,7 @@
         max = MAX(value.value, max);
     }
 
-    self.weeksRangeValueLabel.text = [NSString stringWithFormat:@"%f - %f", min, max];
+    self.weeksRangeValueLabel.text = [NSString stringWithFormat:@"%.5f - %.5f", min, max];
 
     // today range
     fromDate = [[NSDate date] mt_startOfCurrentDay];
@@ -263,7 +286,7 @@
         max = MAX(max, symbolValue.value);
     }
     
-    self.dayRangeValueLabel.text = [NSString stringWithFormat:@"%f - %f", min, max];
+    self.dayRangeValueLabel.text = [NSString stringWithFormat:@"%.5f - %.5f", min, max];
 }
 
 - (void)configureFilterButton:(UIButton *)buttonToConfigure {
@@ -472,5 +495,10 @@
     [self.view addConstraints:self.customConstraints];
     [self.chartView setNeedsUpdateConstraints];
 }
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:HISTORY_DATA_LOADED];
+}
+
 
 @end

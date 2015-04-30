@@ -247,26 +247,19 @@
 }
 
 - (void)gotoChart {
-    [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeBlack];
-
     NSDate *dayFromDate = [[COADataHelper instance] toDateDayScaleForSymbol:self.selectedCurrencySymbol];
     NSDate *hourFromDate = [[COADataHelper instance] toDateHourScaleForSymbol:self.selectedCurrencySymbol];
     NSDate *minuteFromDate = [[COADataHelper instance] toDateMinuteScaleForSymbol:self.selectedCurrencySymbol];
 
-    NSLog(@"%@", dayFromDate);
-    NSLog(@"%@", hourFromDate);
-    NSLog(@"%@", minuteFromDate);
-
     [[COADataFetcher instance] fetchLiveDataForSymbol:self.selectedCurrencySymbol fromDate:dayFromDate toDate:[NSDate date] completionBlock:^(NSString *value) {
         [[COADataFetcher instance] fetchLiveDataForSymbol:self.selectedCurrencySymbol fromDate:hourFromDate toDate:[NSDate date] completionBlock:^(NSString *value) {
             [[COADataFetcher instance] fetchLiveDataForSymbol:self.selectedCurrencySymbol fromDate:minuteFromDate toDate:[NSDate date] completionBlock:^(NSString *value) {
-                [SVProgressHUD dismiss];
-
-                COAChartViewController *chartViewController = [[COAChartViewController alloc] initWithCurrencySymbol:[self selectedCurrencySymbol]];
-                [self.navigationController pushViewController:chartViewController animated:YES];
+                [[NSNotificationCenter defaultCenter] postNotificationName:HISTORY_DATA_LOADED object:nil];
             }];
         }];
     }];
+    COAChartViewController *chartViewController = [[COAChartViewController alloc] initWithCurrencySymbol:[self selectedCurrencySymbol]];
+    [self.navigationController pushViewController:chartViewController animated:YES];
 }
 
 - (void)gotoTrade {
