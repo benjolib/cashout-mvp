@@ -9,6 +9,7 @@
 #import "RLMRealm.h"
 #import "COASymbolValue.h"
 #import "NSDate+MTDates.h"
+#import "COADataHelper.h"
 
 
 @implementation COADataFetcher
@@ -85,11 +86,13 @@
     AFHTTPRequestOperationManager *operationManager = [[AFHTTPRequestOperationManager alloc] init];
     [operationManager GET:urlString parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         id query = responseObject[@"data"];
+        BOOL success = NO;
         if ([query isKindOfClass:[NSArray class]]) {
             RLMRealm *defaultRealm = [RLMRealm defaultRealm];
             [defaultRealm beginWriteTransaction];
             for (id row in query) {
                 if ([row isKindOfClass:[NSDictionary class]]) {
+                    success = YES;
                     id ask = row[@"ask"];
                     id bid = row[@"bid"];
                     id time = row[@"time"];
@@ -108,6 +111,16 @@
                     symbolValue.symbol = symbol;
                     symbolValue.value = ([ask doubleValue] + [bid doubleValue]) / 2;
                     [defaultRealm addObject:symbolValue];
+                }
+            }
+
+            if (success) {
+                if ([scaleString isEqualToString:@"1d"]) {
+                    [[COADataHelper instance] saveDayScaleForSymbol:symbol date:toDate];
+                } else if ([scaleString isEqualToString:@"1h"]) {
+                    [[COADataHelper instance] saveHourScaleForSymbol:symbol date:toDate];
+                } else {
+                    [[COADataHelper instance] saveMinuteScaleForSymbol:symbol date:toDate];
                 }
             }
             [defaultRealm commitWriteTransaction];

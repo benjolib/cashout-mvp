@@ -19,4 +19,16 @@
 
 - (BOOL)tutorialSeen;
 
+- (NSDate *)toDateDayScaleForSymbol:(NSString *)symbol;
+
+- (NSDate *)toDateHourScaleForSymbol:(NSString *)symbol;
+
+- (NSDate *)toDateMinuteScaleForSymbol:(NSString *)symbol;
+
+- (void)saveDayScaleForSymbol:(NSString *)symbol date:(NSDate *)toDate;
+
+- (void)saveHourScaleForSymbol:(NSString *)symbol date:(NSDate *)toDate;
+
+- (void)saveMinuteScaleForSymbol:(NSString *)symbol date:(NSDate *)toDate;
+
 @end

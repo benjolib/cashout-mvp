@@ -30,7 +30,7 @@
             @"NZDUSD",
             @"USDCAD",
             @"USDCHF",
-            @"Gold"
+            @"Gld"
     ];
 }
 

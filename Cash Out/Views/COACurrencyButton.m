@@ -15,7 +15,7 @@
 
 @property (nonatomic, strong, readwrite) UILabel *topLabel;
 @property (nonatomic, strong) UILabel *bottomLabel;
-@property (nonatomic, strong) NSString *currencySymbol;
+@property (nonatomic, strong, readwrite) NSString *currencySymbol;
 @property (nonatomic, strong) NSTimer *timer;
 
 @end

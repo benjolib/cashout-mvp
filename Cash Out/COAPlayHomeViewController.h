@@ -13,6 +13,8 @@
 
 @property (nonatomic, strong, readonly) COAButton *tradeButton;
 
+- (void)setCurrencySymbol:(NSString *)currencySymbol;
+
 - (CGFloat)lowerNavigationBar;
 
 - (CGFloat)upperScrollView;

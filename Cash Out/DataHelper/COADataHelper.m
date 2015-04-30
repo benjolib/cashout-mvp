@@ -5,6 +5,7 @@
 
 #import "COADataHelper.h"
 #import "COAConstants.h"
+#import "NSDate+MTDates.h"
 
 
 @implementation COADataHelper
@@ -19,6 +20,52 @@
     }
 
     return _instance;
+}
+
+- (NSDate *)toDateDayScaleForSymbol:(NSString *)symbol {
+    NSDate *returnDate = [[NSUserDefaults standardUserDefaults] objectForKey:[NSString stringWithFormat:@"day-%@", symbol]];
+
+    if (!returnDate) {
+        returnDate = [[NSDate date] mt_dateMonthsBefore:13];
+    }
+
+    return returnDate;
+}
+
+- (NSDate *)toDateHourScaleForSymbol:(NSString *)symbol {
+    NSDate *returnDate = [[NSUserDefaults standardUserDefaults] objectForKey:[NSString stringWithFormat:@"hour-%@", symbol]];
+
+    if (!returnDate) {
+        returnDate = [[NSDate date] mt_dateDaysBefore:10];
+    }
+
+    return returnDate;
+
+}
+
+- (NSDate *)toDateMinuteScaleForSymbol:(NSString *)symbol {
+    NSDate *returnDate = [[NSDate date] mt_dateMinutesBefore:100];
+
+    if (!returnDate) {
+        returnDate = [[NSUserDefaults standardUserDefaults] objectForKey:[NSString stringWithFormat:@"minute-%@", symbol]];
+    }
+
+    return returnDate;
+}
+
+- (void)saveDayScaleForSymbol:(NSString *)symbol date:(NSDate *)toDate {
+    [[NSUserDefaults standardUserDefaults] setObject:toDate forKey:[NSString stringWithFormat:@"day-%@", symbol]];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (void)saveHourScaleForSymbol:(NSString *)symbol date:(NSDate *)toDate {
+    [[NSUserDefaults standardUserDefaults] setObject:toDate forKey:[NSString stringWithFormat:@"hour-%@", symbol]];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (void)saveMinuteScaleForSymbol:(NSString *)symbol date:(NSDate *)toDate {
+    [[NSUserDefaults standardUserDefaults] setObject:toDate forKey:[NSString stringWithFormat:@"minute-%@", symbol]];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 - (void)saveMoney:(double)money {
@@ -36,7 +83,6 @@
 }
 
 - (BOOL)tutorialSeen {
-//    return NO; // TODO swalkner
     return [[NSUserDefaults standardUserDefaults] boolForKey:TUTORIAL_SEEN];
 }
 

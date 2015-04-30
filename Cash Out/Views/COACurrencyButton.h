@@ -9,6 +9,7 @@
 @interface COACurrencyButton : UIButton
 
 @property (nonatomic) BOOL active;
+@property (nonatomic, strong, readonly) NSString *currencySymbol;
 
 - (instancetype)initWithCurrencySymbol:(NSString *)currencyString;
 

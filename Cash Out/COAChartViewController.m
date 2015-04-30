@@ -288,19 +288,19 @@
     BOOL dayScale;
 
     if ([button isEqual:self.minutes30Button]) {
-        self.fromDate = [[NSDate date] mt_dateMinutesBefore:30];
+        self.fromDate = [[[NSDate date] mt_startOfCurrentMinute] mt_dateMinutesBefore:30];
         minuteScale = YES;
         hourScale = NO;
         dayScale = NO;
     } else if ([button isEqual:self.day1Button]) {
-        self.fromDate = [[NSDate date] mt_dateDaysBefore:1];
-        minuteScale = YES;
-        hourScale = NO;
+        self.fromDate = [[[NSDate date] mt_startOfCurrentHour] mt_dateDaysBefore:1];
+        minuteScale = NO;
+        hourScale = YES;
         dayScale = NO;
     } else if ([button isEqual:self.day5Button]) {
-        self.fromDate = [[NSDate date] mt_dateDaysBefore:5];
-        minuteScale = YES;
-        hourScale = NO;
+        self.fromDate = [[[NSDate date] mt_startOfCurrentHour] mt_dateDaysBefore:5];
+        minuteScale = NO;
+        hourScale = YES;
         dayScale = NO;
     } else if ([button isEqual:self.month3Button]) {
         self.fromDate = [[[NSDate date] mt_startOfCurrentDay] mt_dateMonthsBefore:3];
@@ -310,16 +310,20 @@
     } else if ([button isEqual:self.month6Button]) {
         self.fromDate = [[[NSDate date] mt_startOfCurrentDay] mt_dateMonthsBefore:6];
         minuteScale = NO;
+        hourScale = NO;
+        dayScale = YES;
     } else if ([button isEqual:self.year1Button]) {
         self.fromDate = [[[NSDate date] mt_startOfCurrentDay] mt_dateYearsBefore:1];
         minuteScale = NO;
+        hourScale = NO;
+        dayScale = YES;
     }
 
-    NSArray *values = [self valuesFromDate:self.fromDate toDate:[NSDate date] minuteScale:minuteScale];
+    NSArray *values = [self valuesFromDate:self.fromDate toDate:[NSDate date] minuteScale:minuteScale hourScale:hourScale dayScale:dayScale];
     [self updateChartWithValues:values];
 }
 
-- (NSArray *)valuesFromDate:(NSDate *)fromDate toDate:(NSDate *)toDate minuteScale:(BOOL)minuteScale {
+- (NSArray *)valuesFromDate:(NSDate *)fromDate toDate:(NSDate *)toDate minuteScale:(BOOL)minuteScale hourScale:(BOOL)hourScale dayScale:(BOOL)dayScale {
     NSUInteger numberOfValues = 15;
     NSInteger numberOfSecondsBetweenDates = [toDate mt_secondsSinceDate:fromDate];
     NSInteger secondsBetweenValues = numberOfSecondsBetweenDates / numberOfValues;
@@ -328,13 +332,13 @@
 
     NSMutableArray *values = [[NSMutableArray alloc] initWithCapacity:numberOfValues];
 
-    NSDate *valueDate = minuteScale ? [fromDate mt_startOfCurrentMinute] : [fromDate mt_startOfCurrentDay];
+    NSDate *valueDate = [self dateFromDate:fromDate minuteScale:minuteScale hourScale:hourScale dayScale:dayScale];
 
     for (int i = 0; i < numberOfValues; i++) {
-        valueDate = minuteScale ? [[valueDate mt_dateSecondsAfter:secondsBetweenValues] mt_startOfCurrentMinute] : [[valueDate mt_dateSecondsAfter:secondsBetweenValues] mt_startOfCurrentDay];
+        valueDate = [self dateFromDate:[valueDate mt_dateSecondsAfter:secondsBetweenValues] minuteScale:minuteScale hourScale:hourScale dayScale:dayScale];
 
         if ([valueDate mt_isAfter:[NSDate date]]) {
-            valueDate = minuteScale ? [[NSDate date] mt_startOfCurrentMinute] : [[NSDate date] mt_startOfCurrentDay];
+            valueDate = [self dateFromDate:[NSDate date] minuteScale:minuteScale hourScale:hourScale dayScale:dayScale];
         }
 
         NSPredicate *predicate = [NSPredicate predicateWithFormat:@"symbol = %@ and timestamp = %@", self.currencySymbol, valueDate];
@@ -343,11 +347,11 @@
         int tries = 0;
         NSDate *innerValueDate = valueDate;
         while (symbolValue == nil) {
-            innerValueDate = minuteScale ? [[innerValueDate mt_dateSecondsAfter:tries * 60] mt_startOfCurrentMinute] : [[innerValueDate mt_dateSecondsAfter:tries * 60] mt_startOfCurrentDay];
+            innerValueDate = [self dateFromDate:[innerValueDate mt_dateSecondsAfter:tries * 60] minuteScale:minuteScale hourScale:hourScale dayScale:dayScale];
             predicate = [NSPredicate predicateWithFormat:@"symbol = %@ and timestamp = %@", self.currencySymbol, innerValueDate];
             symbolValue = [[COASymbolValue objectsInRealm:realm withPredicate:predicate] firstObject];
             if (symbolValue == nil) {
-                innerValueDate = minuteScale ? [[innerValueDate mt_dateSecondsBefore:tries * 2 * 60] mt_startOfCurrentMinute] : [[innerValueDate mt_dateSecondsBefore:tries * 2 * 60] mt_startOfCurrentDay];
+                innerValueDate = [self dateFromDate:[innerValueDate mt_dateSecondsBefore:tries * 2 * 60] minuteScale:minuteScale hourScale:hourScale dayScale:dayScale];
                 predicate = [NSPredicate predicateWithFormat:@"symbol = %@ and timestamp = %@", self.currencySymbol, innerValueDate];
                 symbolValue = [[COASymbolValue objectsInRealm:realm withPredicate:predicate] firstObject];
             }
@@ -360,6 +364,16 @@
     }
 
     return values;
+}
+
+- (NSDate *)dateFromDate:(NSDate *)date minuteScale:(BOOL)minuteScale hourScale:(BOOL)hourScale dayScale:(BOOL)dayScale {
+    if (minuteScale) {
+        return [date mt_startOfCurrentMinute];
+    } else if (hourScale) {
+        return [date mt_startOfCurrentHour];
+    } else {
+        return [date mt_startOfCurrentDay];
+    }
 }
 
 - (void)updateChartWithValues:(NSArray *)values {

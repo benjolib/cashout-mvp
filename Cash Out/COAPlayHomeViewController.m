@@ -21,6 +21,7 @@
 #import "SVProgressHUD.h"
 #import "COADataFetcher.h"
 #import "NSDate+MTDates.h"
+#import "COACurrencyChooserListViewController.h"
 
 #define kCellWidth 180
 
@@ -52,7 +53,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    self.title = [NSLocalizedString(@"Specify Trade", @"") uppercaseString];
     self.view.backgroundColor = [COAConstants darkBlueColor];
 
     self.moneyToBet = MIN(10000, [COADataHelper instance].money);
@@ -163,6 +163,23 @@
     [self.view setNeedsUpdateConstraints];
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+
+    self.title = [NSLocalizedString(@"Specify Trade", @"") uppercaseString];
+}
+
+- (void)setCurrencySymbol:(NSString *)currencySymbol {
+    // get buttonIndex to scroll to
+    self.targetIndex = [[COACurrencies currencies] indexOfObject:currencySymbol];
+    COACurrencyButton *currencyButton = self.currencyButtons[self.targetIndex];
+    [self.currencyScrollView scrollRectToVisible:currencyButton.frame animated:NO];
+
+    CGPoint contentOffset = CGPointMake((CGFloat) (self.targetIndex * kCellWidth), 0);
+    self.currencyScrollView.contentOffset = contentOffset;
+    [self scrollViewDidEndDecelerating:self.currencyScrollView];
+}
+
 - (void)riseFallButtonPressed:(UIButton *)sender {
     self.fallButton.selected = NO;
     self.riseButton.selected = NO;
@@ -182,16 +199,15 @@
 }
 
 - (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset {
-    float kCellSpacing = 0;
     double targetX = scrollView.contentOffset.x + velocity.x * 100.0;
 
     if (velocity.x > 0) {
-        self.targetIndex = (NSUInteger) ceil(targetX / (kCellWidth + kCellSpacing));
+        self.targetIndex = (NSUInteger) ceil(targetX / kCellWidth);
     } else {
-        self.targetIndex = (NSUInteger) floor(targetX / (kCellWidth + kCellSpacing));
+        self.targetIndex = (NSUInteger) floor(targetX / kCellWidth);
     }
 
-    targetContentOffset->x = (CGFloat) (self.targetIndex * (kCellWidth + kCellSpacing));
+    targetContentOffset->x = (CGFloat) (self.targetIndex * kCellWidth);
 }
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
@@ -221,18 +237,29 @@
         [self.currencyScrollView addSubview:currencyButton];
         [self.currencyButtons addObject:currencyButton];
         currencyButton.active = [[self.currencyButtons firstObject] isEqual:currencyButton];
+        [currencyButton addTarget:self action:@selector(currencyButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
     }
+}
+
+- (void)currencyButtonPressed:(COACurrencyButton *)senderButton {
+    COACurrencyChooserListViewController *currencyChooserListViewController = [[COACurrencyChooserListViewController alloc] initWithPlayHomeViewController:self];
+    [self.navigationController pushViewController:currencyChooserListViewController animated:YES];
 }
 
 - (void)gotoChart {
     [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeBlack];
 
-    NSInteger months = 13;
-    NSInteger days = 10;
-    NSInteger minutes = 100;
-    [[COADataFetcher instance] fetchLiveDataForSymbol:self.selectedCurrencySymbol fromDate:[[NSDate date] mt_dateMonthsBefore:months] toDate:[NSDate date] completionBlock:^(NSString *value) {
-        [[COADataFetcher instance] fetchLiveDataForSymbol:self.selectedCurrencySymbol fromDate:[[NSDate date] mt_dateDaysBefore:days] toDate:[NSDate date] completionBlock:^(NSString *value) {
-            [[COADataFetcher instance] fetchLiveDataForSymbol:self.selectedCurrencySymbol fromDate:[[NSDate date] mt_dateMinutesBefore:minutes] toDate:[NSDate date] completionBlock:^(NSString *value) {
+    NSDate *dayFromDate = [[COADataHelper instance] toDateDayScaleForSymbol:self.selectedCurrencySymbol];
+    NSDate *hourFromDate = [[COADataHelper instance] toDateHourScaleForSymbol:self.selectedCurrencySymbol];
+    NSDate *minuteFromDate = [[COADataHelper instance] toDateMinuteScaleForSymbol:self.selectedCurrencySymbol];
+
+    NSLog(@"%@", dayFromDate);
+    NSLog(@"%@", hourFromDate);
+    NSLog(@"%@", minuteFromDate);
+
+    [[COADataFetcher instance] fetchLiveDataForSymbol:self.selectedCurrencySymbol fromDate:dayFromDate toDate:[NSDate date] completionBlock:^(NSString *value) {
+        [[COADataFetcher instance] fetchLiveDataForSymbol:self.selectedCurrencySymbol fromDate:hourFromDate toDate:[NSDate date] completionBlock:^(NSString *value) {
+            [[COADataFetcher instance] fetchLiveDataForSymbol:self.selectedCurrencySymbol fromDate:minuteFromDate toDate:[NSDate date] completionBlock:^(NSString *value) {
                 [SVProgressHUD dismiss];
 
                 COAChartViewController *chartViewController = [[COAChartViewController alloc] initWithCurrencySymbol:[self selectedCurrencySymbol]];

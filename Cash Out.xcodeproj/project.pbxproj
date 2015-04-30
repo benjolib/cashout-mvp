@@ -12,6 +12,7 @@
 		CACF60EF3A3589C1BA69B983 /* COATutorialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CACF6DC5B100973E8EFAD6D4 /* COATutorialViewController.m */; };
 		CACF619E862F4CCE37265293 /* COACurrencies.m in Sources */ = {isa = PBXBuildFile; fileRef = CACF67271E3730E3A24DA661 /* COACurrencies.m */; };
 		CACF63BBE916E295B0B8F627 /* COATradeModeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CACF68D6371D9D923A5ABBD5 /* COATradeModeViewController.m */; };
+		CACF63D9EAA8BB10490F9A25 /* COACurrencyChooserListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CACF6981EA097DD30AE18EA2 /* COACurrencyChooserListViewController.m */; };
 		CACF643DF7F94E812BEA5B6A /* NSString+COAAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = CACF6E9AD5B3472599E9F14B /* NSString+COAAdditions.m */; };
 		CACF64A447AAD166B6F1827A /* COAAbstractViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CACF6E244117F9B382094480 /* COAAbstractViewController.m */; };
 		CACF64AB183E31DA3B2734B2 /* COASymbolValueModel.m in Sources */ = {isa = PBXBuildFile; fileRef = CACF6FCF00AB50AB146F3B8D /* COASymbolValueModel.m */; };
@@ -75,9 +76,11 @@
 		CACF697BECEB92B8F9D734CF /* COATutorialViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = COATutorialViewController.h; sourceTree = "<group>"; };
 		CACF697C6151E8538738F04A /* NSString+COAAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+COAAdditions.h"; sourceTree = "<group>"; };
 		CACF69800A2E51FD738A88D5 /* COAChartView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = COAChartView.h; sourceTree = "<group>"; };
+		CACF6981EA097DD30AE18EA2 /* COACurrencyChooserListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = COACurrencyChooserListViewController.m; sourceTree = "<group>"; };
 		CACF69C33488E6D13E66C393 /* COAChartView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = COAChartView.m; sourceTree = "<group>"; };
 		CACF6A05079D753845555BCC /* COAButtonTitleImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = COAButtonTitleImage.h; sourceTree = "<group>"; };
 		CACF6A05B4982A124B73CFCD /* COACongratsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = COACongratsView.m; sourceTree = "<group>"; };
+		CACF6B7A0FE008E02C7602F2 /* COACurrencyChooserListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = COACurrencyChooserListViewController.h; sourceTree = "<group>"; };
 		CACF6B7E22A716C56B8E98A3 /* COADataFetcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = COADataFetcher.h; sourceTree = "<group>"; };
 		CACF6C13276C9F986BDE202E /* COACurrencyButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = COACurrencyButton.h; sourceTree = "<group>"; };
 		CACF6CC1A916CECDD9C55117 /* COATriangleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = COATriangleView.h; sourceTree = "<group>"; };
@@ -251,6 +254,8 @@
 				CACF64F61FCA9DECE3F3DD36 /* Networking */,
 				F89ECF741ACC373B00AEB3D2 /* Supporting Files */,
 				CACF6BEFC0A95B3D5BA00951 /* Views */,
+				CACF6981EA097DD30AE18EA2 /* COACurrencyChooserListViewController.m */,
+				CACF6B7A0FE008E02C7602F2 /* COACurrencyChooserListViewController.h */,
 			);
 			path = "Cash Out";
 			sourceTree = "<group>";
@@ -451,6 +456,7 @@
 				CACF684B2F3931410A7E740D /* COASymbolValue.m in Sources */,
 				CACF6C42BC22A74DD60BE874 /* COASignUpViewController.m in Sources */,
 				CACF60EF3A3589C1BA69B983 /* COATutorialViewController.m in Sources */,
+				CACF63D9EAA8BB10490F9A25 /* COACurrencyChooserListViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
