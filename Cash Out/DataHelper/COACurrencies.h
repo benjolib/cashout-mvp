@@ -12,4 +12,8 @@
 
 + (NSArray *)currencies;
 
++ (NSString *)displayStringForSymbol:(NSString *)symbol;
+
++ (NSString *)symbolForDisplayString:(NSString *)dislayString;
+
 @end

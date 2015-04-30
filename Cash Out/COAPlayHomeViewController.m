@@ -173,7 +173,7 @@
     // get buttonIndex to scroll to
     self.targetIndex = [[COACurrencies currencies] indexOfObject:currencySymbol];
     COACurrencyButton *currencyButton = self.currencyButtons[self.targetIndex];
-    [self.currencyScrollView scrollRectToVisible:currencyButton.frame animated:NO];
+    [self.currencyScrollView scrollRectToVisible:currencyButton.frame animated:YES];
 
     CGPoint contentOffset = CGPointMake((CGFloat) (self.targetIndex * kCellWidth), 0);
     self.currencyScrollView.contentOffset = contentOffset;
@@ -242,8 +242,10 @@
 }
 
 - (void)currencyButtonPressed:(COACurrencyButton *)senderButton {
-    COACurrencyChooserListViewController *currencyChooserListViewController = [[COACurrencyChooserListViewController alloc] initWithPlayHomeViewController:self];
-    [self.navigationController pushViewController:currencyChooserListViewController animated:YES];
+    COACurrencyChooserListViewController *currencyChooserListViewController = [[COACurrencyChooserListViewController alloc] initWithPlayHomeViewController:self currencySymbol:self.selectedCurrencySymbol];
+    [self presentViewController:currencyChooserListViewController animated:YES completion:^{
+
+    }];
 }
 
 - (void)gotoChart {

@@ -6,7 +6,12 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
+@class COATriangleView;
+
 @interface COAButton : UIButton
+
+@property (nonatomic, strong, readonly) COATriangleView *triangleView;
+@property (nonatomic, strong, readonly) COATriangleView *outterTriangleView;
 
 - (instancetype)initWithBorderColor:(UIColor *)borderColor triangleColor:(UIColor *)triangleColor outterTriangleColor:(UIColor *)outterTriangleColor;
 

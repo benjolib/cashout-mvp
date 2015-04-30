@@ -11,6 +11,6 @@
 
 @interface COACurrencyChooserListViewController : COAAbstractViewController
 
-- (instancetype)initWithPlayHomeViewController:(COAPlayHomeViewController *)playHomeViewController;
+- (instancetype)initWithPlayHomeViewController:(COAPlayHomeViewController *)playHomeViewController currencySymbol:(NSString *)currencySymbol;
 
 @end

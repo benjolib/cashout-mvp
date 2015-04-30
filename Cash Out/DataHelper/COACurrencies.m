@@ -34,4 +34,14 @@
     ];
 }
 
++ (NSString *)displayStringForSymbol:(NSString *)symbol {
+    NSInteger index = [[COACurrencies currencies] indexOfObject:symbol];
+    return [COACurrencies currencyDisplayStrings][index];
+}
+
++ (NSString *)symbolForDisplayString:(NSString *)dislayString {
+    NSInteger index = [[COACurrencies currencyDisplayStrings] indexOfObject:dislayString];
+    return [COACurrencies currencies][index];
+}
+
 @end

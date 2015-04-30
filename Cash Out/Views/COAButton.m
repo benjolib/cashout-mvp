@@ -9,8 +9,8 @@
 
 @interface COAButton()
 
-@property (nonatomic, strong) COATriangleView *triangleView;
-@property (nonatomic, strong) COATriangleView *outterTriangleView;
+@property (nonatomic, strong, readwrite) COATriangleView *triangleView;
+@property (nonatomic, strong, readwrite) COATriangleView *outterTriangleView;
 @property (nonatomic, strong) UIColor *outterTriangleColor;
 
 @end

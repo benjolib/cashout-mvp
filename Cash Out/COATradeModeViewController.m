@@ -84,8 +84,19 @@
 
 - (void)currencyValueUpdated {
     double latestSymbolValue = [COASymbolValue latestValueForSymbol:self.currencySymbol];
-    
-    self.winLoss = (NSInteger) ((latestSymbolValue - self.initialValue) * 1000000);
+
+    BOOL usdAtTheBeginning = arc4random() % 2 == 0;
+    BOOL usdAtTheEnd = arc4random() % 2 == 0;
+
+    if (usdAtTheBeginning) {
+        NSLog(@"%f %f %f", self.moneySet, latestSymbolValue, self.initialValue);
+        self.winLoss = (NSInteger) (self.moneySet * 100 * (latestSymbolValue - self.initialValue));
+    } else if (usdAtTheEnd) {
+        NSLog(@"%f %f %f", self.moneySet, latestSymbolValue, self.initialValue);
+        self.winLoss = (NSInteger) (self.moneySet * 100 * (latestSymbolValue - self.initialValue) / self.initialValue);
+    } else {
+        self.winLoss = (NSInteger) (self.moneySet * 100 * (latestSymbolValue - self.initialValue) / 2);
+    }
 
     if (!self.betOnRise) {
         self.winLoss *= -1;
@@ -212,7 +223,7 @@
 
     self.priceValueLabel.attributedText = [priceText coa_firstLineAttributes:@{
             NSFontAttributeName:[UIFont boldSystemFontOfSize:firstLineFontSize],
-            NSForegroundColorAttributeName:[UIColor whiteColor],
+            NSForegroundColorAttributeName:amountColor,
             NSParagraphStyleAttributeName:self.style
     } secondLineAttributes:@{
             NSFontAttributeName:[UIFont systemFontOfSize:secondLineFontSize],

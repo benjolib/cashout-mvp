@@ -10,8 +10,14 @@
 - (NSAttributedString *)coa_firstLineAttributes:(NSDictionary *)firstLineAttributes secondLineAttributes:(NSDictionary *)secondLineAttributes {
     NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:self];
     NSRange range = [self rangeOfString:@"\n"];
-    [attributedString addAttributes:firstLineAttributes range:NSMakeRange(0, range.location)];
-    [attributedString addAttributes:secondLineAttributes range:NSMakeRange(range.location, self.length - range.location)];
+
+    if (range.location != NSNotFound) {
+        [attributedString addAttributes:firstLineAttributes range:NSMakeRange(0, range.location)];
+        [attributedString addAttributes:secondLineAttributes range:NSMakeRange(range.location, self.length - range.location)];
+    } else {
+        [attributedString addAttributes:firstLineAttributes range:NSMakeRange(0, self.length)];
+    }
+
     return attributedString;
 }
 
