@@ -4,6 +4,7 @@
 //
 
 #import "COACurrencies.h"
+#import "COASymbolValue.h"
 
 
 @implementation COACurrencies
@@ -34,14 +35,26 @@
     ];
 }
 
++ (double)usdCounterPart:(NSString *)currencySymbol {
+    if ([currencySymbol rangeOfString:@" / "].location == NSNotFound) {
+        return 0;
+    }
+
+    NSString *firstCurrency = [[currencySymbol componentsSeparatedByString:@" / "] firstObject];
+
+    for (NSString *currentCurrencySymbol in [COACurrencies currencies]) {
+        if ([currentCurrencySymbol rangeOfString:@"USD"].location != NSNotFound
+                && [currentCurrencySymbol rangeOfString:firstCurrency].location != NSNotFound) {
+            return [COASymbolValue latestValueForSymbol:currentCurrencySymbol];
+        }
+    }
+
+    return 0;
+}
+
 + (NSString *)displayStringForSymbol:(NSString *)symbol {
     NSInteger index = [[COACurrencies currencies] indexOfObject:symbol];
     return [COACurrencies currencyDisplayStrings][index];
-}
-
-+ (NSString *)symbolForDisplayString:(NSString *)dislayString {
-    NSInteger index = [[COACurrencies currencyDisplayStrings] indexOfObject:dislayString];
-    return [COACurrencies currencies][index];
 }
 
 @end

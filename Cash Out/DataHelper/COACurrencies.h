@@ -14,6 +14,6 @@
 
 + (NSString *)displayStringForSymbol:(NSString *)symbol;
 
-+ (NSString *)symbolForDisplayString:(NSString *)dislayString;
++ (double)usdCounterPart:(NSString *)currencySymbol;
 
 @end

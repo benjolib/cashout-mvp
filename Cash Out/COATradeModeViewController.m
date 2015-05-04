@@ -85,17 +85,20 @@
 - (void)currencyValueUpdated {
     double latestSymbolValue = [COASymbolValue latestValueForSymbol:self.currencySymbol];
 
-    BOOL usdAtTheBeginning = arc4random() % 2 == 0;
-    BOOL usdAtTheEnd = arc4random() % 2 == 0;
+    NSString *currencyString = [COACurrencies displayStringForSymbol:self.currencySymbol];
+    NSString *firstCurrency = [[currencyString componentsSeparatedByString:@" / "] firstObject];
+    NSString *secondCurrency = [currencyString stringByReplacingOccurrencesOfString:firstCurrency withString:@""];
+    
+    BOOL usdAtTheBeginning = [firstCurrency rangeOfString:@"USD"].location != NSNotFound || [firstCurrency.lowercaseString rangeOfString:@"gold"].location != NSNotFound;
+    BOOL usdAtTheEnd = [secondCurrency rangeOfString:@"USD"].location != NSNotFound;
 
     if (usdAtTheBeginning) {
-        NSLog(@"%f %f %f", self.moneySet, latestSymbolValue, self.initialValue);
         self.winLoss = (NSInteger) (self.moneySet * 100 * (latestSymbolValue - self.initialValue));
     } else if (usdAtTheEnd) {
-        NSLog(@"%f %f %f", self.moneySet, latestSymbolValue, self.initialValue);
         self.winLoss = (NSInteger) (self.moneySet * 100 * (latestSymbolValue - self.initialValue) / self.initialValue);
     } else {
-        self.winLoss = (NSInteger) (self.moneySet * 100 * (latestSymbolValue - self.initialValue) / 2);
+
+        self.winLoss = (NSInteger) (self.moneySet * 100 * (latestSymbolValue - self.initialValue) * [COACurrencies usdCounterPart:firstCurrency]);
     }
 
     if (!self.betOnRise) {

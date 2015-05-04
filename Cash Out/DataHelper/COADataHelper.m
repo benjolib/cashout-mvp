@@ -36,7 +36,7 @@
     NSDate *returnDate = [[NSUserDefaults standardUserDefaults] objectForKey:[NSString stringWithFormat:@"hour-%@", symbol]];
 
     if (!returnDate) {
-        returnDate = [[NSDate date] mt_dateDaysBefore:10];
+        returnDate = [[NSDate date] mt_dateDaysBefore:6];
     }
 
     return returnDate;

@@ -12,6 +12,8 @@
 #import "COStartViewController.h"
 #import "COAConstants.h"
 #import "COADataFetcher.h"
+#import "COACurrencies.h"
+#import "COADataHelper.h"
 
 @interface AppDelegate ()
 
@@ -27,7 +29,7 @@
     // Override point for customization after application launch.
     self.window.backgroundColor = [UIColor whiteColor];
 
-    [NSDate mt_setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:60 * 60]];
+    [NSTimeZone setDefaultTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"UTC"]];
 
     COStartViewController *startViewController = [[COStartViewController alloc] initWithNibName:nil bundle:nil];
     self.startNavigationController = [[UINavigationController alloc] initWithRootViewController:startViewController];
@@ -79,7 +81,23 @@
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
-    // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+    for (NSString *currencySymbol in [COACurrencies currencies]) {
+        NSDate *dayFromDate = [[COADataHelper instance] toDateDayScaleForSymbol:currencySymbol];
+        NSDate *hourFromDate = [[COADataHelper instance] toDateHourScaleForSymbol:currencySymbol];
+        NSDate *minuteFromDate = [[COADataHelper instance] toDateMinuteScaleForSymbol:currencySymbol];
+
+        BOOL loadInBackground = [[NSDate date] mt_daysSinceDate:dayFromDate] < 7;
+
+        if (!loadInBackground) {
+            [[COADataFetcher instance] fetchLiveDataForSymbol:currencySymbol fromDate:dayFromDate toDate:[NSDate date] completionBlock:^(NSString *value) {
+                [[COADataFetcher instance] fetchLiveDataForSymbol:currencySymbol fromDate:hourFromDate toDate:[NSDate date] completionBlock:^(NSString *value) {
+                    [[COADataFetcher instance] fetchLiveDataForSymbol:currencySymbol fromDate:minuteFromDate toDate:[NSDate date] completionBlock:^(NSString *value) {
+                        [[NSNotificationCenter defaultCenter] postNotificationName:HISTORY_DATA_LOADED object:nil];
+                    }];
+                }];
+            }];
+        }
+    }
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {
