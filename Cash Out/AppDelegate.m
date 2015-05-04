@@ -12,6 +12,10 @@
 #import "COStartViewController.h"
 #import "COAConstants.h"
 #import "COADataFetcher.h"
+#import "COACurrencies.h"
+#import "COADataHelper.h"
+#import <Fabric/Fabric.h>
+#import <Crashlytics/Crashlytics.h>
 
 @interface AppDelegate ()
 
@@ -27,7 +31,7 @@
     // Override point for customization after application launch.
     self.window.backgroundColor = [UIColor whiteColor];
 
-    [NSDate mt_setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:60 * 60]];
+    [NSTimeZone setDefaultTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"UTC"]];
 
     COStartViewController *startViewController = [[COStartViewController alloc] initWithNibName:nil bundle:nil];
     self.startNavigationController = [[UINavigationController alloc] initWithRootViewController:startViewController];
@@ -44,11 +48,24 @@
 
     [self initializeUserDefaults];
     
+    UIUserNotificationType types = UIUserNotificationTypeBadge | UIUserNotificationTypeSound | UIUserNotificationTypeAlert;
+    
+    UIUserNotificationSettings *mySettings = [UIUserNotificationSettings settingsForTypes:types categories:nil];
+    
+    [[UIApplication sharedApplication] registerUserNotificationSettings:mySettings];
+
+    
     [[COADataFetcher instance] initialImport];
 
     [self.window makeKeyAndVisible];
 
+    [Fabric with:@[CrashlyticsKit]];
+
     return YES;
+}
+
+- (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification {
+    NSLog(@"test");
 }
 
 + (NSString *) applicationDocumentsDirectory {
@@ -70,20 +87,49 @@
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application {
-    // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
-    // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
-}
+    UIApplication *app = [UIApplication sharedApplication];
+    
+    //create new uiBackgroundTask
+    __block UIBackgroundTaskIdentifier bgTask = [app beginBackgroundTaskWithExpirationHandler:^{
+        [app endBackgroundTask:bgTask];
+        bgTask = UIBackgroundTaskInvalid;
+    }];
 
+    //
+//    //and create new timer with async call:
+//    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+//        //run function methodRunAfterBackground
+//        NSTimer* t = [NSTimer scheduledTimerWithTimeInterval:10 target:self selector:@selector(methodRunAfterBackground) userInfo:nil repeats:NO];
+//        [[NSRunLoop currentRunLoop] addTimer:t forMode:NSDefaultRunLoopMode];
+//        [[NSRunLoop currentRunLoop] run];
+//    });
+}
 - (void)applicationWillEnterForeground:(UIApplication *)application {
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
-    // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+    for (NSString *currencySymbol in [COACurrencies currencies]) {
+        NSDate *dayFromDate = [[COADataHelper instance] toDateDayScaleForSymbol:currencySymbol];
+        NSDate *hourFromDate = [[COADataHelper instance] toDateHourScaleForSymbol:currencySymbol];
+        NSDate *minuteFromDate = [[COADataHelper instance] toDateMinuteScaleForSymbol:currencySymbol];
+
+        BOOL loadInBackground = [[NSDate date] mt_daysSinceDate:dayFromDate] < 7;
+
+        if (!loadInBackground) {
+            [[COADataFetcher instance] fetchLiveDataForSymbol:currencySymbol fromDate:dayFromDate toDate:[NSDate date] completionBlock:^(NSString *value) {
+                [[COADataFetcher instance] fetchLiveDataForSymbol:currencySymbol fromDate:hourFromDate toDate:[NSDate date] completionBlock:^(NSString *value) {
+                    [[COADataFetcher instance] fetchLiveDataForSymbol:currencySymbol fromDate:minuteFromDate toDate:[NSDate date] completionBlock:^(NSString *value) {
+                        [[NSNotificationCenter defaultCenter] postNotificationName:HISTORY_DATA_LOADED object:nil];
+                    }];
+                }];
+            }];
+        }
+    }
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {
-    // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+    
 }
 
 @end

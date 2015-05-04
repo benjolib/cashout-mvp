@@ -284,6 +284,10 @@
 
         NSInteger xValue = [xValues[index] integerValue] - 1;
         NSNumber *value = self.values[index];
+        if (value.floatValue == 0.0f) {
+            continue;
+        }
+        
         NSInteger yValue = (NSInteger) (chartHeight - [self yForValue:value.floatValue chartHeight:chartHeight maxValue:maxValue minValue:minValue]);
 
         if (index > 0) {
@@ -306,6 +310,10 @@
 
         NSInteger xValue = [xValues[index] integerValue] - 4;
         NSNumber *value = self.values[index];
+        if (value.floatValue == 0.0f) {
+            continue;
+        }
+        
         NSInteger yValue = (NSInteger) (chartHeight - [self yForValue:value.floatValue chartHeight:chartHeight maxValue:maxValue minValue:minValue]);
 
         UIBezierPath* ovalPath = [UIBezierPath bezierPathWithOvalInRect: CGRectMake(xValue, yValue, dotSize, dotSize)];

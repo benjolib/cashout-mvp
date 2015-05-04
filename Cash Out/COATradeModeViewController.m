@@ -14,6 +14,7 @@
 #import "COAFormatting.h"
 #import "COADataHelper.h"
 #import "COACurrencies.h"
+#import <MTDates/NSDate+MTDates.h>
 
 #define firstLineFontSize 30
 #define secondLineFontSize 16
@@ -33,6 +34,7 @@
 @property (nonatomic, strong) NSMutableParagraphStyle *style;
 @property (nonatomic, strong) NSTimer *timer;
 @property (nonatomic, strong) UIView *separatorView;
+@property (nonatomic, strong) NSDate *startingDate;
 @property (nonatomic) double initialValue;
 @property (nonatomic) NSInteger winLoss;
 @property (nonatomic) NSInteger seconds;
@@ -51,18 +53,42 @@
         self.moneySet = moneySet;
         self.seconds = 600;
         self.navigationItem.hidesBackButton = YES;
+        self.startingDate = [NSDate date];
         self.timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timerUpdated) userInfo:nil repeats:YES];
+        
+        [self scheduleLocalNotification];
     }
 
     return self;
 }
 
+- (void)scheduleLocalNotification {
+    UILocalNotification *localNotif = [[UILocalNotification alloc] init];
+    
+    if (localNotif == nil) {
+        return;
+    }
+    
+    localNotif.fireDate = [[NSDate date] dateByAddingTimeInterval:8];
+    
+    [[UIApplication sharedApplication] scheduleLocalNotification:localNotif];
+}
+
+- (void)removeAllLocalNotifications {
+    UIApplication *app = [UIApplication sharedApplication];
+    NSArray *eventArray = [app scheduledLocalNotifications];
+    for (int i=0; i<[eventArray count]; i++) {
+        UILocalNotification* oneEvent = [eventArray objectAtIndex:i];
+        [app cancelLocalNotification:oneEvent];
+    }
+}
+
 - (void)timerUpdated {
-    self.seconds = MAX(0, self.seconds - 1);
+    self.seconds = 600 - [[NSDate date] mt_secondsSinceDate:self.startingDate];
 
     NSInteger minutes = self.seconds / 60;
     NSInteger seconds = self.seconds % 60;
-
+    
     NSString *text = [NSString stringWithFormat:@"%02ld:%02ld\n(%@)", (long)minutes, (long)seconds, NSLocalizedString(@"time left", @"").uppercaseString];
     self.timeLeftValueLabel.textAlignment = NSTextAlignmentCenter;
     self.timeLeftValueLabel.attributedText = [text coa_firstLineAttributes:@{
@@ -85,17 +111,20 @@
 - (void)currencyValueUpdated {
     double latestSymbolValue = [COASymbolValue latestValueForSymbol:self.currencySymbol];
 
-    BOOL usdAtTheBeginning = arc4random() % 2 == 0;
-    BOOL usdAtTheEnd = arc4random() % 2 == 0;
+    NSString *currencyString = [COACurrencies displayStringForSymbol:self.currencySymbol];
+    NSString *firstCurrency = [[currencyString componentsSeparatedByString:@" / "] firstObject];
+    NSString *secondCurrency = [currencyString stringByReplacingOccurrencesOfString:firstCurrency withString:@""];
+    
+    BOOL usdAtTheBeginning = [firstCurrency rangeOfString:@"USD"].location != NSNotFound || [firstCurrency.lowercaseString rangeOfString:@"gold"].location != NSNotFound;
+    BOOL usdAtTheEnd = [secondCurrency rangeOfString:@"USD"].location != NSNotFound;
 
     if (usdAtTheBeginning) {
-        NSLog(@"%f %f %f", self.moneySet, latestSymbolValue, self.initialValue);
         self.winLoss = (NSInteger) (self.moneySet * 100 * (latestSymbolValue - self.initialValue));
     } else if (usdAtTheEnd) {
-        NSLog(@"%f %f %f", self.moneySet, latestSymbolValue, self.initialValue);
         self.winLoss = (NSInteger) (self.moneySet * 100 * (latestSymbolValue - self.initialValue) / self.initialValue);
     } else {
-        self.winLoss = (NSInteger) (self.moneySet * 100 * (latestSymbolValue - self.initialValue) / 2);
+
+        self.winLoss = (NSInteger) (self.moneySet * 100 * (latestSymbolValue - self.initialValue) * [COACurrencies usdCounterPart:firstCurrency]);
     }
 
     if (!self.betOnRise) {
@@ -237,7 +266,11 @@
 }
 
 - (void)gotoCashOut {
+
+    [self removeAllLocalNotifications];
+    
     [self.timer invalidate];
+    
     double newBalance = [COADataHelper instance].money + self.winLoss;
     [[COADataHelper instance] saveMoney:newBalance];
     self.congratsView = [[COACongratsView alloc] initWithCompletionBlock:^(BOOL onlyClose) {

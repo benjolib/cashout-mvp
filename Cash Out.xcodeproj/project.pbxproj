@@ -15,7 +15,6 @@
 		CACF63D9EAA8BB10490F9A25 /* COACurrencyChooserListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CACF6981EA097DD30AE18EA2 /* COACurrencyChooserListViewController.m */; };
 		CACF643DF7F94E812BEA5B6A /* NSString+COAAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = CACF6E9AD5B3472599E9F14B /* NSString+COAAdditions.m */; };
 		CACF64A447AAD166B6F1827A /* COAAbstractViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CACF6E244117F9B382094480 /* COAAbstractViewController.m */; };
-		CACF64AB183E31DA3B2734B2 /* COASymbolValueModel.m in Sources */ = {isa = PBXBuildFile; fileRef = CACF6FCF00AB50AB146F3B8D /* COASymbolValueModel.m */; };
 		CACF658B4B3C796CE5FFBB49 /* COACurrencyButton.m in Sources */ = {isa = PBXBuildFile; fileRef = CACF64D6197CB0F17EF2A241 /* COACurrencyButton.m */; };
 		CACF65E8710C0159EF9EF709 /* COACongratsView.m in Sources */ = {isa = PBXBuildFile; fileRef = CACF6A05B4982A124B73CFCD /* COACongratsView.m */; };
 		CACF672838AE6CF01ECDAC4F /* COAButton.m in Sources */ = {isa = PBXBuildFile; fileRef = CACF62AC061716969F89397E /* COAButton.m */; };
@@ -31,6 +30,8 @@
 		CACF6EB48E630E28C24AFB02 /* COADataHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = CACF607C16EF51DDD51E8381 /* COADataHelper.m */; };
 		F880203D1ADB935D00F25031 /* COAConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = F880203C1ADB935D00F25031 /* COAConstants.m */; };
 		F889B6091AE9773A002EDE18 /* COAShadowView.m in Sources */ = {isa = PBXBuildFile; fileRef = F889B6081AE9773A002EDE18 /* COAShadowView.m */; };
+		F8965CE71AFA829B0007B95F /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8965CE51AFA829B0007B95F /* Fabric.framework */; };
+		F8965CE81AFA829B0007B95F /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8965CE61AFA829B0007B95F /* Crashlytics.framework */; };
 		F89ECF771ACC373B00AEB3D2 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = F89ECF761ACC373B00AEB3D2 /* main.m */; };
 		F89ECF7A1ACC373B00AEB3D2 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = F89ECF791ACC373B00AEB3D2 /* AppDelegate.m */; };
 		F89ECF821ACC373B00AEB3D2 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F89ECF811ACC373B00AEB3D2 /* Images.xcassets */; };
@@ -85,7 +86,6 @@
 		CACF6C13276C9F986BDE202E /* COACurrencyButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = COACurrencyButton.h; sourceTree = "<group>"; };
 		CACF6CC1A916CECDD9C55117 /* COATriangleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = COATriangleView.h; sourceTree = "<group>"; };
 		CACF6D4D9AB622BA65239A67 /* COATriangleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = COATriangleView.m; sourceTree = "<group>"; };
-		CACF6D80DEFA72B9946B30B5 /* COASymbolValueModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = COASymbolValueModel.h; sourceTree = "<group>"; };
 		CACF6DC5B100973E8EFAD6D4 /* COATutorialViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = COATutorialViewController.m; sourceTree = "<group>"; };
 		CACF6DDCB12D390E66D7E669 /* COACurrencies.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = COACurrencies.h; sourceTree = "<group>"; };
 		CACF6E244117F9B382094480 /* COAAbstractViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = COAAbstractViewController.m; sourceTree = "<group>"; };
@@ -94,11 +94,12 @@
 		CACF6E9AD5B3472599E9F14B /* NSString+COAAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+COAAdditions.m"; sourceTree = "<group>"; };
 		CACF6EFA45E7C3F728DEEEB5 /* COAPlayHomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = COAPlayHomeViewController.m; sourceTree = "<group>"; };
 		CACF6EFFCF32DD4D1DE5F065 /* COAChartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = COAChartViewController.h; sourceTree = "<group>"; };
-		CACF6FCF00AB50AB146F3B8D /* COASymbolValueModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = COASymbolValueModel.m; sourceTree = "<group>"; };
 		F880203B1ADB935D00F25031 /* COAConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = COAConstants.h; sourceTree = "<group>"; };
 		F880203C1ADB935D00F25031 /* COAConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = COAConstants.m; sourceTree = "<group>"; };
 		F889B6071AE9773A002EDE18 /* COAShadowView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = COAShadowView.h; sourceTree = "<group>"; };
 		F889B6081AE9773A002EDE18 /* COAShadowView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = COAShadowView.m; sourceTree = "<group>"; };
+		F8965CE51AFA829B0007B95F /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
+		F8965CE61AFA829B0007B95F /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		F89ECF711ACC373B00AEB3D2 /* Cash Out.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Cash Out.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F89ECF751ACC373B00AEB3D2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F89ECF761ACC373B00AEB3D2 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -120,6 +121,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				137349B983E720B459D821B1 /* libPods.a in Frameworks */,
+				F8965CE81AFA829B0007B95F /* Crashlytics.framework in Frameworks */,
+				F8965CE71AFA829B0007B95F /* Fabric.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -136,6 +139,8 @@
 		A83668C6ECF1CE058AEACFCB /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F8965CE51AFA829B0007B95F /* Fabric.framework */,
+				F8965CE61AFA829B0007B95F /* Crashlytics.framework */,
 				0A7DF91478E775854EA7D76D /* libPods.a */,
 			);
 			name = Frameworks;
@@ -154,8 +159,6 @@
 		CACF65F3A82FFAC57F5B9E9F /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				CACF6FCF00AB50AB146F3B8D /* COASymbolValueModel.m */,
-				CACF6D80DEFA72B9946B30B5 /* COASymbolValueModel.h */,
 				CACF6455D405F093843B9D9B /* COASymbolValue.m */,
 				CACF65DC56BD1A2B2561645B /* COASymbolValue.h */,
 			);
@@ -308,6 +311,7 @@
 				F89ECF6E1ACC373B00AEB3D2 /* Frameworks */,
 				F89ECF6F1ACC373B00AEB3D2 /* Resources */,
 				0C3B051735E8A4086635ACEE /* Copy Pods Resources */,
+				F8965CE41AFA828F0007B95F /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -347,6 +351,11 @@
 				TargetAttributes = {
 					F89ECF701ACC373B00AEB3D2 = {
 						CreatedOnToolsVersion = 6.2;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+						};
 					};
 					F89ECF891ACC373B00AEB3D2 = {
 						CreatedOnToolsVersion = 6.2;
@@ -425,6 +434,19 @@
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
+		F8965CE41AFA828F0007B95F /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "./Fabric.framework/run 1d2b4312c0dea57bc121d01348581d2a2a92b28f 68f45d649b1757e12dde7cfb1daab534a2f85a34e9cc2d7da0ba61eca82b322b";
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -441,7 +463,6 @@
 				CACF64A447AAD166B6F1827A /* COAAbstractViewController.m in Sources */,
 				F880203D1ADB935D00F25031 /* COAConstants.m in Sources */,
 				CACF6A504713AD0F61763F14 /* COADataFetcher.m in Sources */,
-				CACF64AB183E31DA3B2734B2 /* COASymbolValueModel.m in Sources */,
 				CACF6A012040755D916BDA0E /* COATriangleView.m in Sources */,
 				CACF672838AE6CF01ECDAC4F /* COAButton.m in Sources */,
 				CACF6DDAC7078CC5B66FE881 /* COAButtonTitleImage.m in Sources */,
@@ -572,12 +593,17 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Marius Schulze (775T75XV66)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Marius Schulze (775T75XV66)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = "Cash Out/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "b6143af9-69b6-44bf-9de9-09555c9e2738";
+				PROVISIONING_PROFILE = "d516bd11-bdc5-4a4f-a913-e44bb428b934";
 				USER_HEADER_SEARCH_PATHS = "\"${PROJECT_DIR}/Pods\"/**";
 			};
 			name = Debug;
@@ -588,12 +614,17 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Marius Schulze (775T75XV66)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = "Cash Out/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "b6143af9-69b6-44bf-9de9-09555c9e2738";
+				PROVISIONING_PROFILE = "d516bd11-bdc5-4a4f-a913-e44bb428b934";
 				USER_HEADER_SEARCH_PATHS = "\"${PROJECT_DIR}/Pods\"/**";
 			};
 			name = Release;
