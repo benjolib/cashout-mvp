@@ -19,6 +19,10 @@
 
 - (BOOL)tutorialSeen;
 
+- (void)setOnboardingSeen;
+
+- (BOOL)onboardingSeen;
+
 - (NSDate *)toDateDayScaleForSymbol:(NSString *)symbol;
 
 - (NSDate *)toDateHourScaleForSymbol:(NSString *)symbol;

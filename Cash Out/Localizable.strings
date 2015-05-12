@@ -43,10 +43,17 @@
 "get new cash" = "get new cash";
 "enter your e-mail" = "enter your e-mail";
 "receive cash" = "receive cash";
-"start your real time currency..." = "start your real time currency...";
+"start your real time currency..." = "confirm your trade";
 "tap on your estimated exchange rate" = "tap on your estimated exchange rate";
 "take the right currency pair" = "take the right currency pair";
 "choose the amount of money you want to invest" = "choose the amount of money you want to invest";
 "30 minutes" = "30 min.";
 "back" = "back";
 "next" = "next";
+"done" = "done";
+
+"Sorry!" = "Sorry!";
+"the stocket market is currently closed" = "the stocket market\nis currently closed";
+"get notified when the market opens again" = "get notified when the\nmarket opens again";
+"yes" = "yes";
+"no" = "no";

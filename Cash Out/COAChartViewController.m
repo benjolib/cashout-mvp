@@ -101,6 +101,7 @@
     NSDate *startYesterday = [[[NSDate date] mt_dateDaysBefore:1] mt_startOfCurrentDay];
     NSDate *endYesterday = [[[NSDate date] mt_dateDaysBefore:1] mt_endOfCurrentDay];
     RLMResults *yesterdayValues = [[COASymbolValue objectsWithPredicate:[NSPredicate predicateWithFormat:@"symbol = %@ AND timestamp >= %@ AND timestamp <= %@", self.currencySymbol, startYesterday, endYesterday]] sortedResultsUsingProperty:@"timestamp" ascending:NO];
+
     COASymbolValue *yesterdayCloseValue = yesterdayValues.firstObject;
     self.yesterdayValue = yesterdayCloseValue.value;
 
@@ -352,9 +353,7 @@
     NSInteger secondsBetweenValues = numberOfSecondsBetweenDates / numberOfValues;
 
     RLMRealm *realm = [RLMRealm defaultRealm];
-    
-    NSLog(@"%@", [[COASymbolValue objectsWithPredicate:[NSPredicate predicateWithFormat:@"symbol = 'AUDUSD' AND timestamp >= %@", [[NSDate date] mt_dateHoursBefore:1]]] sortedResultsUsingProperty:@"timestamp" ascending:YES]);
-    
+
     NSMutableArray *values = [[NSMutableArray alloc] initWithCapacity:numberOfValues];
 
     NSDate *valueDate = [self dateFromDate:fromDate minuteScale:minuteScale hourScale:hourScale dayScale:dayScale];
@@ -369,23 +368,7 @@
         NSPredicate *predicate = [NSPredicate predicateWithFormat:@"symbol = %@ and timestamp = %@", self.currencySymbol, valueDate];
         COASymbolValue *symbolValue = [[COASymbolValue objectsInRealm:realm withPredicate:predicate] firstObject];
 
-//        int tries = 0;
-//        NSDate *innerValueDate = valueDate;
-//        while (symbolValue == nil) {
-//            innerValueDate = [self dateFromDate:[innerValueDate mt_dateSecondsAfter:tries * 60] minuteScale:minuteScale hourScale:hourScale dayScale:dayScale];
-//            predicate = [NSPredicate predicateWithFormat:@"symbol = %@ and timestamp = %@", self.currencySymbol, innerValueDate];
-//            symbolValue = [[COASymbolValue objectsInRealm:realm withPredicate:predicate] firstObject];
-//            if (symbolValue == nil) {
-//                innerValueDate = [self dateFromDate:[innerValueDate mt_dateSecondsBefore:tries * 2 * 60] minuteScale:minuteScale hourScale:hourScale dayScale:dayScale];
-//                predicate = [NSPredicate predicateWithFormat:@"symbol = %@ and timestamp = %@", self.currencySymbol, innerValueDate];
-//                symbolValue = [[COASymbolValue objectsInRealm:realm withPredicate:predicate] firstObject];
-//            }
-//            if (++tries > 120 || symbolValue) {
-//                break;
-//            }
-//        }
-
-        [values addObject:symbolValue ? @(symbolValue.value) : @(0)];
+        [values addObject:@(symbolValue.value)];
     }
 
     return values;

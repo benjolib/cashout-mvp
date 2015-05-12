@@ -84,6 +84,9 @@
     self.currencyScrollView.delegate = self;
     self.currencyScrollView.showsHorizontalScrollIndicator = NO;
     self.currencyScrollView.showsVerticalScrollIndicator = NO;
+    self.currencyScrollView.bounces = NO;
+    self.currencyScrollView.alwaysBounceHorizontal = NO;
+    self.currencyScrollView.alwaysBounceVertical = NO;
     [self.view addSubview:self.currencyScrollView];
 
     _grayLineBelowScrollView = [[UIView alloc] initWithFrame:CGRectZero];
@@ -200,12 +203,15 @@
 
 - (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset {
     double targetX = scrollView.contentOffset.x + velocity.x * 100.0;
-
+    targetX = MAX(0, targetX);
+    
     if (velocity.x > 0) {
         self.targetIndex = (NSUInteger) ceil(targetX / kCellWidth);
     } else {
         self.targetIndex = (NSUInteger) floor(targetX / kCellWidth);
     }
+    
+    self.targetIndex = MIN(self.targetIndex, self.currencyButtons.count - 1);
 
     targetContentOffset->x = (CGFloat) (self.targetIndex * kCellWidth);
 }
@@ -222,6 +228,14 @@
     [UIView animateWithDuration:0.4f animations:^{
         self.greenLineBelowScrollView.alpha = 1.f;
     }];
+}
+
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
+    if (!decelerate) {
+        [UIView animateWithDuration:0.4f animations:^{
+            self.greenLineBelowScrollView.alpha = 1.f;
+        }];
+    }
 }
 
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
@@ -256,9 +270,9 @@
     BOOL loadInBackground = [[NSDate date] mt_daysSinceDate:dayFromDate] < 7;
 
     if (loadInBackground) {
-        [[COADataFetcher instance] fetchLiveDataForSymbol:self.selectedCurrencySymbol fromDate:dayFromDate toDate:[NSDate date] completionBlock:^(NSString *value) {
-            [[COADataFetcher instance] fetchLiveDataForSymbol:self.selectedCurrencySymbol fromDate:hourFromDate toDate:[NSDate date] completionBlock:^(NSString *value) {
-                [[COADataFetcher instance] fetchLiveDataForSymbol:self.selectedCurrencySymbol fromDate:minuteFromDate toDate:[NSDate date] completionBlock:^(NSString *value) {
+        [[COADataFetcher instance] fetchHistoricalDataForSymbol:self.selectedCurrencySymbol fromDate:dayFromDate toDate:[NSDate date] completionBlock:^(NSString *value) {
+            [[COADataFetcher instance] fetchHistoricalDataForSymbol:self.selectedCurrencySymbol fromDate:hourFromDate toDate:[NSDate date] completionBlock:^(NSString *value) {
+                [[COADataFetcher instance] fetchHistoricalDataForSymbol:self.selectedCurrencySymbol fromDate:minuteFromDate toDate:[NSDate date] completionBlock:^(NSString *value) {
                     [[NSNotificationCenter defaultCenter] postNotificationName:HISTORY_DATA_LOADED object:nil];
                 }];
             }];
@@ -268,9 +282,9 @@
     } else {
         [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeBlack];
 
-        [[COADataFetcher instance] fetchLiveDataForSymbol:self.selectedCurrencySymbol fromDate:dayFromDate toDate:[NSDate date] completionBlock:^(NSString *value) {
-            [[COADataFetcher instance] fetchLiveDataForSymbol:self.selectedCurrencySymbol fromDate:hourFromDate toDate:[NSDate date] completionBlock:^(NSString *value) {
-                [[COADataFetcher instance] fetchLiveDataForSymbol:self.selectedCurrencySymbol fromDate:minuteFromDate toDate:[NSDate date] completionBlock:^(NSString *value) {
+        [[COADataFetcher instance] fetchHistoricalDataForSymbol:self.selectedCurrencySymbol fromDate:dayFromDate toDate:[NSDate date] completionBlock:^(NSString *value) {
+            [[COADataFetcher instance] fetchHistoricalDataForSymbol:self.selectedCurrencySymbol fromDate:hourFromDate toDate:[NSDate date] completionBlock:^(NSString *value) {
+                [[COADataFetcher instance] fetchHistoricalDataForSymbol:self.selectedCurrencySymbol fromDate:minuteFromDate toDate:[NSDate date] completionBlock:^(NSString *value) {
                     [[NSNotificationCenter defaultCenter] postNotificationName:HISTORY_DATA_LOADED object:nil];
                     [SVProgressHUD dismiss];
                     COAChartViewController *chartViewController = [[COAChartViewController alloc] initWithCurrencySymbol:[self selectedCurrencySymbol]];

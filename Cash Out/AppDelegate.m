@@ -7,13 +7,11 @@
 //
 
 #import <UIImage+ImageWithColor/UIImage+ImageWithColor.h>
-#import <MTDates/NSDate+MTDates.h>
 #import "AppDelegate.h"
 #import "COStartViewController.h"
 #import "COAConstants.h"
-#import "COADataFetcher.h"
-#import "COACurrencies.h"
-#import "COADataHelper.h"
+#import <Fabric/Fabric.h>
+#import <Crashlytics/Crashlytics.h>
 
 @interface AppDelegate ()
 
@@ -46,17 +44,10 @@
 
     [self initializeUserDefaults];
     
-    [[COADataFetcher instance] initialImport];
-
     [self.window makeKeyAndVisible];
 
+    [Fabric with:@[CrashlyticsKit]];
     return YES;
-}
-
-+ (NSString *) applicationDocumentsDirectory {
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *basePath = ([paths count] > 0) ? paths[0] : nil;
-    return basePath;
 }
 
 - (void)initializeUserDefaults {
@@ -66,42 +57,20 @@
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
-- (void)applicationWillResignActive:(UIApplication *)application {
-    // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
-    // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
-}
-
-- (void)applicationDidEnterBackground:(UIApplication *)application {
-    // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
-    // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
-}
-
-- (void)applicationWillEnterForeground:(UIApplication *)application {
-    // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
-}
-
 - (void)applicationDidBecomeActive:(UIApplication *)application {
-    for (NSString *currencySymbol in [COACurrencies currencies]) {
-        NSDate *dayFromDate = [[COADataHelper instance] toDateDayScaleForSymbol:currencySymbol];
-        NSDate *hourFromDate = [[COADataHelper instance] toDateHourScaleForSymbol:currencySymbol];
-        NSDate *minuteFromDate = [[COADataHelper instance] toDateMinuteScaleForSymbol:currencySymbol];
-
-        BOOL loadInBackground = [[NSDate date] mt_daysSinceDate:dayFromDate] < 7;
-
-        if (!loadInBackground) {
-            [[COADataFetcher instance] fetchLiveDataForSymbol:currencySymbol fromDate:dayFromDate toDate:[NSDate date] completionBlock:^(NSString *value) {
-                [[COADataFetcher instance] fetchLiveDataForSymbol:currencySymbol fromDate:hourFromDate toDate:[NSDate date] completionBlock:^(NSString *value) {
-                    [[COADataFetcher instance] fetchLiveDataForSymbol:currencySymbol fromDate:minuteFromDate toDate:[NSDate date] completionBlock:^(NSString *value) {
-                        [[NSNotificationCenter defaultCenter] postNotificationName:HISTORY_DATA_LOADED object:nil];
-                    }];
-                }];
-            }];
-        }
-    }
-}
-
-- (void)applicationWillTerminate:(UIApplication *)application {
-    // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+//    for (NSString *currencySymbol in [COACurrencies currencies]) {
+//        NSDate *dayFromDate = [[COADataHelper instance] toDateDayScaleForSymbol:currencySymbol];
+//        NSDate *hourFromDate = [[COADataHelper instance] toDateHourScaleForSymbol:currencySymbol];
+//        NSDate *minuteFromDate = [[COADataHelper instance] toDateMinuteScaleForSymbol:currencySymbol];
+//
+//        [[COADataFetcher instance] fetchHistoricalDataForSymbol:currencySymbol fromDate:dayFromDate toDate:[NSDate date] completionBlock:^(NSString *value) {
+//            [[COADataFetcher instance] fetchHistoricalDataForSymbol:currencySymbol fromDate:hourFromDate toDate:[NSDate date] completionBlock:^(NSString *value) {
+//                [[COADataFetcher instance] fetchHistoricalDataForSymbol:currencySymbol fromDate:minuteFromDate toDate:[NSDate date] completionBlock:^(NSString *value) {
+//                    [[NSNotificationCenter defaultCenter] postNotificationName:HISTORY_DATA_LOADED object:nil];
+//                }];
+//            }];
+//        }];
+//    }
 }
 
 @end

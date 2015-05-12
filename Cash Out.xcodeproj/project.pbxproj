@@ -29,6 +29,8 @@
 		CACF6E5C9DCF74DF40C709D4 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = CACF60C2C5AD8A5CE1565EF5 /* Localizable.strings */; };
 		CACF6EB48E630E28C24AFB02 /* COADataHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = CACF607C16EF51DDD51E8381 /* COADataHelper.m */; };
 		F880203D1ADB935D00F25031 /* COAConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = F880203C1ADB935D00F25031 /* COAConstants.m */; };
+		F885A6941B02312A004E3ECE /* COAMarketHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = F885A6931B02312A004E3ECE /* COAMarketHelper.m */; };
+		F885A6971B0239AD004E3ECE /* COAMarketClosedView.m in Sources */ = {isa = PBXBuildFile; fileRef = F885A6961B0239AD004E3ECE /* COAMarketClosedView.m */; };
 		F889B6091AE9773A002EDE18 /* COAShadowView.m in Sources */ = {isa = PBXBuildFile; fileRef = F889B6081AE9773A002EDE18 /* COAShadowView.m */; };
 		F89ECF771ACC373B00AEB3D2 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = F89ECF761ACC373B00AEB3D2 /* main.m */; };
 		F89ECF7A1ACC373B00AEB3D2 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = F89ECF791ACC373B00AEB3D2 /* AppDelegate.m */; };
@@ -37,6 +39,10 @@
 		F89ECF911ACC373B00AEB3D2 /* Cash_OutTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F89ECF901ACC373B00AEB3D2 /* Cash_OutTests.m */; };
 		F89ECF9C1ACC3F5E00AEB3D2 /* COStartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F89ECF9B1ACC3F5E00AEB3D2 /* COStartViewController.m */; };
 		F8A6A4C31AEA12F0005A7517 /* default.realm in Resources */ = {isa = PBXBuildFile; fileRef = F8A6A4C21AEA120A005A7517 /* default.realm */; };
+		F8A7974B1AF8BEBC00DA0761 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8A797491AF8BEBC00DA0761 /* Fabric.framework */; };
+		F8A7974C1AF8BEBC00DA0761 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8A7974A1AF8BEBC00DA0761 /* Crashlytics.framework */; };
+		F8CEFCA51AFA67A4006B7D0C /* COAOnboardingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F8CEFCA31AFA67A4006B7D0C /* COAOnboardingViewController.m */; };
+		F8CEFCA61AFA67A4006B7D0C /* COAOnboardingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F8CEFCA41AFA67A4006B7D0C /* COAOnboardingViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -94,6 +100,10 @@
 		CACF6EFFCF32DD4D1DE5F065 /* COAChartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = COAChartViewController.h; sourceTree = "<group>"; };
 		F880203B1ADB935D00F25031 /* COAConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = COAConstants.h; sourceTree = "<group>"; };
 		F880203C1ADB935D00F25031 /* COAConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = COAConstants.m; sourceTree = "<group>"; };
+		F885A6921B02312A004E3ECE /* COAMarketHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = COAMarketHelper.h; sourceTree = "<group>"; };
+		F885A6931B02312A004E3ECE /* COAMarketHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = COAMarketHelper.m; sourceTree = "<group>"; };
+		F885A6951B0239AD004E3ECE /* COAMarketClosedView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = COAMarketClosedView.h; sourceTree = "<group>"; };
+		F885A6961B0239AD004E3ECE /* COAMarketClosedView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = COAMarketClosedView.m; sourceTree = "<group>"; };
 		F889B6071AE9773A002EDE18 /* COAShadowView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = COAShadowView.h; sourceTree = "<group>"; };
 		F889B6081AE9773A002EDE18 /* COAShadowView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = COAShadowView.m; sourceTree = "<group>"; };
 		F89ECF711ACC373B00AEB3D2 /* Cash Out.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Cash Out.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -109,6 +119,11 @@
 		F89ECF9A1ACC3F5E00AEB3D2 /* COStartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = COStartViewController.h; sourceTree = "<group>"; };
 		F89ECF9B1ACC3F5E00AEB3D2 /* COStartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = COStartViewController.m; sourceTree = "<group>"; };
 		F8A6A4C21AEA120A005A7517 /* default.realm */ = {isa = PBXFileReference; lastKnownFileType = file; path = default.realm; sourceTree = "<group>"; };
+		F8A797491AF8BEBC00DA0761 /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
+		F8A7974A1AF8BEBC00DA0761 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
+		F8CEFCA21AFA67A4006B7D0C /* COAOnboardingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = COAOnboardingViewController.h; sourceTree = "<group>"; };
+		F8CEFCA31AFA67A4006B7D0C /* COAOnboardingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = COAOnboardingViewController.m; sourceTree = "<group>"; };
+		F8CEFCA41AFA67A4006B7D0C /* COAOnboardingViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = COAOnboardingViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -117,6 +132,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				137349B983E720B459D821B1 /* libPods.a in Frameworks */,
+				F8A7974C1AF8BEBC00DA0761 /* Crashlytics.framework in Frameworks */,
+				F8A7974B1AF8BEBC00DA0761 /* Fabric.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -133,6 +150,8 @@
 		A83668C6ECF1CE058AEACFCB /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F8A797491AF8BEBC00DA0761 /* Fabric.framework */,
+				F8A7974A1AF8BEBC00DA0761 /* Crashlytics.framework */,
 				0A7DF91478E775854EA7D76D /* libPods.a */,
 			);
 			name = Frameworks;
@@ -251,6 +270,13 @@
 				CACF6BEFC0A95B3D5BA00951 /* Views */,
 				CACF6981EA097DD30AE18EA2 /* COACurrencyChooserListViewController.m */,
 				CACF6B7A0FE008E02C7602F2 /* COACurrencyChooserListViewController.h */,
+				F8CEFCA21AFA67A4006B7D0C /* COAOnboardingViewController.h */,
+				F8CEFCA31AFA67A4006B7D0C /* COAOnboardingViewController.m */,
+				F8CEFCA41AFA67A4006B7D0C /* COAOnboardingViewController.xib */,
+				F885A6921B02312A004E3ECE /* COAMarketHelper.h */,
+				F885A6931B02312A004E3ECE /* COAMarketHelper.m */,
+				F885A6951B0239AD004E3ECE /* COAMarketClosedView.h */,
+				F885A6961B0239AD004E3ECE /* COAMarketClosedView.m */,
 			);
 			path = "Cash Out";
 			sourceTree = "<group>";
@@ -303,6 +329,7 @@
 				F89ECF6E1ACC373B00AEB3D2 /* Frameworks */,
 				F89ECF6F1ACC373B00AEB3D2 /* Resources */,
 				0C3B051735E8A4086635ACEE /* Copy Pods Resources */,
+				F8A797481AF8BEA700DA0761 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -374,6 +401,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F89ECF851ACC373B00AEB3D2 /* LaunchScreen.xib in Resources */,
+				F8CEFCA61AFA67A4006B7D0C /* COAOnboardingViewController.xib in Resources */,
 				F8A6A4C31AEA12F0005A7517 /* default.realm in Resources */,
 				F89ECF821ACC373B00AEB3D2 /* Images.xcassets in Resources */,
 				CACF6E5C9DCF74DF40C709D4 /* Localizable.strings in Resources */,
@@ -420,6 +448,19 @@
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
+		F8A797481AF8BEA700DA0761 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "./Fabric.framework/run c38f9115e943489192a598f520268779db94ff64 046137362d0290775da098e9dde22242fa78d90e1b0910ca8dbe3db80ac65403";
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -428,12 +469,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				F89ECF9C1ACC3F5E00AEB3D2 /* COStartViewController.m in Sources */,
+				F885A6941B02312A004E3ECE /* COAMarketHelper.m in Sources */,
 				F89ECF7A1ACC373B00AEB3D2 /* AppDelegate.m in Sources */,
 				F89ECF771ACC373B00AEB3D2 /* main.m in Sources */,
 				CACF6A0A792F82E198B80405 /* COAPlayHomeViewController.m in Sources */,
 				CACF60C2ECD73CB8A78B990A /* COAChartViewController.m in Sources */,
 				CACF63BBE916E295B0B8F627 /* COATradeModeViewController.m in Sources */,
 				CACF64A447AAD166B6F1827A /* COAAbstractViewController.m in Sources */,
+				F8CEFCA51AFA67A4006B7D0C /* COAOnboardingViewController.m in Sources */,
 				F880203D1ADB935D00F25031 /* COAConstants.m in Sources */,
 				CACF6A504713AD0F61763F14 /* COADataFetcher.m in Sources */,
 				CACF6A012040755D916BDA0E /* COATriangleView.m in Sources */,
@@ -448,6 +491,7 @@
 				CACF6D2C90DED4381293A0C5 /* COAFormatting.m in Sources */,
 				CACF619E862F4CCE37265293 /* COACurrencies.m in Sources */,
 				CACF684B2F3931410A7E740D /* COASymbolValue.m in Sources */,
+				F885A6971B0239AD004E3ECE /* COAMarketClosedView.m in Sources */,
 				CACF6C42BC22A74DD60BE874 /* COASignUpViewController.m in Sources */,
 				CACF60EF3A3589C1BA69B983 /* COATutorialViewController.m in Sources */,
 				CACF63D9EAA8BB10490F9A25 /* COACurrencyChooserListViewController.m in Sources */,
@@ -566,12 +610,17 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = "Cash Out/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "71919455-d3b4-4e57-bacb-256cfccc0ca9";
 				USER_HEADER_SEARCH_PATHS = "\"${PROJECT_DIR}/Pods\"/**";
 			};
 			name = Debug;
@@ -582,12 +631,17 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: RunaShop GmbH (NDMF32TPPR)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: RunaShop GmbH (NDMF32TPPR)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = "Cash Out/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "01bcd19f-8680-447e-9e39-303de0e91ce0";
 				USER_HEADER_SEARCH_PATHS = "\"${PROJECT_DIR}/Pods\"/**";
 			};
 			name = Release;

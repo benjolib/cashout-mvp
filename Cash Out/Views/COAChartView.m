@@ -234,8 +234,14 @@
     self.values = values;
 
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    dateFormatter.dateStyle = NSDateFormatterShortStyle;
-    dateFormatter.timeStyle = NSDateFormatterNoStyle;
+
+    if ([toDate mt_daysSinceDate:fromDate] > 3) {
+        dateFormatter.dateStyle = NSDateFormatterShortStyle;
+        dateFormatter.timeStyle = NSDateFormatterNoStyle;
+    } else {
+        dateFormatter.dateStyle = NSDateFormatterNoStyle;
+        dateFormatter.timeStyle = NSDateFormatterShortStyle;
+    }
 
     NSInteger secondsBetween = [toDate mt_secondsSinceDate:fromDate];
     NSInteger secondsBetweenDates = secondsBetween / 5;
@@ -284,6 +290,7 @@
 
         NSInteger xValue = [xValues[index] integerValue] - 1;
         NSNumber *value = self.values[index];
+
         if (value.floatValue == 0.0f) {
             continue;
         }

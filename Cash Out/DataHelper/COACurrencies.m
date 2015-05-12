@@ -45,7 +45,11 @@
     for (NSString *currentCurrencySymbol in [COACurrencies currencies]) {
         if ([currentCurrencySymbol rangeOfString:@"USD"].location != NSNotFound
                 && [currentCurrencySymbol rangeOfString:firstCurrency].location != NSNotFound) {
-            return [COASymbolValue latestValueForSymbol:currentCurrencySymbol];
+            if ([currentCurrencySymbol rangeOfString:@"USD"].location == 0) {
+                return 1 / [COASymbolValue latestValueForSymbol:currentCurrencySymbol];
+            } else {
+                return [COASymbolValue latestValueForSymbol:currentCurrencySymbol];
+            }
         }
     }
 

@@ -86,5 +86,13 @@
     return [[NSUserDefaults standardUserDefaults] boolForKey:TUTORIAL_SEEN];
 }
 
+- (void)setOnboardingSeen {
+    [[NSUserDefaults standardUserDefaults] setDouble:YES forKey:ONBOARDING_SEEN];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (BOOL)onboardingSeen {
+    return [[NSUserDefaults standardUserDefaults] boolForKey:ONBOARDING_SEEN];
+}
 
 @end

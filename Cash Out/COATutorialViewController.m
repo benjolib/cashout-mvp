@@ -149,7 +149,6 @@
         }
     }
 
-    self.nextButton.hidden = self.pageIndex > 2;
     self.backButton.hidden = self.pageIndex == 0;
     self.playButton.hidden = self.pageIndex < 3;
 
@@ -172,6 +171,12 @@
     [self.view addConstraints:self.customConstraints];
 }
 
+- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
+    [super touchesEnded:touches withEvent:event];
+    
+    [self backNextButtonPressed:self.nextButton];
+}
+
 - (void)backNextButtonPressed:(UIButton *)sender {
     if ([sender isEqual:self.backButton]) {
         self.pageIndex -= 1;
@@ -183,6 +188,10 @@
 }
 
 - (void)updateViewForPageIndex:(NSInteger)pageIndex {
+    NSString *title = pageIndex < 3 ? NSLocalizedString(@"next", @"").uppercaseString : NSLocalizedString(@"done", @"").uppercaseString;
+    
+    [self.nextButton setTitle:title forState:UIControlStateNormal];
+
     if (pageIndex > 3) {
         [self.view removeFromSuperview];
         [[COADataHelper instance] setTutorialSeen];
