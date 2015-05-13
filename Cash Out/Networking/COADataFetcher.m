@@ -4,12 +4,15 @@
 //
 
 #import <Realm/realm/RLMResults.h>
+#import <LUKeychainAccess/LUKeychainAccess.h>
 #import "COADataFetcher.h"
 #import "AFHTTPRequestOperationManager.h"
 #import "RLMRealm.h"
 #import "COASymbolValue.h"
 #import "NSDate+MTDates.h"
 #import "COADataHelper.h"
+#import "COACountryDeterminator.h"
+#import "COAConstants.h"
 
 
 @implementation COADataFetcher
@@ -57,6 +60,7 @@
             [defaultRealm commitWriteTransaction];
             dispatch_async(dispatch_get_main_queue(), ^{
                 [[NSNotificationCenter defaultCenter] postNotificationName:symbol object:nil userInfo:nil];
+                [[NSNotificationCenter defaultCenter] postNotificationName:SOME_SYMBOL_VALUE_FETCHED object:nil userInfo:nil];
             });
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -131,6 +135,91 @@
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         completionBlock(error.localizedDescription);
     }];
+}
+
+- (void)createUser {
+    NSString *key = [COADataFetcher identifierForVendor];
+    double balance = [[COADataHelper instance] money];
+    NSString *country = [[COACountryDeterminator instance] country];
+
+    if (country.length > 0) {
+        NSString *urlString = [NSString stringWithFormat:@"http://api-cashout.makers.do/users/create?email=%@&balance=%f&country=%@", key, balance, country];
+        AFHTTPRequestOperationManager *operationManager = [[AFHTTPRequestOperationManager alloc] init];
+        [operationManager GET:urlString parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            id query = responseObject[@"data"];
+            if ([query isKindOfClass:[NSDictionary class]]) {
+                [COADataFetcher setUserId:query[@"id"]];
+            }
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        }];
+    }
+}
+
+- (void)updateBalance {
+    NSInteger userId = [COADataFetcher userId];
+    double balance = [[COADataHelper instance] money];
+
+    NSString *urlString = [NSString stringWithFormat:@"http://api-cashout.makers.do/users/balance?id=%li&balance=%f", (long)userId, balance];
+    AFHTTPRequestOperationManager *operationManager = [[AFHTTPRequestOperationManager alloc] init];
+    [operationManager GET:urlString parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+    }];
+}
+
+- (void)fetchPositionWithCompletionBlock:(void (^)(NSInteger position))completionBlock {
+    NSString *urlString = [NSString stringWithFormat:@"http://api-cashout.makers.do/users/list?orderProperty=balance&orderDir=DESC&start=0&limit=1&email=%@", [COADataFetcher identifierForVendor]];
+    AFHTTPRequestOperationManager *operationManager = [[AFHTTPRequestOperationManager alloc] init];
+    [operationManager GET:urlString parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        id query = responseObject[@"data"];
+        if ([query isKindOfClass:[NSArray class]]) {
+            if (((NSArray *) query).count > 0) {
+                id dataEntry = query[0];
+                if ([dataEntry isKindOfClass:[NSDictionary class]]) {
+                    [COADataFetcher setPosition:[dataEntry[@"position"] integerValue]];
+                    [COADataFetcher setGlobalPosition:[dataEntry[@"overallPosition"] integerValue]];
+                    [COADataFetcher setUserId:[dataEntry[@"id"] integerValue]];
+                    completionBlock(0);
+                }
+            }
+        }
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+    }];
+}
+
++ (NSInteger)userId {
+    return [[LUKeychainAccess standardKeychainAccess] integerForKey:@"userid"];
+}
+
++ (void)setUserId:(NSInteger)userId {
+    [[LUKeychainAccess standardKeychainAccess] setInteger:userId forKey:@"userid"];
+}
+
++ (NSInteger)globalPosition {
+    return [[LUKeychainAccess standardKeychainAccess] integerForKey:@"globalposition"];
+}
+
++ (void)setGlobalPosition:(NSInteger)globalPosition {
+    [[LUKeychainAccess standardKeychainAccess] setInteger:globalPosition forKey:@"globalposition"];
+}
+
++ (NSInteger)position {
+    return [[LUKeychainAccess standardKeychainAccess] integerForKey:@"position"];
+}
+
++ (void)setPosition:(NSInteger)position {
+    [[LUKeychainAccess standardKeychainAccess] setInteger:position forKey:@"position"];
+}
+
++ (NSString *)identifierForVendor {
+
+    NSString *encryptionKeyFromKeychain = [[LUKeychainAccess standardKeychainAccess] stringForKey:@"identifierForVendorUUID"];
+
+    if (encryptionKeyFromKeychain.length == 0) {
+        encryptionKeyFromKeychain = [[UIDevice currentDevice] identifierForVendor].UUIDString;
+        [[LUKeychainAccess standardKeychainAccess] setString:encryptionKeyFromKeychain forKey:@"identifierForVendorUUID"];
+    }
+
+    return encryptionKeyFromKeychain;
 }
 
 NSString *encodeToPercentEscapeString(NSString *string) {

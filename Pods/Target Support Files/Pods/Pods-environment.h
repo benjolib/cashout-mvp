@@ -48,6 +48,12 @@
 #define COCOAPODS_VERSION_MINOR_AFNetworking_UIKit 5
 #define COCOAPODS_VERSION_PATCH_AFNetworking_UIKit 3
 
+// LUKeychainAccess
+#define COCOAPODS_POD_AVAILABLE_LUKeychainAccess
+#define COCOAPODS_VERSION_MAJOR_LUKeychainAccess 1
+#define COCOAPODS_VERSION_MINOR_LUKeychainAccess 2
+#define COCOAPODS_VERSION_PATCH_LUKeychainAccess 4
+
 // MTDates
 #define COCOAPODS_POD_AVAILABLE_MTDates
 #define COCOAPODS_VERSION_MAJOR_MTDates 1
@@ -57,14 +63,14 @@
 // Realm
 #define COCOAPODS_POD_AVAILABLE_Realm
 #define COCOAPODS_VERSION_MAJOR_Realm 0
-#define COCOAPODS_VERSION_MINOR_Realm 91
-#define COCOAPODS_VERSION_PATCH_Realm 5
+#define COCOAPODS_VERSION_MINOR_Realm 92
+#define COCOAPODS_VERSION_PATCH_Realm 2
 
 // Realm/Headers
 #define COCOAPODS_POD_AVAILABLE_Realm_Headers
 #define COCOAPODS_VERSION_MAJOR_Realm_Headers 0
-#define COCOAPODS_VERSION_MINOR_Realm_Headers 91
-#define COCOAPODS_VERSION_PATCH_Realm_Headers 5
+#define COCOAPODS_VERSION_MINOR_Realm_Headers 92
+#define COCOAPODS_VERSION_PATCH_Realm_Headers 2
 
 // SAMGradientView
 #define COCOAPODS_POD_AVAILABLE_SAMGradientView

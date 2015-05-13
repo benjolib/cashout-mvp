@@ -6,6 +6,7 @@
 #import "COADataHelper.h"
 #import "COAConstants.h"
 #import "NSDate+MTDates.h"
+#import "COADataFetcher.h"
 
 
 @implementation COADataHelper
@@ -71,6 +72,8 @@
 - (void)saveMoney:(double)money {
     [[NSUserDefaults standardUserDefaults] setDouble:money forKey:MONEY_USER_SETTING];
     [[NSUserDefaults standardUserDefaults] synchronize];
+
+    [[COADataFetcher instance] updateBalance];
 }
 
 - (double)money {

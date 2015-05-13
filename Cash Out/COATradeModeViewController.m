@@ -14,6 +14,8 @@
 #import "COAFormatting.h"
 #import "COADataHelper.h"
 #import "COACurrencies.h"
+#import "COANotificationHelper.h"
+#import <MTDates/NSDate+MTDates.h>
 
 #define firstLineFontSize 30
 #define secondLineFontSize 16
@@ -33,6 +35,7 @@
 @property (nonatomic, strong) NSMutableParagraphStyle *style;
 @property (nonatomic, strong) NSTimer *timer;
 @property (nonatomic, strong) UIView *separatorView;
+@property (nonatomic, strong) NSDate *startingDate;
 @property (nonatomic) double initialValue;
 @property (nonatomic) NSInteger winLoss;
 @property (nonatomic) NSInteger seconds;
@@ -51,18 +54,22 @@
         self.moneySet = moneySet;
         self.seconds = 600;
         self.navigationItem.hidesBackButton = YES;
+        self.startingDate = [NSDate date];
         self.timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timerUpdated) userInfo:nil repeats:YES];
+        
+        [COANotificationHelper scheduleLocalNotificationWithKey:TRADE_END_NOTIFICATION onDate:[[NSDate date] mt_dateSecondsAfter:8] message:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(gotoCashOut) name:RECEIVED_GAME_OVER_NOTIFICATION object:nil];
     }
 
     return self;
 }
 
 - (void)timerUpdated {
-    self.seconds = MAX(0, self.seconds - 1);
+    self.seconds = 600 - [[NSDate date] mt_secondsSinceDate:self.startingDate];
 
     NSInteger minutes = self.seconds / 60;
     NSInteger seconds = self.seconds % 60;
-
+    
     NSString *text = [NSString stringWithFormat:@"%02ld:%02ld\n(%@)", (long)minutes, (long)seconds, NSLocalizedString(@"time left", @"").uppercaseString];
     self.timeLeftValueLabel.textAlignment = NSTextAlignmentCenter;
     self.timeLeftValueLabel.attributedText = [text coa_firstLineAttributes:@{
@@ -240,7 +247,11 @@
 }
 
 - (void)gotoCashOut {
+
+    [COANotificationHelper removeAllLocalNotificationsForKey:TRADE_END_NOTIFICATION];
+    
     [self.timer invalidate];
+    
     double newBalance = [COADataHelper instance].money + self.winLoss;
     [[COADataHelper instance] saveMoney:newBalance];
     self.congratsView = [[COACongratsView alloc] initWithCompletionBlock:^(BOOL onlyClose) {
@@ -317,6 +328,10 @@
     }
 
     [self.view addConstraints:self.customConstraints];
+}
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 @end

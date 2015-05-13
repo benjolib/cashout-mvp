@@ -17,6 +17,10 @@ extern NSString *MONEY_USER_SETTING;
 extern NSString *TUTORIAL_SEEN;
 extern NSString *HISTORY_DATA_LOADED;
 extern NSString *ONBOARDING_SEEN;
+extern NSString *MARKET_NOTIFICATION;
+extern NSString *TRADE_END_NOTIFICATION;
+extern NSString *RECEIVED_GAME_OVER_NOTIFICATION;
+extern NSString *SOME_SYMBOL_VALUE_FETCHED;
 
 + (UIColor *)darkBlueColor;
 

@@ -22,6 +22,7 @@
 #import "COADataFetcher.h"
 #import "NSDate+MTDates.h"
 #import "COACurrencyChooserListViewController.h"
+#import "COASymbolValue.h"
 
 #define kCellWidth 180
 
@@ -147,7 +148,7 @@
     [self.tradeButton addTarget:self action:@selector(gotoTrade) forControlEvents:UIControlEventTouchUpInside];
     [self.tradeButton setBackgroundImage:[UIImage imageWithColor:[COAConstants lightBlueColor]] forState:UIControlStateDisabled];
     [self.tradeButton setBackgroundImage:[UIImage imageWithColor:[COAConstants greenColor]] forState:UIControlStateNormal];
-    self.tradeButton.enabled = NO;
+    [self.tradeButton setBackgroundImage:[UIImage imageWithColor:[COAConstants greenColor]] forState:UIControlStateHighlighted];
     [self.view addSubview:self.tradeButton];
 
     if (![[COADataHelper instance] tutorialSeen]) {
@@ -163,13 +164,23 @@
 
     [self fillScrollViewWithCurrencyButtons];
 
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateButtonAvailability) name:SOME_SYMBOL_VALUE_FETCHED object:nil];
+
+    [self updateButtonAvailability];
+    
     [self.view setNeedsUpdateConstraints];
+}
+
+- (void)updateButtonAvailability {
+    self.tradeButton.enabled = [COASymbolValue latestValueForSymbol:self.selectedCurrencySymbol] > 0.001 && (self.riseButton.selected || self.fallButton.selected);
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
 
     self.title = [NSLocalizedString(@"Specify Trade", @"") uppercaseString];
+    
+    [self updateButtonAvailability];
 }
 
 - (void)setCurrencySymbol:(NSString *)currencySymbol {
@@ -181,6 +192,7 @@
     CGPoint contentOffset = CGPointMake((CGFloat) (self.targetIndex * kCellWidth), 0);
     self.currencyScrollView.contentOffset = contentOffset;
     [self scrollViewDidEndDecelerating:self.currencyScrollView];
+    [self updateButtonAvailability];
 }
 
 - (void)riseFallButtonPressed:(UIButton *)sender {
@@ -188,7 +200,7 @@
     self.riseButton.selected = NO;
 
     sender.selected = YES;
-    self.tradeButton.enabled = YES;
+    [self updateButtonAvailability];
 }
 
 - (void)changeMoneyToBet:(UIButton *)sender {
@@ -212,6 +224,8 @@
     }
     
     self.targetIndex = MIN(self.targetIndex, self.currencyButtons.count - 1);
+
+    [self updateButtonAvailability];
 
     targetContentOffset->x = (CGFloat) (self.targetIndex * kCellWidth);
 }
@@ -445,5 +459,10 @@
     CGRect rect = [self.tradeButton.superview convertRect:self.tradeButton.frame toView:view];
     return CGRectGetMaxY(rect);
 }
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
 
 @end

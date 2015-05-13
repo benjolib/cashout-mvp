@@ -6,9 +6,7 @@
 #import "COACurrencyButton.h"
 #import "COAConstants.h"
 #import "COADataFetcher.h"
-#import "RLMRealm.h"
 #import "COASymbolValue.h"
-#import "RLMResults.h"
 #import "COACurrencies.h"
 
 @interface COACurrencyButton()

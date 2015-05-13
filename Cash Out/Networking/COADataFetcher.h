@@ -14,4 +14,15 @@
 
 - (void)fetchHistoricalDataForSymbol:(NSString *)symbol fromDate:(NSDate *)fromDate toDate:(NSDate *)toDate completionBlock:(void (^)(NSString *value))completionBlock;
 
+- (void)createUser;
+
+- (void)fetchPositionWithCompletionBlock:(void (^)(NSInteger position))completionBlock;
+
+- (void)updateBalance;
+
++ (NSInteger)globalPosition;
++ (NSInteger)position;
+
++ (NSInteger)userId;
+
 @end

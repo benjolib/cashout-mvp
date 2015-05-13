@@ -20,10 +20,12 @@
 	<string>????</string>
 	<key>CFBundleVersion</key>
 	<string>201505050750</string>
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string>the ranking is country specific</string>
 	<key>Fabric</key>
 	<dict>
 		<key>APIKey</key>
-		<string>c38f9115e943489192a598f520268779db94ff64</string>
+		<string>1d2b4312c0dea57bc121d01348581d2a2a92b28f</string>
 		<key>Kits</key>
 		<array>
 			<dict>
@@ -36,6 +38,10 @@
 	</dict>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>location</string>
+	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIRequiredDeviceCapabilities</key>

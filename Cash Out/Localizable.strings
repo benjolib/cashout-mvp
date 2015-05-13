@@ -57,3 +57,5 @@
 "get notified when the market opens again" = "get notified when the\nmarket opens again";
 "yes" = "yes";
 "no" = "no";
+"globalPosition" = "(overall %li%@)";
+"position" = "%li%@ position";

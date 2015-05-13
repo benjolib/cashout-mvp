@@ -16,12 +16,15 @@
 #import "COAOnboardingViewController.h"
 #import "COAMarketHelper.h"
 #import "COAMarketClosedView.h"
+#import "COADataFetcher.h"
 
 @interface COStartViewController ()
 
 @property (nonatomic, strong) UIImageView *logoImageView;
 @property (nonatomic, strong) UILabel *balanceTitelLabel;
 @property (nonatomic, strong) UILabel *balanceAmountLabel;
+@property (nonatomic, strong) UILabel *positionLabel;
+@property (nonatomic, strong) UILabel *overallPositionLabel;
 @property (nonatomic, strong) COAButton *playButton;
 @property (nonatomic, strong) COAButton *ranOutOfMoneyButton;
 @property (nonatomic, strong) NSMutableArray *customConstraints;
@@ -55,6 +58,18 @@
     self.balanceAmountLabel.font = [UIFont boldSystemFontOfSize:50];
     [self.balanceAmountLabel setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisVertical];
     [self.view addSubview:self.balanceAmountLabel];
+
+    _positionLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+    self.positionLabel.textColor = [COAConstants greenColor];
+    self.positionLabel.textAlignment = NSTextAlignmentCenter;
+    self.positionLabel.font = [COAConstants tradeBudgetCurrencyRate];
+    [self.view addSubview:self.positionLabel];
+
+    _overallPositionLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+    self.overallPositionLabel.textColor = [COAConstants grayColor];
+    self.overallPositionLabel.font = [COAConstants pageHeadlineTutorialBtnText];
+    self.overallPositionLabel.textAlignment = NSTextAlignmentCenter;
+    [self.view addSubview:self.overallPositionLabel];
 
     _ranOutOfMoneyButton = [[COAButton alloc] initWithBorderColor:nil triangleColor:nil outterTriangleColor:[COAConstants greenColor]];
     self.ranOutOfMoneyButton.backgroundColor = [COAConstants greenColor];
@@ -101,6 +116,39 @@
     self.balanceAmountLabel.text = [COAFormatting currencyStringFromValue:[COADataHelper instance].money];
     NSString *buttonTitle = [COADataHelper instance].money > 0 ? NSLocalizedString(@"play", @"") : NSLocalizedString(@"refill your balance", @"");
     [self.playButton setTitle:[buttonTitle uppercaseString] forState:UIControlStateNormal];
+
+    self.positionLabel.hidden = !self.ranOutOfMoneyButton.hidden;
+    self.overallPositionLabel.hidden = self.positionLabel.hidden;
+
+    self.playButton.enabled = [COAMarketHelper checkIfMarketIsOpen];
+
+    [[COADataFetcher instance] fetchPositionWithCompletionBlock:^(NSInteger position) {
+        NSString *positionSuffix = [COStartViewController ordinalNumberFormat:[COADataFetcher position]];
+        NSString *globalPositionSuffix = [COStartViewController ordinalNumberFormat:[COADataFetcher globalPosition]];
+        
+        self.positionLabel.text = [NSString stringWithFormat:NSLocalizedString(@"position", @""), (long)[COADataFetcher position], positionSuffix].uppercaseString;
+        self.overallPositionLabel.text = [NSString stringWithFormat:NSLocalizedString(@"globalPosition", @""), (long)[COADataFetcher globalPosition], globalPositionSuffix].uppercaseString;
+    }];
+}
+
++(NSString*)ordinalNumberFormat:(NSInteger)num{
+    int ones = num % 10;
+    int tens = (int) floor(num / 10);
+    tens = tens % 10;
+    if(tens == 1){
+        return @"th";
+    }else {
+        switch (ones) {
+            case 1:
+                return @"st";
+            case 2:
+                return @"nd";
+            case 3:
+                return @"rd";
+            default:
+                return @"th";
+        }
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -133,6 +181,8 @@
             @"logoImageView" : self.logoImageView,
             @"balanceTitelLabel" : self.balanceTitelLabel,
             @"balanceAmountLabel" : self.balanceAmountLabel,
+            @"positionLabel" : self.positionLabel,
+            @"overallPositionLabel" : self.overallPositionLabel,
             @"ranOutOfMoneyButton" : self.ranOutOfMoneyButton,
             @"playButton" : self.playButton
     };
@@ -153,9 +203,13 @@
     [self.customConstraints addObject:[NSLayoutConstraint constraintWithItem:self.balanceAmountLabel attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeCenterX multiplier:1 constant:0]];
     [self.customConstraints addObject:[NSLayoutConstraint constraintWithItem:self.balanceAmountLabel attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.balanceTitelLabel attribute:NSLayoutAttributeBottom multiplier:1 constant:10]];
 
+    [self.customConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[positionLabel]|" options:NSLayoutFormatDirectionLeadingToTrailing metrics:nil views:views]];
+    [self.customConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[overallPositionLabel]|" options:NSLayoutFormatDirectionLeadingToTrailing metrics:nil views:views]];
+
     [self.customConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-30-[ranOutOfMoneyButton]-30-|" options:NSLayoutFormatDirectionLeadingToTrailing metrics:nil views:views]];
     [self.customConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[playButton]|" options:NSLayoutFormatDirectionLeadingToTrailing metrics:nil views:views]];
     [self.customConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[balanceAmountLabel]-(>=15)-[ranOutOfMoneyButton]-30-[playButton(height)]" options:NSLayoutFormatDirectionLeadingToTrailing metrics:@{@"height":@(BUTTON_HEIGHT)} views:views]];
+    [self.customConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[balanceAmountLabel]-5-[positionLabel]-0-[overallPositionLabel]" options:NSLayoutFormatDirectionLeadingToTrailing metrics:@{@"height":@(BUTTON_HEIGHT)} views:views]];
     [self.customConstraints addObject:[NSLayoutConstraint constraintWithItem:self.playButton attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.bottomLayoutGuide attribute:NSLayoutAttributeTop multiplier:1 constant:0]];
 
     if (self.marketClosedView.superview) {

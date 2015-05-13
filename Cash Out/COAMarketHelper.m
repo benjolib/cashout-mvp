@@ -7,40 +7,64 @@
 //
 
 #import "COAMarketHelper.h"
+#import "COANotificationHelper.h"
+#import "COAConstants.h"
 #import <NSDate+MTDates.h>
+
+#define IS_DEBUG NO // TODO swalkner
 
 @implementation COAMarketHelper
 
 + (BOOL)checkIfMarketIsOpen {
     // Freitag 4pm EST - Sonntag 5pm EST
 
-    NSDate *estDate = [NSDate date];
+    NSDate *nextClosingDate = [self getNextClosingDate];
+    NSDate *nextOpeningDate = [self getNextOpeningDate];
     
-    NSInteger weekday = estDate.mt_weekdayOfWeek;
-    NSInteger hour = estDate.mt_hourOfDay;
-    
-    switch (weekday) {
-        case 0: // saturday
-            return NO;
-        case 1: // sunday
-            return hour > 21;
-        case 2: // monday
-            return YES;
-        case 3: // tuesday
-            return YES;
-        case 4: // wednesday
-            return YES;
-        case 5: // thursay
-            return YES;
-        case 6: // friday
-            return hour < 20;
-    }
+    return [nextClosingDate mt_isBefore:nextOpeningDate];
+}
 
-    return NO;
++ (NSDate *)getNextClosingDate {
+    [NSDate mt_setTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"EST"]];
+
+    NSDate *current = [[NSDate date] mt_startOfPreviousHour];
+
+    BOOL isFriday;
+    BOOL isClosingTime;
+    
+    do {
+        current = [current mt_startOfNextHour];
+        isFriday = [current mt_weekdayOfWeek] == 5;
+        isClosingTime = [current mt_hourOfDay] == 16;
+    } while (!isFriday || !isClosingTime);
+    
+    [NSDate mt_setTimeZone:[NSTimeZone localTimeZone]];
+    
+    return current;
+}
+
++ (NSDate *)getNextOpeningDate {
+    [NSDate mt_setTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"EST"]];
+    
+    NSDate *current = [[NSDate date] mt_startOfPreviousHour];
+    
+    BOOL isSunday;
+    BOOL isOpeningTime;
+
+    do {
+        current = [current mt_startOfNextHour];
+        
+        isSunday = IS_DEBUG ? [[NSDate date] mt_weekdayOfWeek] == [current mt_weekdayOfWeek] : [current mt_weekdayOfWeek] == 7;
+        isOpeningTime = IS_DEBUG ? [[NSDate date] mt_hourOfDay] + 1 == [current mt_hourOfDay] : [current mt_hourOfDay] == 17;
+    } while (!isSunday || !isOpeningTime);
+    
+    [NSDate mt_setTimeZone:[NSTimeZone localTimeZone]];
+    
+    return current;
 }
 
 + (void)scheduleLocalNotificationWhenMarketOpens {
-
+    [COANotificationHelper scheduleLocalNotificationWithKey:MARKET_NOTIFICATION onDate:[self getNextOpeningDate] message:@"markt hat jetzt offen"]; // TODO swalkner
 }
 
 @end

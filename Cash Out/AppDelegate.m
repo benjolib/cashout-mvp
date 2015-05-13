@@ -7,15 +7,21 @@
 //
 
 #import <UIImage+ImageWithColor/UIImage+ImageWithColor.h>
+#import <MTDates/NSDate+MTDates.h>
 #import "AppDelegate.h"
 #import "COStartViewController.h"
 #import "COAConstants.h"
+#import "COADataFetcher.h"
+#import "COACurrencies.h"
+#import "COADataHelper.h"
+#import "COACountryDeterminator.h"
 #import <Fabric/Fabric.h>
 #import <Crashlytics/Crashlytics.h>
 
 @interface AppDelegate ()
 
 @property (nonatomic, strong) UINavigationController *startNavigationController;
+@property (nonatomic, strong) COACountryDeterminator *countryDeterminator;
 
 @end
 
@@ -26,8 +32,6 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
     self.window.backgroundColor = [UIColor whiteColor];
-
-    [NSTimeZone setDefaultTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"UTC"]];
 
     COStartViewController *startViewController = [[COStartViewController alloc] initWithNibName:nil bundle:nil];
     self.startNavigationController = [[UINavigationController alloc] initWithRootViewController:startViewController];
@@ -44,11 +48,52 @@
 
     [self initializeUserDefaults];
     
+    UIUserNotificationType types = UIUserNotificationTypeBadge | UIUserNotificationTypeSound | UIUserNotificationTypeAlert;
+    
+    UIUserNotificationSettings *mySettings = [UIUserNotificationSettings settingsForTypes:types categories:nil];
+    
+    [[UIApplication sharedApplication] registerUserNotificationSettings:mySettings];
+
+    
     [self.window makeKeyAndVisible];
 
     [Fabric with:@[CrashlyticsKit]];
+
+    UILocalNotification *localNotification = [launchOptions valueForKey:UIApplicationLaunchOptionsLocalNotificationKey];
+    if (localNotification) {
+        [self application:application didReceiveLocalNotification:localNotification];
+    }
+    
     return YES;
 }
+
+- (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification {
+
+    [[NSNotificationCenter defaultCenter] postNotificationName:RECEIVED_GAME_OVER_NOTIFICATION object:nil];
+
+    if ([notification.userInfo.allKeys containsObject:TRADE_END_NOTIFICATION]) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:RECEIVED_GAME_OVER_NOTIFICATION object:nil];
+    }
+}
+
+- (void)application:(UIApplication *)application handleActionWithIdentifier:(NSString *)identifier forLocalNotification:(UILocalNotification *)notification completionHandler:(void(^)())completionHandler{
+    [[NSNotificationCenter defaultCenter] postNotificationName:RECEIVED_GAME_OVER_NOTIFICATION object:nil];
+
+    if ([notification.userInfo.allKeys containsObject:TRADE_END_NOTIFICATION]) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:RECEIVED_GAME_OVER_NOTIFICATION object:nil];
+    }
+    
+    completionHandler();
+}
+
+- (void)applicationDidBecomeActive:(UIApplication *)application {
+    if ([COADataFetcher userId] == 0) {
+        [[COADataFetcher instance] createUser];
+    }
+
+    self.countryDeterminator = [COACountryDeterminator instance];
+}
+
 
 - (void)initializeUserDefaults {
     [[NSUserDefaults standardUserDefaults] registerDefaults:@{
@@ -57,20 +102,14 @@
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
-- (void)applicationDidBecomeActive:(UIApplication *)application {
-//    for (NSString *currencySymbol in [COACurrencies currencies]) {
-//        NSDate *dayFromDate = [[COADataHelper instance] toDateDayScaleForSymbol:currencySymbol];
-//        NSDate *hourFromDate = [[COADataHelper instance] toDateHourScaleForSymbol:currencySymbol];
-//        NSDate *minuteFromDate = [[COADataHelper instance] toDateMinuteScaleForSymbol:currencySymbol];
-//
-//        [[COADataFetcher instance] fetchHistoricalDataForSymbol:currencySymbol fromDate:dayFromDate toDate:[NSDate date] completionBlock:^(NSString *value) {
-//            [[COADataFetcher instance] fetchHistoricalDataForSymbol:currencySymbol fromDate:hourFromDate toDate:[NSDate date] completionBlock:^(NSString *value) {
-//                [[COADataFetcher instance] fetchHistoricalDataForSymbol:currencySymbol fromDate:minuteFromDate toDate:[NSDate date] completionBlock:^(NSString *value) {
-//                    [[NSNotificationCenter defaultCenter] postNotificationName:HISTORY_DATA_LOADED object:nil];
-//                }];
-//            }];
-//        }];
-//    }
+- (void)applicationDidEnterBackground:(UIApplication *)application {
+    UIApplication *app = [UIApplication sharedApplication];
+    
+    //create new uiBackgroundTask
+    __block UIBackgroundTaskIdentifier bgTask = [app beginBackgroundTaskWithExpirationHandler:^{
+        [app endBackgroundTask:bgTask];
+        bgTask = UIBackgroundTaskInvalid;
+    }];
 }
 
 @end
