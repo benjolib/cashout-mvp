@@ -15,8 +15,10 @@
 #import "COACurrencies.h"
 #import "COADataHelper.h"
 #import "COACountryDeterminator.h"
+#import "COANotificationHelper.h"
 #import <Fabric/Fabric.h>
 #import <Crashlytics/Crashlytics.h>
+#import <LUKeychainAccess/LUKeychainAccess.h>
 
 @interface AppDelegate ()
 
@@ -32,6 +34,10 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
     self.window.backgroundColor = [UIColor whiteColor];
+
+    [application setMinimumBackgroundFetchInterval:UIApplicationBackgroundFetchIntervalMinimum];
+    
+    [NSTimeZone setDefaultTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"UTC"]];
 
     COStartViewController *startViewController = [[COStartViewController alloc] initWithNibName:nil bundle:nil];
     self.startNavigationController = [[UINavigationController alloc] initWithRootViewController:startViewController];
@@ -54,36 +60,12 @@
     
     [[UIApplication sharedApplication] registerUserNotificationSettings:mySettings];
 
-    
+    [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
+
     [self.window makeKeyAndVisible];
 
     [Fabric with:@[CrashlyticsKit]];
-
-    UILocalNotification *localNotification = [launchOptions valueForKey:UIApplicationLaunchOptionsLocalNotificationKey];
-    if (localNotification) {
-        [self application:application didReceiveLocalNotification:localNotification];
-    }
-    
     return YES;
-}
-
-- (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification {
-
-    [[NSNotificationCenter defaultCenter] postNotificationName:RECEIVED_GAME_OVER_NOTIFICATION object:nil];
-
-    if ([notification.userInfo.allKeys containsObject:TRADE_END_NOTIFICATION]) {
-        [[NSNotificationCenter defaultCenter] postNotificationName:RECEIVED_GAME_OVER_NOTIFICATION object:nil];
-    }
-}
-
-- (void)application:(UIApplication *)application handleActionWithIdentifier:(NSString *)identifier forLocalNotification:(UILocalNotification *)notification completionHandler:(void(^)())completionHandler{
-    [[NSNotificationCenter defaultCenter] postNotificationName:RECEIVED_GAME_OVER_NOTIFICATION object:nil];
-
-    if ([notification.userInfo.allKeys containsObject:TRADE_END_NOTIFICATION]) {
-        [[NSNotificationCenter defaultCenter] postNotificationName:RECEIVED_GAME_OVER_NOTIFICATION object:nil];
-    }
-    
-    completionHandler();
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
@@ -92,14 +74,11 @@
     }
 
     self.countryDeterminator = [COACountryDeterminator instance];
+    [[COADataHelper instance] tradeEnds];
 }
 
-
 - (void)initializeUserDefaults {
-    [[NSUserDefaults standardUserDefaults] registerDefaults:@{
-            MONEY_USER_SETTING : @(100000),
-    }];
-    [[NSUserDefaults standardUserDefaults] synchronize];
+    [[LUKeychainAccess standardKeychainAccess] registerDefaults:@{MONEY_USER_SETTING : @(100000)}];
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application {
@@ -110,6 +89,25 @@
         [app endBackgroundTask:bgTask];
         bgTask = UIBackgroundTaskInvalid;
     }];
+}
+
+- (void)applicationWillTerminate:(UIApplication *)application {
+    if ([[COADataHelper instance] tradeRunning]) {
+        [AppDelegate sendWinLossNotification];
+    }
+    [[COADataHelper instance] tradeEnds];
+}
+
++ (void)sendWinLossNotification {
+    double winLoss = [[COADataHelper instance] currentWinLoss];
+    NSString *formatString = winLoss >= 0 ? NSLocalizedString(@"notificationWon", @"") : NSLocalizedString(@"notificationLost", @"");
+
+    if (winLoss < 0) {
+        winLoss *= -1;
+    }
+
+    NSString *message = [NSString stringWithFormat:formatString, winLoss];
+    [COANotificationHelper scheduleLocalNotificationWithKey:@"alsdkjflaksjf" onDate:[[NSDate date] mt_dateSecondsAfter:2] message:message];
 }
 
 @end

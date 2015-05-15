@@ -3,6 +3,7 @@
 // Copyright (c) 2015 Cashout App GbR. All rights reserved.
 //
 
+#import <LUKeychainAccess/LUKeychainAccess.h>
 #import "COADataHelper.h"
 #import "COAConstants.h"
 #import "NSDate+MTDates.h"
@@ -54,6 +55,29 @@
     return returnDate;
 }
 
+- (void)tradeStarts {
+    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"traderunning"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (void)tradeEnds {
+    [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"traderunning"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (BOOL)tradeRunning {
+    return [[NSUserDefaults standardUserDefaults] boolForKey:@"traderunning"];
+}
+
+- (void)setCurrentWinLoss:(double)winLoss {
+    [[NSUserDefaults standardUserDefaults] setDouble:winLoss forKey:@"currentWinLoss"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (double)currentWinLoss {
+    return [[NSUserDefaults standardUserDefaults] doubleForKey:@"currentWinLoss"];
+}
+
 - (void)saveDayScaleForSymbol:(NSString *)symbol date:(NSDate *)toDate {
     [[NSUserDefaults standardUserDefaults] setObject:toDate forKey:[NSString stringWithFormat:@"day-%@", symbol]];
     [[NSUserDefaults standardUserDefaults] synchronize];
@@ -70,14 +94,13 @@
 }
 
 - (void)saveMoney:(double)money {
-    [[NSUserDefaults standardUserDefaults] setDouble:money forKey:MONEY_USER_SETTING];
-    [[NSUserDefaults standardUserDefaults] synchronize];
+    [[LUKeychainAccess standardKeychainAccess] setDouble:money forKey:MONEY_USER_SETTING];
 
     [[COADataFetcher instance] updateBalance];
 }
 
 - (double)money {
-    return [[NSUserDefaults standardUserDefaults] doubleForKey:MONEY_USER_SETTING];
+    return [[LUKeychainAccess standardKeychainAccess] doubleForKey:MONEY_USER_SETTING];
 }
 
 - (void)setTutorialSeen {

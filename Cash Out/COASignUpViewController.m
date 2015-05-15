@@ -8,6 +8,7 @@
 #import "COAButton.h"
 #import "COAConstants.h"
 #import "COAFormatting.h"
+#import "COADataFetcher.h"
 
 @interface COASignUpViewController() <UITextFieldDelegate>
 
@@ -69,12 +70,19 @@
 
     _receiveCashButton = [[COAButton alloc] initWithBorderColor:nil triangleColor:self.emailTextField.backgroundColor outterTriangleColor:nil];
     self.receiveCashButton.backgroundColor = [COAConstants greenColor];
+    [self.receiveCashButton addTarget:self action:@selector(sendEmailToServer:) forControlEvents:UIControlEventTouchUpInside];
     [self.receiveCashButton setTitle:NSLocalizedString(@"receive cash", @"").uppercaseString forState:UIControlStateNormal];
     [self.scrollView addSubview:self.receiveCashButton];
 
     [self addKeyboardNotifications];
 
     [self.view setNeedsUpdateConstraints];
+}
+
+- (void)sendEmailToServer:(id)sender {
+    [[COADataFetcher instance] sendMailToServer:self.emailTextField.text completionBlock:^{
+        [self.navigationController popToRootViewControllerAnimated:YES];
+    }];
 }
 
 - (void)addKeyboardNotifications {

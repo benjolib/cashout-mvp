@@ -59,3 +59,5 @@
 "no" = "no";
 "globalPosition" = "(overall %li%@)";
 "position" = "%li%@ position";
+"notificationWon" = "You won %.0f $";
+"notificationLost" = "You lost %.0f $";

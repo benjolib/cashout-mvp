@@ -11,123 +11,23 @@
             <rect key="frame" x="0.0" y="0.0" width="480" height="480"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Kzn-gq-lZ5">
-                    <rect key="frame" x="0.0" y="31" width="480" height="90"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="90" id="iXY-pa-dgt"/>
-                    </constraints>
-                    <string key="text">Currencies, bitcoin,
-the dollar. They all rise and
-fall every millisecond.</string>
-                    <fontDescription key="fontDescription" name="Avenir-Light" family="Avenir" pointSize="20"/>
-                    <color key="textColor" red="0.23921568627450979" green="0.58823529411764708" blue="0.82352941176470584" alpha="1" colorSpace="calibratedRGB"/>
-                    <nil key="highlightedColor"/>
-                </label>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="ACCEPT THE CHALLENGE" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TGw-lc-gDA">
-                    <rect key="frame" x="0.0" y="492" width="480" height="80"/>
-                    <color key="backgroundColor" red="0.59999999999999998" green="0.84313725490000002" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="80" id="AGR-rG-Aov"/>
-                    </constraints>
-                    <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="22"/>
-                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                    <nil key="highlightedColor"/>
-                    <variation key="widthClass=compact" fixedFrame="YES">
-                        <rect key="frame" x="0.0" y="483" width="485" height="80"/>
-                    </variation>
-                    <variation key="heightClass=compact-widthClass=compact" fixedFrame="YES">
-                        <rect key="frame" x="0.0" y="492" width="485" height="80"/>
-                    </variation>
-                    <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
-                        <rect key="frame" x="0.0" y="492" width="485" height="80"/>
-                    </variation>
-                </label>
-                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="chartOnboarding" translatesAutoresizingMaskIntoConstraints="NO" id="IuH-0o-fEp">
-                    <rect key="frame" x="84" y="148" width="313" height="172"/>
-                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                    <constraints>
-                        <constraint firstAttribute="height" priority="750" constant="231" id="4ST-TQ-5Bo"/>
-                        <constraint firstAttribute="width" constant="313" id="B9s-nW-zfp"/>
-                        <constraint firstAttribute="height" constant="340" id="FnW-QF-KbU"/>
-                    </constraints>
-                    <variation key="default">
-                        <mask key="constraints">
-                            <exclude reference="4ST-TQ-5Bo"/>
-                            <exclude reference="FnW-QF-KbU"/>
-                        </mask>
-                    </variation>
-                    <variation key="heightClass=regular" ambiguous="YES" misplaced="YES">
-                        <rect key="frame" x="88" y="169" width="305" height="238"/>
-                    </variation>
-                    <variation key="widthClass=compact" ambiguous="YES" misplaced="YES">
-                        <rect key="frame" x="72" y="287" width="340" height="239"/>
-                        <mask key="constraints">
-                            <exclude reference="FnW-QF-KbU"/>
-                        </mask>
-                    </variation>
-                    <variation key="heightClass=regular-widthClass=compact" ambiguous="YES" misplaced="YES">
-                        <rect key="frame" x="76" y="107" width="305" height="239"/>
-                    </variation>
-                </imageView>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7lP-PO-GQP">
-                    <rect key="frame" x="0.0" y="320" width="480" height="172"/>
-                    <string key="text">Can you beat the market
-and win thousands
-of dollars?</string>
-                    <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="20"/>
-                    <color key="textColor" red="0.23921568627450979" green="0.58823529411764708" blue="0.82352941176470584" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                    <nil key="highlightedColor"/>
-                </label>
-                <imageView userInteractionEnabled="NO" contentMode="top" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="Triangle" translatesAutoresizingMaskIntoConstraints="NO" id="YXM-vO-9rx">
-                    <rect key="frame" x="187" y="492" width="107" height="80"/>
+                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="App-icon" translatesAutoresizingMaskIntoConstraints="NO" id="tF9-Xh-Utq">
+                    <rect key="frame" x="0.0" y="0.0" width="480" height="480"/>
                 </imageView>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstItem="YXM-vO-9rx" firstAttribute="height" secondItem="TGw-lc-gDA" secondAttribute="height" id="3oR-Yj-E21"/>
-                <constraint firstItem="YXM-vO-9rx" firstAttribute="top" secondItem="TGw-lc-gDA" secondAttribute="top" id="5sj-Hb-hMm"/>
-                <constraint firstAttribute="bottom" secondItem="TGw-lc-gDA" secondAttribute="bottom" id="5so-WC-odL"/>
-                <constraint firstAttribute="centerX" secondItem="IuH-0o-fEp" secondAttribute="centerX" constant="-0.5" id="7GE-8Y-5ne"/>
-                <constraint firstAttribute="centerX" secondItem="IuH-0o-fEp" secondAttribute="centerX" constant="15" id="ATw-xu-G1t"/>
-                <constraint firstItem="7lP-PO-GQP" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="C4z-hG-8bT"/>
-                <constraint firstAttribute="trailing" secondItem="Kzn-gq-lZ5" secondAttribute="trailing" id="HJ4-td-gfZ"/>
-                <constraint firstAttribute="trailing" secondItem="IuH-0o-fEp" secondAttribute="trailing" constant="8" id="IPe-WL-3iU"/>
-                <constraint firstItem="TGw-lc-gDA" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="Nlq-a4-A8Z"/>
-                <constraint firstItem="IuH-0o-fEp" firstAttribute="top" secondItem="Kzn-gq-lZ5" secondAttribute="bottom" constant="-51" id="PJK-lQ-aOm"/>
-                <constraint firstItem="TGw-lc-gDA" firstAttribute="top" secondItem="7lP-PO-GQP" secondAttribute="bottom" id="Sa1-m2-uPT"/>
-                <constraint firstAttribute="trailing" secondItem="TGw-lc-gDA" secondAttribute="trailing" id="Vha-UJ-iGr"/>
-                <constraint firstItem="7lP-PO-GQP" firstAttribute="top" secondItem="IuH-0o-fEp" secondAttribute="bottom" id="YT5-eE-TrA"/>
-                <constraint firstItem="IuH-0o-fEp" firstAttribute="top" relation="greaterThanOrEqual" secondItem="Kzn-gq-lZ5" secondAttribute="bottom" constant="27" id="cZM-Cl-Z6o"/>
-                <constraint firstAttribute="trailing" secondItem="7lP-PO-GQP" secondAttribute="trailing" id="czy-ds-Z2i"/>
-                <constraint firstItem="Kzn-gq-lZ5" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="31" id="g0v-DF-6EU"/>
-                <constraint firstItem="7lP-PO-GQP" firstAttribute="height" secondItem="IuH-0o-fEp" secondAttribute="height" id="l00-H5-Nvh"/>
-                <constraint firstAttribute="centerY" secondItem="IuH-0o-fEp" secondAttribute="centerY" constant="-0.5" id="o08-tl-OGN"/>
-                <constraint firstItem="YXM-vO-9rx" firstAttribute="centerX" secondItem="TGw-lc-gDA" secondAttribute="centerX" constant="0.5" id="tCl-Uv-NZf"/>
-                <constraint firstItem="Kzn-gq-lZ5" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="wdA-6v-Y2J"/>
+                <constraint firstAttribute="bottom" secondItem="tF9-Xh-Utq" secondAttribute="bottom" id="Dtt-OA-pL9"/>
+                <constraint firstItem="tF9-Xh-Utq" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="ZFk-1D-YeH"/>
+                <constraint firstItem="tF9-Xh-Utq" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="eju-2c-VuO"/>
+                <constraint firstAttribute="trailing" secondItem="tF9-Xh-Utq" secondAttribute="trailing" id="epZ-2V-Nf7"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <variation key="default">
-                <mask key="constraints">
-                    <exclude reference="ATw-xu-G1t"/>
-                    <exclude reference="IPe-WL-3iU"/>
-                    <exclude reference="PJK-lQ-aOm"/>
-                    <exclude reference="o08-tl-OGN"/>
-                </mask>
-            </variation>
-            <variation key="heightClass=regular">
-                <mask key="constraints">
-                    <exclude reference="ATw-xu-G1t"/>
-                    <exclude reference="IPe-WL-3iU"/>
-                    <exclude reference="PJK-lQ-aOm"/>
-                    <exclude reference="o08-tl-OGN"/>
-                </mask>
-            </variation>
             <point key="canvasLocation" x="548" y="662"/>
         </view>
     </objects>
     <resources>
-        <image name="Triangle" width="15" height="7"/>
-        <image name="chartOnboarding" width="308" height="226"/>
+        <image name="App-icon" width="375" height="375"/>
     </resources>
 </document>

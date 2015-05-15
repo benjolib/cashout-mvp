@@ -12,6 +12,4 @@
 
 + (BOOL)checkIfMarketIsOpen;
 
-+ (void)scheduleLocalNotificationWhenMarketOpens;
-
 @end

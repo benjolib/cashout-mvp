@@ -14,11 +14,12 @@
 #import "COAFormatting.h"
 #import "COADataHelper.h"
 #import "COACurrencies.h"
-#import "COANotificationHelper.h"
+#import "AppDelegate.h"
 #import <MTDates/NSDate+MTDates.h>
 
 #define firstLineFontSize 30
 #define secondLineFontSize 16
+#define TIME 600
 
 @interface COATradeModeViewController()
 
@@ -36,7 +37,9 @@
 @property (nonatomic, strong) NSTimer *timer;
 @property (nonatomic, strong) UIView *separatorView;
 @property (nonatomic, strong) NSDate *startingDate;
+@property (nonatomic) UIBackgroundTaskIdentifier backgroundTask;
 @property (nonatomic) double initialValue;
+@property (nonatomic) double initialMoney;
 @property (nonatomic) NSInteger winLoss;
 @property (nonatomic) NSInteger seconds;
 @property (nonatomic) double moneySet;
@@ -52,20 +55,19 @@
         self.betOnRise = rise;
         self.currencySymbol = currencySymbol;
         self.moneySet = moneySet;
-        self.seconds = 600;
+        self.seconds = TIME;
         self.navigationItem.hidesBackButton = YES;
         self.startingDate = [NSDate date];
         self.timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timerUpdated) userInfo:nil repeats:YES];
         
-        [COANotificationHelper scheduleLocalNotificationWithKey:TRADE_END_NOTIFICATION onDate:[[NSDate date] mt_dateSecondsAfter:8] message:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(gotoCashOut) name:RECEIVED_GAME_OVER_NOTIFICATION object:nil];
+        [self performSelector:@selector(gotoCashOut) withObject:nil afterDelay:TIME];
     }
 
     return self;
 }
 
 - (void)timerUpdated {
-    self.seconds = 600 - [[NSDate date] mt_secondsSinceDate:self.startingDate];
+    self.seconds = TIME - [[NSDate date] mt_secondsSinceDate:self.startingDate];
 
     NSInteger minutes = self.seconds / 60;
     NSInteger seconds = self.seconds % 60;
@@ -83,9 +85,8 @@
 
     [self currencyValueUpdated];
 
-    if (self.seconds == 0) {
+    if (self.seconds == 0 || [UIApplication sharedApplication].backgroundTimeRemaining < 10) {
         [self gotoCashOut];
-        return;
     }
 }
 
@@ -104,7 +105,6 @@
     } else if (usdAtTheEnd) {
         self.winLoss = (NSInteger) (self.moneySet * 100 * (latestSymbolValue - self.initialValue) / self.initialValue);
     } else {
-
         self.winLoss = (NSInteger) (self.moneySet * 100 * (latestSymbolValue - self.initialValue) * [COACurrencies usdCounterPart:firstCurrency]);
     }
 
@@ -113,14 +113,28 @@
     }
 
     [self setWinLossValueLabelText:@(self.winLoss)];
+
+    [[COADataHelper instance] setCurrentWinLoss:self.winLoss];
+    
+    double newBalance = self.initialMoney + self.winLoss;
+    [[COADataHelper instance] saveMoney:newBalance];
+    
     [self setPriceValueLabelText:[NSString stringWithFormat:@"%.4f", latestSymbolValue]];
+
+    [[COADataHelper instance] tradeStarts];
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    self.backgroundTask = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
+        [[UIApplication sharedApplication] endBackgroundTask:self.backgroundTask];
+        self.backgroundTask = UIBackgroundTaskInvalid;
+    }];
+
     self.title = [NSLocalizedString(@"trade mode", @"") uppercaseString];
     self.view.backgroundColor = [COAConstants darkBlueColor];
+    self.initialMoney = [[COADataHelper instance] money];
 
     RLMRealm *defaultRealm = [RLMRealm defaultRealm];
     RLMResults *results = [[COASymbolValue objectsInRealm:defaultRealm withPredicate:[NSPredicate predicateWithFormat:@"symbol = %@", self.currencySymbol]] sortedResultsUsingProperty:@"timestamp" ascending:NO];
@@ -247,21 +261,30 @@
 }
 
 - (void)gotoCashOut {
+    if ([UIApplication sharedApplication].applicationState != UIApplicationStateActive) {
+        [AppDelegate sendWinLossNotification];
+    }
+    
+    [[UIApplication sharedApplication] endBackgroundTask:self.backgroundTask];
+    self.backgroundTask = UIBackgroundTaskInvalid;
 
-    [COANotificationHelper removeAllLocalNotificationsForKey:TRADE_END_NOTIFICATION];
+    [NSObject cancelPreviousPerformRequestsWithTarget:self];
+    
+    [[COADataHelper instance] tradeEnds];
     
     [self.timer invalidate];
     
-    double newBalance = [COADataHelper instance].money + self.winLoss;
+    double newBalance = self.initialMoney + self.winLoss;
     [[COADataHelper instance] saveMoney:newBalance];
+    __weak COATradeModeViewController *weakSelf = self;
     self.congratsView = [[COACongratsView alloc] initWithCompletionBlock:^(BOOL onlyClose) {
         if (!onlyClose) {
-            [self.navigationController popToRootViewControllerAnimated:NO];
+            [weakSelf.navigationController popToRootViewControllerAnimated:NO];
         }
     } winLoss:self.winLoss];
     self.congratsView.translatesAutoresizingMaskIntoConstraints = NO;
     [self.view addSubview:self.congratsView];
-
+    
     [self.view setNeedsUpdateConstraints];
     self.winLoss = 0;
 }

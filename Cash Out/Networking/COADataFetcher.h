@@ -20,6 +20,8 @@
 
 - (void)updateBalance;
 
+- (void)sendMailToServer:(NSString *)email completionBlock:(void (^)())completionBlock;
+
 + (NSInteger)globalPosition;
 + (NSInteger)position;
 

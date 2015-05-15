@@ -207,7 +207,7 @@
     if ([sender isEqual:self.minusButton]) {
         self.moneyToBet = MAX(0, self.moneyToBet - 2000);
     } else {
-        self.moneyToBet = MIN([[NSUserDefaults standardUserDefaults] doubleForKey:MONEY_USER_SETTING], self.moneyToBet + 2000);
+        self.moneyToBet = MIN([[COADataHelper instance] money], self.moneyToBet + 2000);
     }
 
     self.amountToTradeTextField.text = [COAFormatting currencyStringFromValue:self.moneyToBet];

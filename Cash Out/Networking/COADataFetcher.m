@@ -50,11 +50,14 @@
                     id ask = row[@"ask"];
                     id bid = row[@"bid"];
                     id time = row[@"time"];
-                    COASymbolValue *symbolValue = [[COASymbolValue alloc] init];
-                    symbolValue.timestamp = [dateFormatter dateFromString:time];
-                    symbolValue.symbol = symbol;
-                    symbolValue.value = ([ask doubleValue] + [bid doubleValue]) / 2;
-                    [defaultRealm addObject:symbolValue];
+                    
+                    if (ask != [NSNull null] && bid != [NSNull null] && time != [NSNull null]) {
+                        COASymbolValue *symbolValue = [[COASymbolValue alloc] init];
+                        symbolValue.timestamp = [dateFormatter dateFromString:time];
+                        symbolValue.symbol = symbol;
+                        symbolValue.value = ([ask doubleValue] + [bid doubleValue]) / 2;
+                        [defaultRealm addObject:symbolValue];
+                    }
                 }
             }
             [defaultRealm commitWriteTransaction];
@@ -99,21 +102,24 @@
                     id ask = row[@"ask"];
                     id bid = row[@"bid"];
                     id time = row[@"time"];
-                    COASymbolValue *symbolValue = [[COASymbolValue alloc] init];
-                    NSDate *date = [dateFormatter dateFromString:time];
-
-                    if ([scaleString isEqualToString:@"1d"]) {
-                        date = [date mt_startOfCurrentDay];
-                    } else if ([scaleString isEqualToString:@"1h"]) {
-                        date = [date mt_startOfCurrentHour];
-                    } else {
-                        date = [date mt_startOfCurrentMinute];
+                    
+                    if (ask != [NSNull null] && bid != [NSNull null] && time != [NSNull null]) {
+                        COASymbolValue *symbolValue = [[COASymbolValue alloc] init];
+                        NSDate *date = [dateFormatter dateFromString:time];
+                        
+                        if ([scaleString isEqualToString:@"1d"]) {
+                            date = [date mt_startOfCurrentDay];
+                        } else if ([scaleString isEqualToString:@"1h"]) {
+                            date = [date mt_startOfCurrentHour];
+                        } else {
+                            date = [date mt_startOfCurrentMinute];
+                        }
+                        
+                        symbolValue.timestamp = date;
+                        symbolValue.symbol = symbol;
+                        symbolValue.value = ([ask doubleValue] + [bid doubleValue]) / 2;
+                        [defaultRealm addObject:symbolValue];
                     }
-
-                    symbolValue.timestamp = date;
-                    symbolValue.symbol = symbol;
-                    symbolValue.value = ([ask doubleValue] + [bid doubleValue]) / 2;
-                    [defaultRealm addObject:symbolValue];
                 }
             }
 
@@ -149,10 +155,30 @@
             id query = responseObject[@"data"];
             if ([query isKindOfClass:[NSDictionary class]]) {
                 [COADataFetcher setUserId:query[@"id"]];
+                [self fetchPositionWithCompletionBlock:^(NSInteger position) {
+                    
+                }];
             }
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         }];
     }
+}
+
+- (void)sendMailToServer:(NSString *)email completionBlock:(void (^)())completionBlock {
+    NSString *urlString = [NSString stringWithFormat:@"http://api-cashout.makers.do/users/update?id=%i&email=%@", [COADataFetcher userId], email];
+    AFHTTPRequestOperationManager *operationManager = [[AFHTTPRequestOperationManager alloc] init];
+    [operationManager GET:urlString parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        if ([responseObject isKindOfClass:[NSDictionary class]]) {
+            id success = responseObject[@"success"];
+
+            if ([success boolValue]) {
+                [[COADataHelper instance] saveMoney:100000];
+                [[COADataFetcher instance] updateBalance];
+                completionBlock();
+            }
+        }
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+    }];
 }
 
 - (void)updateBalance {
@@ -180,6 +206,8 @@
                     [COADataFetcher setUserId:[dataEntry[@"id"] integerValue]];
                     completionBlock(0);
                 }
+            } else {
+                [self createUser];
             }
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {

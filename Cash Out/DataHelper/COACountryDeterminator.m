@@ -23,8 +23,6 @@
     @synchronized (self) {
         if (_instance == nil) {
             _instance = [[self alloc] init];
-            
-            [[LUKeychainAccess standardKeychainAccess] deleteAll];
 
             if ([[self instance] country].length == 0) {
                 _instance.locationManager = [[CLLocationManager alloc] init];

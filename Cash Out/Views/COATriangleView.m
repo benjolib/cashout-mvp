@@ -47,7 +47,7 @@
 - (void)setTriangleColor:(UIColor *)triangleColor {
     _fillColor = triangleColor;
 
-    [self setNeedsDisplayInRect:self.frame];
+    [self setNeedsDisplay];
 }
 
 @end

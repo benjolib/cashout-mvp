@@ -63,8 +63,8 @@
     return current;
 }
 
-+ (void)scheduleLocalNotificationWhenMarketOpens {
-    [COANotificationHelper scheduleLocalNotificationWithKey:MARKET_NOTIFICATION onDate:[self getNextOpeningDate] message:@"markt hat jetzt offen"]; // TODO swalkner
-}
+//+ (void)scheduleLocalNotificationWhenMarketOpens {
+//    [COANotificationHelper scheduleLocalNotificationWithKey:MARKET_NOTIFICATION onDate:[self getNextOpeningDate] message:@"markt hat jetzt offen"]; // TODO swalkner
+//}
 
 @end

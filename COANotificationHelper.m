@@ -23,28 +23,23 @@
 
     localNotif.fireDate = date;
     localNotif.userInfo = @{key:key};
-
-    if (![key isEqualToString:RECEIVED_GAME_OVER_NOTIFICATION]) {
-        localNotif.alertBody = message;
-        localNotif.alertTitle = @"Cash Out";
-        localNotif.soundName = UILocalNotificationDefaultSoundName;
-    } else {
-        [self scheduleLocalNotificationWithKey:TRADE_END_NOTIFICATION onDate:[[NSDate date] mt_dateSecondsAfter:2] message:[NSString stringWithFormat:@"du hast jetzt %f", [COADataHelper instance].money]];
-    }
+    localNotif.alertBody = message;
+    localNotif.alertTitle = @"Cash Out";
+    localNotif.soundName = UILocalNotificationDefaultSoundName;
 
     [[UIApplication sharedApplication] scheduleLocalNotification:localNotif];
 }
 
 + (void)removeAllLocalNotificationsForKey:(NSString *)key {
-    UIApplication *app = [UIApplication sharedApplication];
-    NSArray *eventArray = [app scheduledLocalNotifications];
-    for (int i = 0; i < [eventArray count]; i++) {
-        UILocalNotification *oneEvent = eventArray[i];
-
-        if (oneEvent.userInfo[key] != nil) {
-            [app cancelLocalNotification:oneEvent];
-        }
-    }
+//    UIApplication *app = [UIApplication sharedApplication];
+//    NSArray *eventArray = [app scheduledLocalNotifications];
+//    for (int i = 0; i < [eventArray count]; i++) {
+//        UILocalNotification *oneEvent = eventArray[i];
+//
+//        if (oneEvent.userInfo[key] != nil) {
+//            [app cancelLocalNotification:oneEvent];
+//        }
+//    }
 }
 
 @end

@@ -93,7 +93,7 @@
 
     [self.view setNeedsUpdateConstraints];
     
-    if ([COAMarketHelper checkIfMarketIsOpen] || YES) { // TODO swalkner
+    if (![COAMarketHelper checkIfMarketIsOpen]) {
         self.marketClosedView = [[COAMarketClosedView alloc] initWithCompletionBlock:^(BOOL onlyClose) {
         }];
         [self.view addSubview:self.marketClosedView];

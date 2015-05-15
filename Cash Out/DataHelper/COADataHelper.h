@@ -23,6 +23,16 @@
 
 - (BOOL)onboardingSeen;
 
+- (void)tradeStarts;
+
+- (void)tradeEnds;
+
+- (BOOL)tradeRunning;
+
+- (void)setCurrentWinLoss:(double)winLoss;
+
+- (double)currentWinLoss;
+
 - (NSDate *)toDateDayScaleForSymbol:(NSString *)symbol;
 
 - (NSDate *)toDateHourScaleForSymbol:(NSString *)symbol;

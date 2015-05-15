@@ -92,10 +92,6 @@
 
 - (void)removeSelf:(id)sender {
 
-    if ([sender isEqual:self.yesButton]) {
-        [COAMarketHelper scheduleLocalNotificationWhenMarketOpens];
-    }
-
     [self removeFromSuperview];
 
     self.completionBlock(NO);

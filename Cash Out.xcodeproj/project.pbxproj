@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		137349B983E720B459D821B1 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A7DF91478E775854EA7D76D /* libPods.a */; };
+		CACF608D3E3ACDFBE9F3FEC4 /* COAProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = CACF6161D36141136E952A8B /* COAProgressView.m */; };
 		CACF60C2ECD73CB8A78B990A /* COAChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CACF63CA4B2B194D883D4A3E /* COAChartViewController.m */; };
 		CACF60EF3A3589C1BA69B983 /* COATutorialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CACF6DC5B100973E8EFAD6D4 /* COATutorialViewController.m */; };
 		CACF619E862F4CCE37265293 /* COACurrencies.m in Sources */ = {isa = PBXBuildFile; fileRef = CACF67271E3730E3A24DA661 /* COACurrencies.m */; };
@@ -66,6 +67,7 @@
 		CACF60C2C5AD8A5CE1565EF5 /* Localizable.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
 		CACF6138CB859E625201EB3C /* COASignUpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = COASignUpViewController.m; sourceTree = "<group>"; };
 		CACF6140A0BE71B7BCB9E69B /* COAButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = COAButton.h; sourceTree = "<group>"; };
+		CACF6161D36141136E952A8B /* COAProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = COAProgressView.m; sourceTree = "<group>"; };
 		CACF623E0A981863E8B56D0B /* COASignUpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = COASignUpViewController.h; sourceTree = "<group>"; };
 		CACF629A96E38C11E1C87A82 /* COAButtonTitleImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = COAButtonTitleImage.m; sourceTree = "<group>"; };
 		CACF62AC061716969F89397E /* COAButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = COAButton.m; sourceTree = "<group>"; };
@@ -74,6 +76,7 @@
 		CACF6455D405F093843B9D9B /* COASymbolValue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = COASymbolValue.m; sourceTree = "<group>"; };
 		CACF64D6197CB0F17EF2A241 /* COACurrencyButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = COACurrencyButton.m; sourceTree = "<group>"; };
 		CACF65DC56BD1A2B2561645B /* COASymbolValue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = COASymbolValue.h; sourceTree = "<group>"; };
+		CACF65E6DA20C674FF649720 /* COAProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = COAProgressView.h; sourceTree = "<group>"; };
 		CACF65F8554ACBBE6A0FADEB /* COAPlayHomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = COAPlayHomeViewController.h; sourceTree = "<group>"; };
 		CACF666931A336EBED6585DA /* COAFormatting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = COAFormatting.m; sourceTree = "<group>"; };
 		CACF66EA8DDF9287893DD0DD /* COATradeModeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = COATradeModeViewController.h; sourceTree = "<group>"; };
@@ -203,6 +206,8 @@
 				CACF62C3904713B87BC7C651 /* COACongratsView.h */,
 				F889B6071AE9773A002EDE18 /* COAShadowView.h */,
 				F889B6081AE9773A002EDE18 /* COAShadowView.m */,
+				CACF6161D36141136E952A8B /* COAProgressView.m */,
+				CACF65E6DA20C674FF649720 /* COAProgressView.h */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -516,6 +521,7 @@
 				CACF63D9EAA8BB10490F9A25 /* COACurrencyChooserListViewController.m in Sources */,
 				CACF6876C3712536AD65BD69 /* COANotificationHelper.m in Sources */,
 				CACF6872ECDE71165A089AF3 /* COACountryDeterminator.m in Sources */,
+				CACF608D3E3ACDFBE9F3FEC4 /* COAProgressView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -662,7 +668,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "01bcd19f-8680-447e-9e39-303de0e91ce0";
+				PROVISIONING_PROFILE = "94e72a68-c675-4b0c-93e3-cc2bdfbd0c8f";
 				USER_HEADER_SEARCH_PATHS = "\"${PROJECT_DIR}/Pods\"/**";
 			};
 			name = Release;
