@@ -17,11 +17,19 @@
 
 + (BOOL)checkIfMarketIsOpen {
     // Freitag 4pm EST - Sonntag 5pm EST
+    
+    // 1... sunday
+    // 2... monday
+    // 3... tuesday
+    // 4... wednesday
+    // 5... thursday
+    // 6... friday
+    // 7... saturday
 
     NSDate *nextClosingDate = [self getNextClosingDate];
     NSDate *nextOpeningDate = [self getNextOpeningDate];
     
-    return [nextClosingDate mt_isBefore:nextOpeningDate];
+    return [nextOpeningDate mt_isAfter:nextClosingDate];
 }
 
 + (NSDate *)getNextClosingDate {
@@ -34,7 +42,7 @@
     
     do {
         current = [current mt_startOfNextHour];
-        isFriday = [current mt_weekdayOfWeek] == 5;
+        isFriday = [current mt_weekdayOfWeek] == 6;
         isClosingTime = [current mt_hourOfDay] == 16;
     } while (!isFriday || !isClosingTime);
     
@@ -54,7 +62,7 @@
     do {
         current = [current mt_startOfNextHour];
         
-        isSunday = IS_DEBUG ? [[NSDate date] mt_weekdayOfWeek] == [current mt_weekdayOfWeek] : [current mt_weekdayOfWeek] == 7;
+        isSunday = IS_DEBUG ? [[NSDate date] mt_weekdayOfWeek] == [current mt_weekdayOfWeek] : [current mt_weekdayOfWeek] == 1;
         isOpeningTime = IS_DEBUG ? [[NSDate date] mt_hourOfDay] + 1 == [current mt_hourOfDay] : [current mt_hourOfDay] == 17;
     } while (!isSunday || !isOpeningTime);
     

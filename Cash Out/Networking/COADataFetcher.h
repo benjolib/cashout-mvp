@@ -12,11 +12,11 @@
 
 - (void)fetchDataForSymbol:(NSString *)symbol completionBlock:(void (^)(NSString *value))completionBlock;
 
-- (void)fetchHistoricalDataForSymbol:(NSString *)symbol fromDate:(NSDate *)fromDate toDate:(NSDate *)toDate completionBlock:(void (^)(NSString *value))completionBlock;
+- (void)fetchHistoricalDataForSymbol:(NSString *)symbol forDates:(NSArray *)dates completionBlock:(void (^)(void))completionBlock;
 
-- (void)createUser;
+- (void)createUserWithCompletionBlock:(void (^)())completionBlock;
 
-- (void)fetchPositionWithCompletionBlock:(void (^)(NSInteger position))completionBlock;
+- (void)fetchPositionWithCompletionBlock:(void (^)())completionBlock;
 
 - (void)updateBalance;
 
@@ -26,5 +26,7 @@
 + (NSInteger)position;
 
 + (NSInteger)userId;
+
++ (NSArray *)datesToFetch;
 
 @end

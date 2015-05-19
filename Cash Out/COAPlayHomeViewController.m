@@ -277,36 +277,16 @@
 }
 
 - (void)gotoChart {
-    NSDate *dayFromDate = [[COADataHelper instance] toDateDayScaleForSymbol:self.selectedCurrencySymbol];
-    NSDate *hourFromDate = [[COADataHelper instance] toDateHourScaleForSymbol:self.selectedCurrencySymbol];
-    NSDate *minuteFromDate = [[COADataHelper instance] toDateMinuteScaleForSymbol:self.selectedCurrencySymbol];
+    [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeBlack];
+    
+    NSArray *datesToFetch = [COADataFetcher datesToFetch];
 
-    BOOL loadInBackground = [[NSDate date] mt_daysSinceDate:dayFromDate] < 7;
-
-    if (loadInBackground) {
-        [[COADataFetcher instance] fetchHistoricalDataForSymbol:self.selectedCurrencySymbol fromDate:dayFromDate toDate:[NSDate date] completionBlock:^(NSString *value) {
-            [[COADataFetcher instance] fetchHistoricalDataForSymbol:self.selectedCurrencySymbol fromDate:hourFromDate toDate:[NSDate date] completionBlock:^(NSString *value) {
-                [[COADataFetcher instance] fetchHistoricalDataForSymbol:self.selectedCurrencySymbol fromDate:minuteFromDate toDate:[NSDate date] completionBlock:^(NSString *value) {
-                    [[NSNotificationCenter defaultCenter] postNotificationName:HISTORY_DATA_LOADED object:nil];
-                }];
-            }];
-        }];
-        COAChartViewController *chartViewController = [[COAChartViewController alloc] initWithCurrencySymbol:[self selectedCurrencySymbol]];
+    [[COADataFetcher instance] fetchHistoricalDataForSymbol:self.selectedCurrencySymbol forDates:datesToFetch completionBlock:^(){
+        [[NSNotificationCenter defaultCenter] postNotificationName:HISTORY_DATA_LOADED object:nil];
+        [SVProgressHUD dismiss];
+        COAChartViewController *chartViewController = [[COAChartViewController alloc] initWithCurrencySymbol:[self selectedCurrencySymbol] datesToFetch:datesToFetch];
         [self.navigationController pushViewController:chartViewController animated:YES];
-    } else {
-        [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeBlack];
-
-        [[COADataFetcher instance] fetchHistoricalDataForSymbol:self.selectedCurrencySymbol fromDate:dayFromDate toDate:[NSDate date] completionBlock:^(NSString *value) {
-            [[COADataFetcher instance] fetchHistoricalDataForSymbol:self.selectedCurrencySymbol fromDate:hourFromDate toDate:[NSDate date] completionBlock:^(NSString *value) {
-                [[COADataFetcher instance] fetchHistoricalDataForSymbol:self.selectedCurrencySymbol fromDate:minuteFromDate toDate:[NSDate date] completionBlock:^(NSString *value) {
-                    [[NSNotificationCenter defaultCenter] postNotificationName:HISTORY_DATA_LOADED object:nil];
-                    [SVProgressHUD dismiss];
-                    COAChartViewController *chartViewController = [[COAChartViewController alloc] initWithCurrencySymbol:[self selectedCurrencySymbol]];
-                    [self.navigationController pushViewController:chartViewController animated:YES];
-                }];
-            }];
-        }];
-    }
+    }];
 }
 
 - (void)gotoTrade {

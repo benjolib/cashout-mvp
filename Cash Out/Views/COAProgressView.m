@@ -7,11 +7,6 @@
 
 @interface COAProgressView()
 
-@property (nonatomic, strong) UIView *circle1;
-@property (nonatomic, strong) UIView *circle2;
-@property (nonatomic, strong) UIView *circle3;
-@property (nonatomic, strong) UIView *circle4;
-
 @end
 
 @implementation COAProgressView
@@ -19,24 +14,62 @@
 - (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
-        _circle1 = [[UIView alloc] initWithFrame:CGRectZero];
-        self.circle1.backgroundColor = [UIColor whiteColor];
-        [self addSubview:self.circle1];
-
-        _circle2 = [[UIView alloc] initWithFrame:CGRectZero];
-        self.circle2.backgroundColor = self.circle1.backgroundColor;
-        [self addSubview:self.circle2];
-
-        _circle3 = [[UIView alloc] initWithFrame:CGRectZero];
-        self.circle3.backgroundColor = self.circle1.backgroundColor;
-        [self addSubview:self.circle3];
-
-        _circle4 = [[UIView alloc] initWithFrame:CGRectZero];
-        self.circle4.backgroundColor = self.circle1.backgroundColor;
-        [self addSubview:self.circle4];
+        self.backgroundColor = [UIColor clearColor];
     }
 
     return self;
+}
+
+- (void)drawRect:(CGRect)rect {
+    [super drawRect:rect];
+
+//// Oval Drawing
+    UIBezierPath* ovalPath = [UIBezierPath bezierPathWithOvalInRect: CGRectMake(14, 1, 12, 12)];
+    [[UIColor whiteColor] setFill];
+    [ovalPath fill];
+    [[UIColor whiteColor] setStroke];
+    ovalPath.lineWidth = 1;
+    [ovalPath stroke];
+
+
+//// Oval 2 Drawing
+    UIBezierPath* oval2Path = [UIBezierPath bezierPathWithOvalInRect: CGRectMake(34, 1, 12, 12)];
+    
+    if (self.currentStep >= 1) {
+        [[UIColor whiteColor] setFill];
+    } else {
+        [[UIColor clearColor] setFill];
+    }
+    [oval2Path fill];
+    [[UIColor whiteColor] setStroke];
+    oval2Path.lineWidth = 1;
+    [oval2Path stroke];
+
+
+//// Oval 3 Drawing
+    UIBezierPath* oval3Path = [UIBezierPath bezierPathWithOvalInRect: CGRectMake(54, 1, 12, 12)];
+    if (self.currentStep >= 2) {
+        [[UIColor whiteColor] setFill];
+    } else {
+        [[UIColor clearColor] setFill];
+    }
+    [oval3Path fill];
+    [[UIColor whiteColor] setStroke];
+    oval3Path.lineWidth = 1;
+    [oval3Path stroke];
+
+
+//// Oval 4 Drawing
+    UIBezierPath* oval4Path = [UIBezierPath bezierPathWithOvalInRect: CGRectMake(74, 1, 12, 12)];
+    if (self.currentStep >= 3) {
+        [[UIColor whiteColor] setFill];
+    } else {
+        [[UIColor clearColor] setFill];
+    }
+    [oval4Path fill];
+    [[UIColor whiteColor] setStroke];
+    oval4Path.lineWidth = 1;
+    [oval4Path stroke];
 }
 
 @end

@@ -15,6 +15,7 @@
 #import "COADataHelper.h"
 #import "COACurrencies.h"
 #import "AppDelegate.h"
+#import "GCNetworkReachability.h"
 #import <MTDates/NSDate+MTDates.h>
 
 #define firstLineFontSize 30
@@ -44,6 +45,7 @@
 @property (nonatomic) NSInteger seconds;
 @property (nonatomic) double moneySet;
 @property (nonatomic) BOOL betOnRise;
+@property (nonatomic, strong) GCNetworkReachability *reachability;
 
 @end
 
@@ -59,7 +61,24 @@
         self.navigationItem.hidesBackButton = YES;
         self.startingDate = [NSDate date];
         self.timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timerUpdated) userInfo:nil repeats:YES];
-        
+
+        self.reachability = [GCNetworkReachability reachabilityWithHostName:@"www.google.com"];
+
+        __weak COATradeModeViewController *weakSelf = self;
+
+        [self.reachability startMonitoringNetworkReachabilityWithHandler:^(GCNetworkReachabilityStatus status) {
+
+            // this block is called on the main thread
+            switch (status) {
+                case GCNetworkReachabilityStatusNotReachable:
+                    [weakSelf gotoCashOut];
+                    break;
+                case GCNetworkReachabilityStatusWWAN:
+                case GCNetworkReachabilityStatusWiFi:
+                    break;
+            }
+        }];
+
         [self performSelector:@selector(gotoCashOut) withObject:nil afterDelay:TIME];
     }
 
@@ -105,7 +124,8 @@
     } else if (usdAtTheEnd) {
         self.winLoss = (NSInteger) (self.moneySet * 100 * (latestSymbolValue - self.initialValue) / self.initialValue);
     } else {
-        self.winLoss = (NSInteger) (self.moneySet * 100 * (latestSymbolValue - self.initialValue) * [COACurrencies usdCounterPart:firstCurrency]);
+        NSLog(@"%f %f %f", self.moneySet, (latestSymbolValue - self.initialValue), [COACurrencies usdCounterPart:currencyString]);
+        self.winLoss = (NSInteger) (self.moneySet * 100 * (latestSymbolValue - self.initialValue) * [COACurrencies usdCounterPart:currencyString]);
     }
 
     if (!self.betOnRise) {
@@ -172,18 +192,21 @@
     _secondCurrencyLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     self.secondCurrencyLabel.textAlignment = NSTextAlignmentCenter;
     self.secondCurrencyLabel.backgroundColor = [COAConstants darkBlueColor];
-    NSString *secondCurrencyText = [strings[1] stringByReplacingOccurrencesOfString:@" " withString:@"\n"];
-    if ([secondCurrencyText rangeOfString:@"\n"].location == NSNotFound) {
-        secondCurrencyText = [NSString stringWithFormat:@"\n%@", secondCurrencyText];
+    
+    if (strings.count > 1) {
+        NSString *secondCurrencyText = [strings[1] stringByReplacingOccurrencesOfString:@" " withString:@"\n"];
+        if ([secondCurrencyText rangeOfString:@"\n"].location == NSNotFound) {
+            secondCurrencyText = [NSString stringWithFormat:@"\n%@", secondCurrencyText];
+        }
+        self.secondCurrencyLabel.attributedText = [secondCurrencyText coa_firstLineAttributes:@{
+                                                                                                NSFontAttributeName:[UIFont boldSystemFontOfSize:firstLineFontSize],
+                                                                                                NSForegroundColorAttributeName:[UIColor whiteColor],
+                                                                                                NSParagraphStyleAttributeName:self.style
+                                                                                                } secondLineAttributes:@{
+                                                                                                                         NSFontAttributeName:[UIFont systemFontOfSize:secondLineFontSize],
+                                                                                                                         NSForegroundColorAttributeName:[COAConstants lightBlueColor]
+                                                                                                                         }];
     }
-    self.secondCurrencyLabel.attributedText = [secondCurrencyText coa_firstLineAttributes:@{
-            NSFontAttributeName:[UIFont boldSystemFontOfSize:firstLineFontSize],
-            NSForegroundColorAttributeName:[UIColor whiteColor],
-            NSParagraphStyleAttributeName:self.style
-    } secondLineAttributes:@{
-            NSFontAttributeName:[UIFont systemFontOfSize:secondLineFontSize],
-            NSForegroundColorAttributeName:[COAConstants lightBlueColor]
-    }];
     self.secondCurrencyLabel.numberOfLines = 2;
     [self.view addSubview:self.secondCurrencyLabel];
 
@@ -243,7 +266,7 @@
     NSString *priceText = [NSString stringWithFormat:@"%@\n(%@)", text, NSLocalizedString(@"price live", @"").uppercaseString];
     self.priceValueLabel.textAlignment = NSTextAlignmentCenter;
 
-    UIColor *amountColor = [COASymbolValue latestValueForSymbol:self.currencySymbol] > 0 ? [COAConstants fleshColor] : [COAConstants greenColor];
+    UIColor *amountColor = [COASymbolValue latestValueForSymbol:self.currencySymbol] - self.initialValue < 0 ? [COAConstants fleshColor] : [COAConstants greenColor];
 
     self.priceValueLabel.attributedText = [priceText coa_firstLineAttributes:@{
             NSFontAttributeName:[UIFont boldSystemFontOfSize:firstLineFontSize],

@@ -9,6 +9,6 @@
 
 @interface COAChartViewController : COAAbstractViewController
 
-- (instancetype)initWithCurrencySymbol:(NSString *)currencySymbol;
+- (instancetype)initWithCurrencySymbol:(NSString *)currencySymbol datesToFetch:(NSArray *)datesToFetch;
 
 @end

@@ -40,7 +40,14 @@
         return 0;
     }
 
-    NSString *firstCurrency = [[currencySymbol componentsSeparatedByString:@" / "] firstObject];
+    NSInteger index = [[COACurrencies currencyDisplayStrings] indexOfObject:currencySymbol];
+    currencySymbol = [COACurrencies currencies][index];
+    
+    if (currencySymbol.length != 6) {
+        return 0;
+    }
+    
+    NSString *firstCurrency = [currencySymbol substringToIndex:3];
 
     for (NSString *currentCurrencySymbol in [COACurrencies currencies]) {
         if ([currentCurrencySymbol rangeOfString:@"USD"].location != NSNotFound

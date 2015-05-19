@@ -19,6 +19,7 @@ extern NSString *HISTORY_DATA_LOADED;
 extern NSString *ONBOARDING_SEEN;
 extern NSString *MARKET_NOTIFICATION;
 extern NSString *SOME_SYMBOL_VALUE_FETCHED;
+extern NSString *POSITION_FETCHED;
 
 + (UIColor *)darkBlueColor;
 

@@ -62,10 +62,14 @@
 
 - (void)setCountry:(NSString *)country {
     [[LUKeychainAccess standardKeychainAccess] setString:country forKey:@"country"];
-    [[COADataFetcher instance] createUser];
+    [[COADataFetcher instance] createUserWithCompletionBlock:^{
+        
+    }];
 
     if ([COADataFetcher userId] == 0) {
-        [[COADataFetcher instance] createUser];
+        [[COADataFetcher instance] createUserWithCompletionBlock:^{
+            
+        }];
     }
 }
 

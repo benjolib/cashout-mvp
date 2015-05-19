@@ -13,6 +13,7 @@
 #import "COADataHelper.h"
 #import "COACountryDeterminator.h"
 #import "COAConstants.h"
+#import "NSDate+COAAdditions.h"
 
 
 @implementation COADataFetcher
@@ -71,79 +72,57 @@
     }];
 }
 
-- (void)fetchHistoricalDataForSymbol:(NSString *)symbol fromDate:(NSDate *)fromDate toDate:(NSDate *)toDate completionBlock:(void (^)(NSString *value))completionBlock {
+- (void)fetchHistoricalDataForSymbol:(NSString *)symbol forDates:(NSArray *)dates completionBlock:(void (^)(void))completionBlock {
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     dateFormatter.dateFormat = @"yyyy-MM-dd HH:mm:ss";
 
-    NSString *fromDateString = [dateFormatter stringFromDate:fromDate];
-    NSString *toDateString = [dateFormatter stringFromDate:toDate];
-    NSString *scaleString;
-
-    if ([toDate mt_daysSinceDate:fromDate] > 100) {
-        scaleString = @"1d";
-    } else if ([toDate mt_hoursSinceDate:fromDate] > 10) {
-        scaleString = @"1h";
-    } else {
-        scaleString = @"1m";
+    NSString *urlString = [NSString stringWithFormat:@"http://api-cashout.makers.do/rates?symbol=%@", symbol];
+    
+    NSMutableArray *parameters = [[NSMutableArray alloc] init];
+    for (NSArray *subArray in dates) {
+        for (NSDate *date in subArray) {
+            NSString *dateString = [dateFormatter stringFromDate:date];
+            BOOL valueAlreadyFetched = [COASymbolValue objectsWithPredicate:[NSPredicate predicateWithFormat:@"symbol = %@ and timestamp = %@", symbol, date]].count > 0;
+            BOOL dataFetched = ![symbol.lowercaseString isEqualToString:@"gld"] || [date mt_isOnOrAfter:[NSDate mt_dateFromYear:2015 month:4 day:30]];
+            if (![parameters containsObject:dateString] && !valueAlreadyFetched && dataFetched) {
+                [parameters addObject:dateString];
+            }
+        }
     }
-
-    NSString *urlString = [NSString stringWithFormat:@"http://api-cashout.makers.do/rates?symbol=%@&fromDate=%@&toDate=%@&scale=%@", symbol, encodeToPercentEscapeString(fromDateString), encodeToPercentEscapeString(toDateString), scaleString];
-
+    
+    if (parameters.count == 0) {
+        completionBlock();
+        return;
+    }
+    
     AFHTTPRequestOperationManager *operationManager = [[AFHTTPRequestOperationManager alloc] init];
-    [operationManager GET:urlString parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    [operationManager POST:urlString parameters:@{@"dates":parameters} success:^(AFHTTPRequestOperation *operation, id responseObject) {
         id query = responseObject[@"data"];
-        BOOL success = NO;
-        if ([query isKindOfClass:[NSArray class]]) {
+        
+        if ([query isKindOfClass:[NSDictionary class]]) {
+            NSDictionary *queryDict = (NSDictionary *) query;
             RLMRealm *defaultRealm = [RLMRealm defaultRealm];
             [defaultRealm beginWriteTransaction];
-            for (id row in query) {
-                if ([row isKindOfClass:[NSDictionary class]]) {
-                    success = YES;
-                    id ask = row[@"ask"];
-                    id bid = row[@"bid"];
-                    id time = row[@"time"];
-                    
-                    if (ask != [NSNull null] && bid != [NSNull null] && time != [NSNull null]) {
-                        COASymbolValue *symbolValue = [[COASymbolValue alloc] init];
-                        NSDate *date = [dateFormatter dateFromString:time];
-                        
-                        if ([scaleString isEqualToString:@"1d"]) {
-                            date = [date mt_startOfCurrentDay];
-                        } else if ([scaleString isEqualToString:@"1h"]) {
-                            date = [date mt_startOfCurrentHour];
-                        } else {
-                            date = [date mt_startOfCurrentMinute];
-                        }
-                        
-                        symbolValue.timestamp = date;
-                        symbolValue.symbol = symbol;
-                        symbolValue.value = ([ask doubleValue] + [bid doubleValue]) / 2;
-                        [defaultRealm addObject:symbolValue];
-                    }
-                }
-            }
-
-            if (success) {
-                if ([scaleString isEqualToString:@"1d"]) {
-                    [[COADataHelper instance] saveDayScaleForSymbol:symbol date:toDate];
-                } else if ([scaleString isEqualToString:@"1h"]) {
-                    [[COADataHelper instance] saveHourScaleForSymbol:symbol date:toDate];
-                } else {
-                    [[COADataHelper instance] saveMinuteScaleForSymbol:symbol date:toDate];
-                }
+//            [defaultRealm deleteObjects:[COASymbolValue objectsWithPredicate:[NSPredicate predicateWithFormat:@"symbol = %@ AND timestamp < %@", symbol, [[NSDate date] mt_dateHoursBefore:1]]]];
+            for (NSString *key in queryDict.allKeys) {
+                NSDictionary *value = queryDict[key];
+                
+                COASymbolValue *symbolValue = [[COASymbolValue alloc] init];
+                symbolValue.timestamp = [dateFormatter dateFromString:key];
+                symbolValue.symbol = symbol;
+                symbolValue.value = [value[@"ask"] doubleValue];
+                [defaultRealm addObject:symbolValue];
             }
             [defaultRealm commitWriteTransaction];
         }
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [[NSNotificationCenter defaultCenter] postNotificationName:symbol object:nil userInfo:nil];
-        });
-        completionBlock(@"");
+
+        completionBlock();
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        completionBlock(error.localizedDescription);
+        completionBlock();
     }];
 }
 
-- (void)createUser {
+- (void)createUserWithCompletionBlock:(void (^)())completionBlock {
     NSString *key = [COADataFetcher identifierForVendor];
     double balance = [[COADataHelper instance] money];
     NSString *country = [[COACountryDeterminator instance] country];
@@ -156,7 +135,7 @@
             if ([query isKindOfClass:[NSDictionary class]]) {
                 [COADataFetcher setUserId:query[@"id"]];
                 [self fetchPositionWithCompletionBlock:^(NSInteger position) {
-                    
+                    completionBlock();
                 }];
             }
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -192,7 +171,7 @@
     }];
 }
 
-- (void)fetchPositionWithCompletionBlock:(void (^)(NSInteger position))completionBlock {
+- (void)fetchPositionWithCompletionBlock:(void (^)())completionBlock {
     NSString *urlString = [NSString stringWithFormat:@"http://api-cashout.makers.do/users/list?orderProperty=balance&orderDir=DESC&start=0&limit=1&email=%@", [COADataFetcher identifierForVendor]];
     AFHTTPRequestOperationManager *operationManager = [[AFHTTPRequestOperationManager alloc] init];
     [operationManager GET:urlString parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
@@ -204,10 +183,13 @@
                     [COADataFetcher setPosition:[dataEntry[@"position"] integerValue]];
                     [COADataFetcher setGlobalPosition:[dataEntry[@"overallPosition"] integerValue]];
                     [COADataFetcher setUserId:[dataEntry[@"id"] integerValue]];
-                    completionBlock(0);
+                    completionBlock();
+                    [[NSNotificationCenter defaultCenter] postNotificationName:POSITION_FETCHED object:nil];
                 }
             } else {
-                [self createUser];
+                [self createUserWithCompletionBlock:^{
+                    completionBlock();
+                }];
             }
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -250,13 +232,76 @@
     return encryptionKeyFromKeychain;
 }
 
-NSString *encodeToPercentEscapeString(NSString *string) {
-    return (__bridge NSString *)
-    CFURLCreateStringByAddingPercentEscapes(NULL,
-                                            (CFStringRef) string,
-                                            NULL,
-                                            (CFStringRef) @"!*'();:@&=+$,/?%#[]",
-                                            kCFStringEncodingUTF8);
++ (NSArray *)datesToFetch {
+    NSDate *toDate = [NSDate date];
+
+    NSMutableArray *outterArray = [[NSMutableArray alloc] init];
+
+    NSInteger numberOfValues = 25;
+    
+    // 30 minutes
+    NSMutableArray *minutesArray = [[NSMutableArray alloc] init];
+    NSDate *fromDate = [[[NSDate date] mt_startOfCurrentHour] mt_dateMinutesBefore:30];
+    NSInteger secondsBetween = [toDate mt_secondsSinceDate:fromDate];
+    NSInteger secondsBetweenDates = secondsBetween / numberOfValues;
+    
+    for (int i = 1; i <= numberOfValues; i++) {
+        [minutesArray addObject:[fromDate mt_dateSecondsAfter:secondsBetweenDates * i].coa_modifiedDate];
+    }
+    [outterArray addObject:minutesArray];
+    
+    // 1 day
+    NSMutableArray *dayArray = [[NSMutableArray alloc] init];
+    fromDate = [[[NSDate date] mt_startOfCurrentHour] mt_dateDaysBefore:1];
+    secondsBetween = [toDate mt_secondsSinceDate:fromDate];
+    secondsBetweenDates = secondsBetween / numberOfValues;
+    
+    for (int i = 1; i <= numberOfValues; i++) {
+        [dayArray addObject:[fromDate mt_dateSecondsAfter:secondsBetweenDates * i].coa_modifiedDate];
+    }
+    [outterArray addObject:dayArray];
+    
+    // 5 days
+    NSMutableArray *daysArray = [[NSMutableArray alloc] init];
+    fromDate = [[[NSDate date] mt_startOfCurrentHour] mt_dateDaysBefore:5];
+    secondsBetween = [toDate mt_secondsSinceDate:fromDate];
+    secondsBetweenDates = secondsBetween / numberOfValues;
+    for (int i = 1; i <= numberOfValues; i++) {
+        [daysArray addObject:[fromDate mt_dateSecondsAfter:secondsBetweenDates * i].coa_modifiedDate];
+    }
+    [outterArray addObject:daysArray];
+
+    // 3 months
+    NSMutableArray *months3Array = [[NSMutableArray alloc] init];
+    fromDate = [[[NSDate date] mt_startOfCurrentDay] mt_dateMonthsBefore:3];
+    secondsBetween = [toDate mt_secondsSinceDate:fromDate];
+    secondsBetweenDates = secondsBetween / numberOfValues;
+    for (int i = 1; i <= numberOfValues; i++) {
+        [months3Array addObject:[fromDate mt_dateSecondsAfter:secondsBetweenDates * i].coa_modifiedDate];
+    }
+    [outterArray addObject:months3Array];
+
+    // 6 months
+    NSMutableArray *month6Array = [[NSMutableArray alloc] init];
+    fromDate = [[[NSDate date] mt_startOfCurrentDay] mt_dateMonthsBefore:6];
+    secondsBetween = [toDate mt_secondsSinceDate:fromDate];
+    secondsBetweenDates = secondsBetween / numberOfValues;
+    for (int i = 1; i <= numberOfValues; i++) {
+        [month6Array addObject:[fromDate mt_dateSecondsAfter:secondsBetweenDates * i].coa_modifiedDate];
+    }
+    [outterArray addObject:month6Array];
+
+    // 1 year
+    NSMutableArray *yearArray = [[NSMutableArray alloc] init];
+    fromDate = [[[NSDate date] mt_startOfCurrentDay] mt_dateYearsBefore:1];
+    secondsBetween = [toDate mt_secondsSinceDate:fromDate];
+    secondsBetweenDates = secondsBetween / numberOfValues;
+    for (int i = 1; i <= numberOfValues; i++) {
+        [yearArray addObject:[fromDate mt_dateSecondsAfter:secondsBetweenDates * i].coa_modifiedDate];
+    }
+    [outterArray addObject:yearArray];
+
+    return outterArray;
 }
 
 @end
