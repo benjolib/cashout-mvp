@@ -9,6 +9,7 @@
 #import "COAConstants.h"
 #import "COAButton.h"
 #import "UIImage+ImageWithColor.h"
+#import "COAProgressView.h"
 
 @interface COATutorialViewController()
 
@@ -17,6 +18,7 @@
 @property (nonatomic, strong) UILabel *introductionLabel;
 @property (nonatomic, strong) UIImageView *arrowImageView;
 @property (nonatomic, strong) NSMutableArray *customConstraints;
+@property (nonatomic, strong) COAProgressView *progressView;
 @property (nonatomic, strong) NSLayoutConstraint *topConstraint;
 @property (nonatomic, assign) COAPlayHomeViewController *playHomeViewController;
 @property (nonatomic, strong) UIButton *backButton;
@@ -84,6 +86,9 @@
     self.playButton.hidden = YES;
     [self.view addSubview:self.playButton];
 
+    _progressView = [[COAProgressView alloc] initWithFrame:CGRectZero];
+    [self.view addSubview:self.progressView];
+
     [self.view setNeedsUpdateConstraints];
 }
 
@@ -91,6 +96,7 @@
     [super updateViewConstraints];
 
     NSDictionary *views = @{
+            @"progressView" : self.progressView,
             @"backButton" : self.backButton,
             @"nextButton" : self.nextButton,
             @"upperGrayView" : self.upperGrayView,
@@ -158,11 +164,17 @@
     [self.customConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-10-[nextButton]" options:NSLayoutFormatDirectionLeadingToTrailing metrics:nil views:views]];
     [self.customConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[upperGrayView]|" options:NSLayoutFormatDirectionLeadingToTrailing metrics:nil views:views]];
     [self.customConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[playButton]|" options:NSLayoutFormatDirectionLeadingToTrailing metrics:nil views:views]];
+    [self.customConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[progressView(100)]" options:NSLayoutFormatDirectionLeadingToTrailing metrics:nil views:views]];
+    [self.customConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[progressView(14)]" options:NSLayoutFormatDirectionLeadingToTrailing metrics:nil views:views]];
     [self.customConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-50-[introductionLabel]-50-|" options:NSLayoutFormatDirectionLeadingToTrailing metrics:nil views:views]];
     [self.customConstraints addObject:[NSLayoutConstraint constraintWithItem:self.arrowImageView attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeCenterX multiplier:1 constant:0]];
+    [self.customConstraints addObject:[NSLayoutConstraint constraintWithItem:self.progressView attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeCenterX multiplier:1 constant:0]];
+    [self.customConstraints addObject:[NSLayoutConstraint constraintWithItem:self.progressView attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self.nextButton attribute:NSLayoutAttributeCenterY multiplier:1 constant:0]];
     [self.customConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[lowerGrayView]|" options:NSLayoutFormatDirectionLeadingToTrailing metrics:nil views:views]];
     [self.customConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[upperGrayView(upperHeight)]" options:NSLayoutFormatDirectionLeadingToTrailing metrics:@{@"upperHeight":@(upperHeight), @"lowerHeight":@(lowerHeight)} views:views]];
     [self.customConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[lowerGrayView(lowerHeight)]|" options:NSLayoutFormatDirectionLeadingToTrailing metrics:@{@"upperHeight":@(upperHeight), @"lowerHeight":@(lowerHeight)} views:views]];
+
+
 
     [self.customConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[playButton(height)]" options:NSLayoutFormatDirectionLeadingToTrailing metrics:@{@"height":@(BUTTON_HEIGHT)} views:views]];
     [self.customConstraints addObject:[NSLayoutConstraint constraintWithItem:self.playButton attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.bottomLayoutGuide attribute:NSLayoutAttributeTop multiplier:1 constant:0]];
@@ -183,6 +195,9 @@
     } else {
         self.pageIndex += 1;
     }
+
+    self.progressView.currentStep = self.pageIndex;
+    [self.progressView setNeedsDisplay];
 
     [self updateViewForPageIndex:self.pageIndex];
 }

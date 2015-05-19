@@ -86,24 +86,21 @@
 
     [self.balanceAmountLabel sizeToFit];
     
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateView:) name:UIApplicationDidBecomeActiveNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateView:) name:POSITION_FETCHED object:nil];
+    
     UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(setBalanceToZero)];
     tapGestureRecognizer.numberOfTapsRequired = 3;
     tapGestureRecognizer.numberOfTouchesRequired = 2;
     [self.view addGestureRecognizer:tapGestureRecognizer];
 
     [self.view setNeedsUpdateConstraints];
-    
-    if (![COAMarketHelper checkIfMarketIsOpen]) {
-        self.marketClosedView = [[COAMarketClosedView alloc] initWithCompletionBlock:^(BOOL onlyClose) {
-        }];
-        [self.view addSubview:self.marketClosedView];
-    }
 }
 
 - (void)setBalanceToZero {
     [[COADataHelper instance] saveMoney:0];
 
-    [self updateView];
+    [self updateView:nil];
 }
 
 - (void)ranOutOfMoneyButtonPressed {
@@ -111,7 +108,14 @@
     [self.navigationController pushViewController:signUpViewController animated:YES];
 }
 
-- (void)updateView {
+- (void)updateView:(NSNotification *)notification {
+    [self.marketClosedView removeFromSuperview];
+    if (![COAMarketHelper checkIfMarketIsOpen]) {
+        self.marketClosedView = [[COAMarketClosedView alloc] initWithCompletionBlock:^(BOOL onlyClose) {
+        }];
+        [self.view addSubview:self.marketClosedView];
+    }
+
     self.ranOutOfMoneyButton.hidden = [COADataHelper instance].money > 0;
     self.balanceAmountLabel.text = [COAFormatting currencyStringFromValue:[COADataHelper instance].money];
     NSString *buttonTitle = [COADataHelper instance].money > 0 ? NSLocalizedString(@"play", @"") : NSLocalizedString(@"refill your balance", @"");
@@ -122,13 +126,20 @@
 
     self.playButton.enabled = [COAMarketHelper checkIfMarketIsOpen];
 
-    [[COADataFetcher instance] fetchPositionWithCompletionBlock:^(NSInteger position) {
-        NSString *positionSuffix = [COStartViewController ordinalNumberFormat:[COADataFetcher position]];
-        NSString *globalPositionSuffix = [COStartViewController ordinalNumberFormat:[COADataFetcher globalPosition]];
-        
-        self.positionLabel.text = [NSString stringWithFormat:NSLocalizedString(@"position", @""), (long)[COADataFetcher position], positionSuffix].uppercaseString;
-        self.overallPositionLabel.text = [NSString stringWithFormat:NSLocalizedString(@"globalPosition", @""), (long)[COADataFetcher globalPosition], globalPositionSuffix].uppercaseString;
-    }];
+    __weak COStartViewController *weakSelf = self;
+    
+    if (![notification.name isEqualToString:POSITION_FETCHED]) {
+        [[COADataFetcher instance] fetchPositionWithCompletionBlock:^(NSInteger position) {
+            NSString *positionSuffix = [COStartViewController ordinalNumberFormat:[COADataFetcher position]];
+            NSString *globalPositionSuffix = [COStartViewController ordinalNumberFormat:[COADataFetcher globalPosition]];
+            
+            weakSelf.positionLabel.text = [NSString stringWithFormat:NSLocalizedString(@"position", @""), (long)[COADataFetcher position], positionSuffix].uppercaseString;
+            weakSelf.overallPositionLabel.text = [NSString stringWithFormat:NSLocalizedString(@"globalPosition", @""), (long)[COADataFetcher globalPosition], globalPositionSuffix].uppercaseString;
+            [weakSelf.view setNeedsUpdateConstraints];
+        }];
+    }
+    
+    [self.view setNeedsUpdateConstraints];
 }
 
 +(NSString*)ordinalNumberFormat:(NSInteger)num{
@@ -154,7 +165,7 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
 
-    [self updateView];
+    [self updateView:nil];
     
     if (![[COADataHelper instance] onboardingSeen]) {
         [[COADataHelper instance] setOnboardingSeen];
@@ -163,6 +174,8 @@
             
         }];
     }
+    
+    [self.view setNeedsUpdateConstraints];
 }
 
 - (void)play {
@@ -230,6 +243,10 @@
     }
 
     [self.view addConstraints:self.customConstraints];
+}
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 @end

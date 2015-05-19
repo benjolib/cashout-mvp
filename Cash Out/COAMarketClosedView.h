@@ -11,5 +11,6 @@
 @interface COAMarketClosedView : UIView
 
 - (instancetype)initWithCompletionBlock:(void (^) (BOOL onlyClose))completionBlock;
+@property (nonatomic, strong) UILabel *topLabel;
 
 @end

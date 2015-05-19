@@ -7,4 +7,7 @@
 #import <UIKit/UIKit.h>
 
 @interface COAProgressView : UIView
+
+@property (nonatomic) NSInteger currentStep;
+
 @end

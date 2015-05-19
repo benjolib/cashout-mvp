@@ -16,6 +16,9 @@
 #import "COADataHelper.h"
 #import "COACountryDeterminator.h"
 #import "COANotificationHelper.h"
+#import "GCNetworkReachability.h"
+#import "COAMarketClosedView.h"
+#import "COAOfflineView.h"
 #import <Fabric/Fabric.h>
 #import <Crashlytics/Crashlytics.h>
 #import <LUKeychainAccess/LUKeychainAccess.h>
@@ -24,6 +27,8 @@
 
 @property (nonatomic, strong) UINavigationController *startNavigationController;
 @property (nonatomic, strong) COACountryDeterminator *countryDeterminator;
+@property (nonatomic, strong) GCNetworkReachability *reachability;
+@property (nonatomic, strong) COAOfflineView *offlineView;
 
 @end
 
@@ -34,6 +39,38 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
     self.window.backgroundColor = [UIColor whiteColor];
+
+    self.reachability = [GCNetworkReachability reachabilityWithHostName:@"www.google.com"];
+
+    __weak AppDelegate *weakSelf = self;
+
+    [self.reachability startMonitoringNetworkReachabilityWithHandler:^(GCNetworkReachabilityStatus status) {
+        [weakSelf.offlineView removeFromSuperview];
+
+        // this block is called on the main thread
+        switch (status) {
+            case GCNetworkReachabilityStatusNotReachable: {
+
+                weakSelf.offlineView = [[COAOfflineView alloc] initWithCompletionBlock:^(BOOL onlyClose) {
+
+                }];
+                UIView *viewToAddOverlay = weakSelf.window;
+
+                while (viewToAddOverlay.superview) {
+                    viewToAddOverlay = viewToAddOverlay.superview;
+                }
+                weakSelf.offlineView.frame = viewToAddOverlay.frame;
+
+                [viewToAddOverlay addSubview:weakSelf.offlineView];
+
+                break;
+            };
+            case GCNetworkReachabilityStatusWWAN:
+            case GCNetworkReachabilityStatusWiFi:
+                [weakSelf.offlineView removeFromSuperview];
+                break;
+        }
+    }];
 
     [application setMinimumBackgroundFetchInterval:UIApplicationBackgroundFetchIntervalMinimum];
     
@@ -70,7 +107,9 @@
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     if ([COADataFetcher userId] == 0) {
-        [[COADataFetcher instance] createUser];
+        [[COADataFetcher instance] createUserWithCompletionBlock:^{
+            
+        }];
     }
 
     self.countryDeterminator = [COACountryDeterminator instance];

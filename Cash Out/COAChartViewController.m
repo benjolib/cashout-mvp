@@ -12,6 +12,7 @@
 #import "RLMRealm.h"
 #import "RLMResults.h"
 #import "COACurrencies.h"
+#import "NSDate+COAAdditions.h"
 
 @interface COAChartViewController()
 
@@ -41,16 +42,18 @@
 @property (nonatomic, strong) UIView *separator4View;
 @property (nonatomic, strong) NSString *currencySymbol;
 @property (nonatomic, strong) NSDate *fromDate;
+@property (nonatomic, strong) NSArray *datesToFetch;
 @property (nonatomic) double yesterdayValue;
 
 @end
 
 @implementation COAChartViewController
 
-- (instancetype)initWithCurrencySymbol:(NSString *)currencySymbol {
+- (instancetype)initWithCurrencySymbol:(NSString *)currencySymbol datesToFetch:(NSArray *)datesToFetch {
     self = [super init];
     if (self) {
         self.currencySymbol = currencySymbol;
+        self.datesToFetch = datesToFetch;
 
         NSInteger index = [[COACurrencies currencies] indexOfObject:self.currencySymbol];
         NSString *text = [COACurrencies currencyDisplayStrings][index];
@@ -88,6 +91,11 @@
             }
 
             [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateData) name:HISTORY_DATA_LOADED object:nil];
+        } else {
+            [attributedString addAttributes:@{
+                                              NSFontAttributeName:[UIFont boldSystemFontOfSize:25],
+                                              NSForegroundColorAttributeName:[COAConstants darkBlueColor]
+                                              } range:NSMakeRange(0, text.length)];
         }
 
         titleLabel.attributedText = attributedString;
@@ -311,77 +319,64 @@
     BOOL hourScale;
     BOOL dayScale;
 
+    NSArray *datesToUse;
+
     if ([button isEqual:self.minutes30Button]) {
-        self.fromDate = [[[NSDate date] mt_startOfCurrentMinute] mt_dateMinutesBefore:30];
+        datesToUse = self.datesToFetch[0];
+        self.fromDate = [[NSDate date] mt_dateMinutesBefore:30];
         minuteScale = YES;
         hourScale = NO;
         dayScale = NO;
     } else if ([button isEqual:self.day1Button]) {
-        self.fromDate = [[[NSDate date] mt_startOfCurrentHour] mt_dateDaysBefore:1];
+        datesToUse = self.datesToFetch[1];
+        self.fromDate = [[NSDate date] mt_dateDaysBefore:1];
         minuteScale = NO;
         hourScale = YES;
         dayScale = NO;
     } else if ([button isEqual:self.day5Button]) {
-        self.fromDate = [[[NSDate date] mt_startOfCurrentHour] mt_dateDaysBefore:5];
+        datesToUse = self.datesToFetch[2];
+        self.fromDate = [[NSDate date] mt_dateDaysBefore:5];
         minuteScale = NO;
         hourScale = YES;
         dayScale = NO;
     } else if ([button isEqual:self.month3Button]) {
-        self.fromDate = [[[NSDate date] mt_startOfCurrentDay] mt_dateMonthsBefore:3];
+        datesToUse = self.datesToFetch[3];
+        self.fromDate = [[NSDate date] mt_dateMonthsBefore:3];
         minuteScale = NO;
         hourScale = NO;
         dayScale = YES;
     } else if ([button isEqual:self.month6Button]) {
-        self.fromDate = [[[NSDate date] mt_startOfCurrentDay] mt_dateMonthsBefore:6];
+        datesToUse = self.datesToFetch[4];
+        self.fromDate = [[NSDate date] mt_dateMonthsBefore:6];
         minuteScale = NO;
         hourScale = NO;
         dayScale = YES;
     } else if ([button isEqual:self.year1Button]) {
-        self.fromDate = [[[NSDate date] mt_startOfCurrentDay] mt_dateYearsBefore:1];
+        datesToUse = self.datesToFetch[5];
+        self.fromDate = [[NSDate date] mt_dateYearsBefore:1];
         minuteScale = NO;
         hourScale = NO;
         dayScale = YES;
     }
 
-    NSArray *values = [self valuesFromDate:self.fromDate toDate:[NSDate date] minuteScale:minuteScale hourScale:hourScale dayScale:dayScale];
+    NSArray *values = [self valuesForDates:datesToUse];
     [self updateChartWithValues:values];
 }
 
-- (NSArray *)valuesFromDate:(NSDate *)fromDate toDate:(NSDate *)toDate minuteScale:(BOOL)minuteScale hourScale:(BOOL)hourScale dayScale:(BOOL)dayScale {
-    NSUInteger numberOfValues = 15;
-    NSInteger numberOfSecondsBetweenDates = [toDate mt_secondsSinceDate:fromDate];
-    NSInteger secondsBetweenValues = numberOfSecondsBetweenDates / numberOfValues;
+- (NSArray *)valuesForDates:(NSArray *)datesToUse {
+    NSMutableArray *values = [[NSMutableArray alloc] initWithCapacity:datesToUse.count];
 
-    RLMRealm *realm = [RLMRealm defaultRealm];
-
-    NSMutableArray *values = [[NSMutableArray alloc] initWithCapacity:numberOfValues];
-
-    NSDate *valueDate = [self dateFromDate:fromDate minuteScale:minuteScale hourScale:hourScale dayScale:dayScale];
-
-    for (int i = 0; i < numberOfValues; i++) {
-        valueDate = [self dateFromDate:[valueDate mt_dateSecondsAfter:secondsBetweenValues] minuteScale:minuteScale hourScale:hourScale dayScale:dayScale];
-
-        if ([valueDate mt_isAfter:[NSDate date]]) {
-            valueDate = [self dateFromDate:[NSDate date] minuteScale:minuteScale hourScale:hourScale dayScale:dayScale];
-        }
-
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"symbol = %@ and timestamp = %@", self.currencySymbol, valueDate];
-        COASymbolValue *symbolValue = [[COASymbolValue objectsInRealm:realm withPredicate:predicate] firstObject];
-
+    for (NSDate *date in datesToUse) {
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"symbol = %@ and timestamp = %@", self.currencySymbol, date];
+        COASymbolValue *symbolValue = [[COASymbolValue objectsInRealm:[RLMRealm defaultRealm] withPredicate:predicate] firstObject];
         [values addObject:@(symbolValue.value)];
     }
 
     return values;
 }
 
-- (NSDate *)dateFromDate:(NSDate *)date minuteScale:(BOOL)minuteScale hourScale:(BOOL)hourScale dayScale:(BOOL)dayScale {
-    if (minuteScale) {
-        return [date mt_startOfCurrentMinute];
-    } else if (hourScale) {
-        return [date mt_startOfCurrentHour];
-    } else {
-        return [date mt_startOfCurrentDay];
-    }
+- (NSDate *)dateFromDate:(NSDate *)date {
+    return [date coa_modifiedDate];
 }
 
 - (void)updateChartWithValues:(NSArray *)values {

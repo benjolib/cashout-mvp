@@ -20,31 +20,34 @@ PODS:
   - AFNetworking/UIKit (2.5.3):
     - AFNetworking/NSURLConnection
     - AFNetworking/NSURLSession
+  - GCNetworkReachability (1.3.2)
   - LUKeychainAccess (1.2.4)
   - MTDates (1.0.2)
-  - Realm (0.92.2):
-    - Realm/Headers (= 0.92.2)
-  - Realm/Headers (0.92.2)
+  - Realm (0.92.3):
+    - Realm/Headers (= 0.92.3)
+  - Realm/Headers (0.92.3)
   - SAMGradientView (0.2.1)
   - SVProgressHUD (1.1.3)
   - UIImage+ImageWithColor (1.2)
 
 DEPENDENCIES:
   - AFNetworking (= 2.5.3)
+  - GCNetworkReachability (~> 1.3.2)
   - LUKeychainAccess (~> 1.2.4)
   - MTDates (= 1.0.2)
-  - Realm (= 0.92.2)
+  - Realm (= 0.92.3)
   - SAMGradientView (= 0.2.1)
   - SVProgressHUD (= 1.1.3)
   - UIImage+ImageWithColor (= 1.2)
 
 SPEC CHECKSUMS:
   AFNetworking: e1d86c2a96bb5d2e7408da36149806706ee122fe
+  GCNetworkReachability: 2a7dd53d362220326b3e38df68c91b3ef84418d1
   LUKeychainAccess: 6479edb12cf06e11ff3336f796959eedbc58f714
   MTDates: aa8006ac046c3fc4f2bb9df95603e9b5bdac9467
-  Realm: fa8e8f7f788dd63744485c15b453487bc7546c8e
+  Realm: bf604805d5e897850da488260f93889f510924b3
   SAMGradientView: dd5edfe971cea0f1f3369b49f5fb255c0ff3921a
   SVProgressHUD: 748080e4f36e603f6c02aec292664239df5279c1
   UIImage+ImageWithColor: efe9aee4bf87f99e98e9a23433a44824d1ef4576
 
-COCOAPODS: 0.37.1
+COCOAPODS: 0.36.4

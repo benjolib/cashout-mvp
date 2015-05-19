@@ -12,6 +12,7 @@
 		CACF60C2ECD73CB8A78B990A /* COAChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CACF63CA4B2B194D883D4A3E /* COAChartViewController.m */; };
 		CACF60EF3A3589C1BA69B983 /* COATutorialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CACF6DC5B100973E8EFAD6D4 /* COATutorialViewController.m */; };
 		CACF619E862F4CCE37265293 /* COACurrencies.m in Sources */ = {isa = PBXBuildFile; fileRef = CACF67271E3730E3A24DA661 /* COACurrencies.m */; };
+		CACF634FF960A4C922F7C91D /* COAOfflineView.m in Sources */ = {isa = PBXBuildFile; fileRef = CACF6014962789A59AF5970D /* COAOfflineView.m */; };
 		CACF63BBE916E295B0B8F627 /* COATradeModeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CACF68D6371D9D923A5ABBD5 /* COATradeModeViewController.m */; };
 		CACF63D9EAA8BB10490F9A25 /* COACurrencyChooserListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CACF6981EA097DD30AE18EA2 /* COACurrencyChooserListViewController.m */; };
 		CACF643DF7F94E812BEA5B6A /* NSString+COAAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = CACF6E9AD5B3472599E9F14B /* NSString+COAAdditions.m */; };
@@ -31,6 +32,7 @@
 		CACF6DDAC7078CC5B66FE881 /* COAButtonTitleImage.m in Sources */ = {isa = PBXBuildFile; fileRef = CACF629A96E38C11E1C87A82 /* COAButtonTitleImage.m */; };
 		CACF6E5C9DCF74DF40C709D4 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = CACF60C2C5AD8A5CE1565EF5 /* Localizable.strings */; };
 		CACF6EB48E630E28C24AFB02 /* COADataHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = CACF607C16EF51DDD51E8381 /* COADataHelper.m */; };
+		F84CF99A1B0A4A050039217F /* NSDate+COAAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F84CF9991B0A4A050039217F /* NSDate+COAAdditions.m */; };
 		F880203D1ADB935D00F25031 /* COAConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = F880203C1ADB935D00F25031 /* COAConstants.m */; };
 		F885A6941B02312A004E3ECE /* COAMarketHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = F885A6931B02312A004E3ECE /* COAMarketHelper.m */; };
 		F885A6971B0239AD004E3ECE /* COAMarketClosedView.m in Sources */ = {isa = PBXBuildFile; fileRef = F885A6961B0239AD004E3ECE /* COAMarketClosedView.m */; };
@@ -63,6 +65,7 @@
 		0A7DF91478E775854EA7D76D /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		C0D1B052A8F6F127D1AF2503 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		CA6AA0D75E0C5372580CC939 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		CACF6014962789A59AF5970D /* COAOfflineView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = COAOfflineView.m; sourceTree = "<group>"; };
 		CACF607C16EF51DDD51E8381 /* COADataHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = COADataHelper.m; sourceTree = "<group>"; };
 		CACF60C2C5AD8A5CE1565EF5 /* Localizable.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
 		CACF6138CB859E625201EB3C /* COASignUpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = COASignUpViewController.m; sourceTree = "<group>"; };
@@ -96,6 +99,7 @@
 		CACF6B7E22A716C56B8E98A3 /* COADataFetcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = COADataFetcher.h; sourceTree = "<group>"; };
 		CACF6BD8FA499A99F636B83B /* COACountryDeterminator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = COACountryDeterminator.h; sourceTree = "<group>"; };
 		CACF6C13276C9F986BDE202E /* COACurrencyButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = COACurrencyButton.h; sourceTree = "<group>"; };
+		CACF6C2C21EA070382043D8D /* COAOfflineView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = COAOfflineView.h; sourceTree = "<group>"; };
 		CACF6C750989E7D4745DA71A /* COANotificationHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = COANotificationHelper.m; sourceTree = "<group>"; };
 		CACF6CC1A916CECDD9C55117 /* COATriangleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = COATriangleView.h; sourceTree = "<group>"; };
 		CACF6D4D9AB622BA65239A67 /* COATriangleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = COATriangleView.m; sourceTree = "<group>"; };
@@ -108,6 +112,8 @@
 		CACF6EFA45E7C3F728DEEEB5 /* COAPlayHomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = COAPlayHomeViewController.m; sourceTree = "<group>"; };
 		CACF6EFFCF32DD4D1DE5F065 /* COAChartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = COAChartViewController.h; sourceTree = "<group>"; };
 		CACF6F6FE264F69B6B020F27 /* COACountryDeterminator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = COACountryDeterminator.m; sourceTree = "<group>"; };
+		F84CF9981B0A4A050039217F /* NSDate+COAAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+COAAdditions.h"; sourceTree = "<group>"; };
+		F84CF9991B0A4A050039217F /* NSDate+COAAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+COAAdditions.m"; sourceTree = "<group>"; };
 		F880203B1ADB935D00F25031 /* COAConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = COAConstants.h; sourceTree = "<group>"; };
 		F880203C1ADB935D00F25031 /* COAConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = COAConstants.m; sourceTree = "<group>"; };
 		F885A6921B02312A004E3ECE /* COAMarketHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = COAMarketHelper.h; sourceTree = "<group>"; };
@@ -208,6 +214,8 @@
 				F889B6081AE9773A002EDE18 /* COAShadowView.m */,
 				CACF6161D36141136E952A8B /* COAProgressView.m */,
 				CACF65E6DA20C674FF649720 /* COAProgressView.h */,
+				CACF6014962789A59AF5970D /* COAOfflineView.m */,
+				CACF6C2C21EA070382043D8D /* COAOfflineView.h */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -217,6 +225,8 @@
 			children = (
 				CACF6E9AD5B3472599E9F14B /* NSString+COAAdditions.m */,
 				CACF697C6151E8538738F04A /* NSString+COAAdditions.h */,
+				F84CF9981B0A4A050039217F /* NSDate+COAAdditions.h */,
+				F84CF9991B0A4A050039217F /* NSDate+COAAdditions.m */,
 			);
 			path = Categories;
 			sourceTree = "<group>";
@@ -504,6 +514,7 @@
 				F880203D1ADB935D00F25031 /* COAConstants.m in Sources */,
 				CACF6A504713AD0F61763F14 /* COADataFetcher.m in Sources */,
 				CACF6A012040755D916BDA0E /* COATriangleView.m in Sources */,
+				F84CF99A1B0A4A050039217F /* NSDate+COAAdditions.m in Sources */,
 				CACF672838AE6CF01ECDAC4F /* COAButton.m in Sources */,
 				CACF6DDAC7078CC5B66FE881 /* COAButtonTitleImage.m in Sources */,
 				CACF658B4B3C796CE5FFBB49 /* COACurrencyButton.m in Sources */,
@@ -522,6 +533,7 @@
 				CACF6876C3712536AD65BD69 /* COANotificationHelper.m in Sources */,
 				CACF6872ECDE71165A089AF3 /* COACountryDeterminator.m in Sources */,
 				CACF608D3E3ACDFBE9F3FEC4 /* COAProgressView.m in Sources */,
+				CACF634FF960A4C922F7C91D /* COAOfflineView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

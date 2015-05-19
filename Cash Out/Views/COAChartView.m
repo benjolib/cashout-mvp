@@ -252,7 +252,7 @@
     self.xAxisLabel4.text = [dateFormatter stringFromDate:[fromDate mt_dateSecondsAfter:secondsBetweenDates * 3]];
     self.xAxisLabel5.text = [dateFormatter stringFromDate:[fromDate mt_dateSecondsAfter:secondsBetweenDates * 4]];
     self.xAxisLabel6.text = [dateFormatter stringFromDate:[fromDate mt_dateSecondsAfter:secondsBetweenDates * 5]];
-
+    
     CGFloat minValue = [self minValue];
     CGFloat maxValue = [self maxValue];
     CGFloat diff = maxValue - minValue;
@@ -299,6 +299,9 @@
 
         if (index > 0) {
             NSNumber *previousValue = self.values[index - 1];
+            if (previousValue.floatValue == 0.0f) {
+                continue;
+            }
             NSInteger previousX = [xValues[index - 1] integerValue] - 1;
             NSInteger previousY = (NSInteger) (chartHeight + (dotSize / 2) - [self yForValue:previousValue.floatValue chartHeight:chartHeight maxValue:maxValue minValue:minValue]);
 
@@ -332,6 +335,7 @@
 - (CGFloat)yForValue:(CGFloat)value chartHeight:(CGFloat)chartHeight maxValue:(CGFloat)maxValue minValue:(CGFloat)minValue {
     CGFloat diff = maxValue - minValue;
     CGFloat pixelPerValue = chartHeight / diff;
+    
     return (value - minValue) * pixelPerValue;
 }
 
@@ -342,17 +346,19 @@
         currentMaxValue = MAX(currentMaxValue, value.floatValue);
     }
 
-    return currentMaxValue * 1.005f;
+    return currentMaxValue;
 }
 
 - (CGFloat)minValue {
     CGFloat currentMinValue = MAXFLOAT;
 
     for (NSNumber *value in self.values) {
-        currentMinValue = MIN(currentMinValue, value.floatValue);
+        if (value.floatValue > 0) {
+            currentMinValue = MIN(currentMinValue, value.floatValue);
+        }
     }
 
-    return currentMinValue * 0.995f;
+    return currentMinValue;
 }
 
 @end
