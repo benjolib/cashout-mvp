@@ -103,7 +103,6 @@
             NSDictionary *queryDict = (NSDictionary *) query;
             RLMRealm *defaultRealm = [RLMRealm defaultRealm];
             [defaultRealm beginWriteTransaction];
-//            [defaultRealm deleteObjects:[COASymbolValue objectsWithPredicate:[NSPredicate predicateWithFormat:@"symbol = %@ AND timestamp < %@", symbol, [[NSDate date] mt_dateHoursBefore:1]]]];
             for (NSString *key in queryDict.allKeys) {
                 NSDictionary *value = queryDict[key];
                 

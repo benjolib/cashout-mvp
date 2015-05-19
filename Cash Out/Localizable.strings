@@ -53,11 +53,11 @@
 "done" = "done";
 
 "Sorry!" = "Sorry!";
-"the stocket market is currently closed" = "the stocket market\nis currently closed";
+"the stocket market is currently closed" = "the market\nis currently closed";
 "get notified when the market opens again" = "get notified when the\nmarket opens again";
 "yes" = "yes";
 "no" = "no";
-"globalPosition" = "(overall %li%@)";
+"globalPosition" = "(worldwide %li%@)";
 "position" = "%li%@ position";
 "notificationWon" = "You won %.0f $";
 "notificationLost" = "You lost %.0f $";
