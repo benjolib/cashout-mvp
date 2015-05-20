@@ -120,11 +120,10 @@
     BOOL usdAtTheEnd = [secondCurrency rangeOfString:@"USD"].location != NSNotFound;
 
     if (usdAtTheBeginning) {
-        self.winLoss = (NSInteger) (self.moneySet * 100 * (latestSymbolValue - self.initialValue));
+        self.winLoss = (NSInteger) (self.moneySet * 100 * (latestSymbolValue - self.initialValue)) * 100;
     } else if (usdAtTheEnd) {
-        self.winLoss = (NSInteger) (self.moneySet * 100 * (latestSymbolValue - self.initialValue) / self.initialValue);
+        self.winLoss = (NSInteger) (self.moneySet * 100 * (latestSymbolValue - self.initialValue) / self.initialValue) * 100;
     } else {
-        NSLog(@"%f %f %f", self.moneySet, (latestSymbolValue - self.initialValue), [COACurrencies usdCounterPart:currencyString]);
         self.winLoss = (NSInteger) (self.moneySet * 100 * (latestSymbolValue - self.initialValue) * [COACurrencies usdCounterPart:currencyString]);
     }
 
