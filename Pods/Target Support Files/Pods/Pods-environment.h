@@ -48,11 +48,29 @@
 #define COCOAPODS_VERSION_MINOR_AFNetworking_UIKit 5
 #define COCOAPODS_VERSION_PATCH_AFNetworking_UIKit 3
 
+// Adjust
+#define COCOAPODS_POD_AVAILABLE_Adjust
+#define COCOAPODS_VERSION_MAJOR_Adjust 4
+#define COCOAPODS_VERSION_MINOR_Adjust 2
+#define COCOAPODS_VERSION_PATCH_Adjust 4
+
 // GCNetworkReachability
 #define COCOAPODS_POD_AVAILABLE_GCNetworkReachability
 #define COCOAPODS_VERSION_MAJOR_GCNetworkReachability 1
 #define COCOAPODS_VERSION_MINOR_GCNetworkReachability 3
 #define COCOAPODS_VERSION_PATCH_GCNetworkReachability 2
+
+// GoogleAnalytics-iOS-SDK
+#define COCOAPODS_POD_AVAILABLE_GoogleAnalytics_iOS_SDK
+#define COCOAPODS_VERSION_MAJOR_GoogleAnalytics_iOS_SDK 3
+#define COCOAPODS_VERSION_MINOR_GoogleAnalytics_iOS_SDK 11
+#define COCOAPODS_VERSION_PATCH_GoogleAnalytics_iOS_SDK 0
+
+// GoogleAnalytics-iOS-SDK/Core
+#define COCOAPODS_POD_AVAILABLE_GoogleAnalytics_iOS_SDK_Core
+#define COCOAPODS_VERSION_MAJOR_GoogleAnalytics_iOS_SDK_Core 3
+#define COCOAPODS_VERSION_MINOR_GoogleAnalytics_iOS_SDK_Core 11
+#define COCOAPODS_VERSION_PATCH_GoogleAnalytics_iOS_SDK_Core 0
 
 // LUKeychainAccess
 #define COCOAPODS_POD_AVAILABLE_LUKeychainAccess

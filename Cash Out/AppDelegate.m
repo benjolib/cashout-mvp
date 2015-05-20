@@ -19,6 +19,8 @@
 #import "GCNetworkReachability.h"
 #import "COAMarketClosedView.h"
 #import "COAOfflineView.h"
+#import "GAI.h"
+#import "Adjust.h"
 #import <Fabric/Fabric.h>
 #import <Crashlytics/Crashlytics.h>
 #import <LUKeychainAccess/LUKeychainAccess.h>
@@ -36,6 +38,17 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    // Adjust
+    ADJConfig *adjustConfig = [ADJConfig configWithAppToken:@"c3pm6kcgmtyy" environment:ADJEnvironmentProduction];
+    [adjustConfig setLogLevel:ADJLogLevelAssert];
+    [Adjust appDidLaunch:adjustConfig];
+
+    // Google Analytics
+    [GAI sharedInstance].trackUncaughtExceptions = NO;
+    [GAI sharedInstance].dispatchInterval = 20;
+    [[[GAI sharedInstance] logger] setLogLevel:kGAILogLevelNone];
+    [[GAI sharedInstance] trackerWithTrackingId:@"UA-62788448-3"];
+
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
     self.window.backgroundColor = [UIColor whiteColor];

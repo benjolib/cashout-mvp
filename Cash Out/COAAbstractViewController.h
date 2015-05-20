@@ -5,7 +5,8 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
+#import <GoogleAnalytics-iOS-SDK/GAITrackedViewController.h>
 
 
-@interface COAAbstractViewController : UIViewController
+@interface COAAbstractViewController : GAITrackedViewController
 @end
