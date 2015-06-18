@@ -15,11 +15,11 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>201505191600</string>
+	<string>1.0</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>201505191600</string>
+	<string>201505191912</string>
 	<key>Fabric</key>
 	<dict>
 		<key>APIKey</key>
@@ -41,7 +41,6 @@
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>
-		<string>location</string>
 		<string>remote-notification</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
@@ -60,5 +59,23 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+    <key>NSAppTransportSecurity</key>
+    <dict>
+        <key>NSExceptionDomains</key>
+        <dict>
+            <key>api-cashout.makers.do</key>
+            <dict>
+                <!--Include to allow subdomains-->
+                <key>NSIncludesSubdomains</key>
+                <true/>
+                <!--Include to allow HTTP requests-->
+                <key>NSTemporaryExceptionAllowsInsecureHTTPLoads</key>
+                <true/>
+                <!--Include to specify minimum TLS version-->
+                <key>NSTemporaryExceptionMinimumTLSVersion</key>
+                <string>TLSv1.1</string>
+            </dict>
+        </dict>
+    </dict>
 </dict>
 </plist>
