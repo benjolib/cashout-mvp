@@ -94,9 +94,7 @@ RLMObjectBase *RLMCreateObjectInRealmWithValue(RLMRealm *realm, NSString *classN
 //
 
 // Create accessors
-RLMObjectBase *RLMCreateObjectAccessor(RLMRealm *realm,
-                                       RLMObjectSchema *objectSchema,
-                                       NSUInteger index);
+RLMObjectBase *RLMCreateObjectAccessor(RLMRealm *realm, RLMObjectSchema *objectSchema, NSUInteger index);
 
 void RLMInitializeSwiftListAccessor(RLMObjectBase *object);
 
