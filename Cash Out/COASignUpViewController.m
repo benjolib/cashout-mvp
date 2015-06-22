@@ -4,11 +4,14 @@
 //
 
 #import <UIImage+ImageWithColor/UIImage+ImageWithColor.h>
+#import <GoogleAnalytics-iOS-SDK/GAI.h>
 #import "COASignUpViewController.h"
 #import "COAButton.h"
 #import "COAConstants.h"
 #import "COAFormatting.h"
 #import "COADataFetcher.h"
+#import "GAIDictionaryBuilder.h"
+#import "Adjust.h"
 
 @interface COASignUpViewController() <UITextFieldDelegate>
 
@@ -80,6 +83,10 @@
 }
 
 - (void)sendEmailToServer:(id)sender {
+    [[[GAI sharedInstance] defaultTracker] send:[[GAIDictionaryBuilder createEventWithCategory:@"App" action:@"requestMail" label:self.emailTextField.text value:0] build]];
+    ADJEvent *event = [ADJEvent eventWithEventToken:@"a9b0oc"];
+    [Adjust trackEvent:event];
+
     [[COADataFetcher instance] sendMailToServer:self.emailTextField.text completionBlock:^{
         [self.navigationController popToRootViewControllerAnimated:YES];
     }];
