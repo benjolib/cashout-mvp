@@ -291,17 +291,26 @@
         NSInteger xValue = [xValues[index] integerValue] - 1;
         NSNumber *value = self.values[index];
 
-        if (value.floatValue == 0.0f) {
-            continue;
+        NSInteger innerIndex = index - 1;
+        while (value.floatValue == 0.0f && innerIndex >= 0) {
+            value = self.values[innerIndex];
+            innerIndex--;
         }
-        
+
         NSInteger yValue = (NSInteger) (chartHeight - [self yForValue:value.floatValue chartHeight:chartHeight maxValue:maxValue minValue:minValue]);
 
         if (index > 0) {
             NSNumber *previousValue = self.values[index - 1];
+            NSInteger innerIndex = index - 1;
+            while (previousValue.floatValue == 0.0f && innerIndex >= 0) {
+                previousValue = self.values[innerIndex];
+                innerIndex--;
+            }
+            
             if (previousValue.floatValue == 0.0f) {
                 continue;
             }
+            
             NSInteger previousX = [xValues[index - 1] integerValue] - 1;
             NSInteger previousY = (NSInteger) (chartHeight + (dotSize / 2) - [self yForValue:previousValue.floatValue chartHeight:chartHeight maxValue:maxValue minValue:minValue]);
 
@@ -320,10 +329,13 @@
 
         NSInteger xValue = [xValues[index] integerValue] - 4;
         NSNumber *value = self.values[index];
-        if (value.floatValue == 0.0f) {
-            continue;
+
+        NSInteger innerIndex = index - 1;
+        while (value.floatValue == 0.0f && innerIndex >= 0) {
+            value = self.values[innerIndex];
+            innerIndex--;
         }
-        
+
         NSInteger yValue = (NSInteger) (chartHeight - [self yForValue:value.floatValue chartHeight:chartHeight maxValue:maxValue minValue:minValue]);
 
         UIBezierPath* ovalPath = [UIBezierPath bezierPathWithOvalInRect: CGRectMake(xValue, yValue, dotSize, dotSize)];
